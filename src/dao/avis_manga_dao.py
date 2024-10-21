@@ -1,4 +1,4 @@
-# A voir si ça marche c'est un copié collé de la template ...
+### TODO commandes sql et autres méthodes
 
 import logging
 
@@ -7,15 +7,16 @@ from utils.log_decorator import log
 
 from dao.db_connection import DBConnection
 
-from business_object.manga import Manga
+from business_object.avis import Avis
 
 
-class MangaDao(metaclass=Singleton):
+class AvisMangaDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux Joueurs de la base de """
     """données"""
 
     @log
-    def trouver_par_id(self, id_manga) -> Manga:
+    def create_avis(self, id_avis, id_utilisateur, id_manga,
+                    contenu, note) -> Avis:
         """trouver un manga grace à son id
 
         Parameters
