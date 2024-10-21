@@ -38,7 +38,8 @@ class Collectioncoherente:
                 "Le contenu doit être une chaîne de caractère"
             )
 
-        self.id_utilisateur = id_utilisatuer
+
+        self.id_utilisateur = id_utilisateur
         self.titre = titre
         self.description = description
         self.contenu = contenu
