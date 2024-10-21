@@ -1,10 +1,9 @@
-class Collectioncoherente:
+class Collectioncoherente(AbstractCollection):
     """Classe pour modéliser une collection cohérente.
 
     Parameters
     ----------
-    id_utilisateur : int
-        Identifiant de l'utilisateur.
+
 
     titre : str
         Titre de la collection.
@@ -12,11 +11,11 @@ class Collectioncoherente:
     description : str
         Description de la collection.
 
-    contenu : str
-        Contenu de la collection
+    contenu : list[Manga]
+        Contenu de la collection sous forme d'une liste d'instance de la classe Manga
 
     """
-    def __init__(self, id_utilisateur, titre, description, contenu):
+    def __init__(self, id_utilisateur, id_collection, titre, description, contenu):
 
        if not isinstance(id_utilisateur, int):
             raise ValueError(
@@ -37,9 +36,9 @@ class Collectioncoherente:
             raise TypeError(
                 "Le contenu doit être une chaîne de caractère"
             )
+            
+        super().__init__(id_utilisateur, id_collection)
 
-
-        self.id_utilisateur = id_utilisateur
         self.titre = titre
         self.description = description
         self.contenu = contenu
