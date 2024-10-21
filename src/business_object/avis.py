@@ -1,4 +1,4 @@
-class avis():
+class Avis():
 
     def __init__(self,
                  id_avis: int,
