@@ -11,10 +11,11 @@ from business_object.avis import Avis
 
 
 class AvisDao(metaclass=Singleton):
-    """Classe contenant les méthodes pour accéder aux Joueurs de la base de données"""
+    """Classe contenant les méthodes pour accéder aux Joueurs de la base de """
+    """données"""
 
     @log
-    def trouver_par_id(self, id_manga) -> Manga:
+    def trouver_par_id(self, id_manga) -> Avis:
         """trouver un manga grace à son id
 
         Parameters

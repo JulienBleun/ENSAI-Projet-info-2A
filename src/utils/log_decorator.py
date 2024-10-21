@@ -27,7 +27,8 @@ class LogIndetation:
 
 def log(func):
     """Création d'un décorateur nommé log
-    Lorsque ce décorateur est appliqué à une méthode, cela affichera dans les logs :
+    Lorsque ce décorateur est appliqué à une méthode, cela affichera dans """
+    """les logs :
     - l'appel de cette méthode avec les valeurs de paramètres
     - la sortie retournée par cette méthode
     """
@@ -57,7 +58,8 @@ def log(func):
         args_list = tuple(args_list)
 
         # Affichage dans le fichier de log
-        logger.info(f"{indentation}{class_name}.{method_name}{args_list} - DEBUT")
+        logger.info(f"{indentation}{class_name}.{method_name}{args_list} -
+                    DEBUT")
         result = func(*args, **kwargs)
         logger.info(f"{indentation}{class_name}.{method_name}{args_list} - FIN")
 
