@@ -1,4 +1,13 @@
+
+
 class utilisateur():
+    """Classe représentant l' utilisateur.
+
+    Attributs :
+    -----------
+    id_avis : int
+        L'identifiant unique de l'avis.
+        """
 
     def __init__(self, id: int, prenom: str,
                  nom_utilisateur: str,
