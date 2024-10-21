@@ -9,6 +9,7 @@ from dao.db_connection import DBConnection
 
 from business_object.manga import Manga
 
+
 class MangaDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux Joueurs de la base de données"""
 
@@ -45,7 +46,7 @@ class MangaDao(metaclass=Singleton):
             manga = Manga(
                 titre=res["pseudo"],
                 auteur=res["age"],
-                id_manga =res["id_manga"],
+                id_manga=res["id_manga"],
             )
 
         return manga
