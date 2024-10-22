@@ -1,5 +1,5 @@
 # A voir si ça marche c'est un copié collé de la template ...
-
+import requests
 import logging
 
 from utils.singleton import Singleton
@@ -15,7 +15,7 @@ class MangaDao(metaclass=Singleton):
     """données"""
 
     @log
-    def trouver_par_id(self, id_manga) -> Manga:
+    def rechercher_manga_par_id(self, id_manga) -> Manga:
         """trouver un manga grace à son id
 
         Parameters
@@ -51,3 +51,23 @@ class MangaDao(metaclass=Singleton):
             )
 
         return manga
+    
+    @log
+    def rechercher_manga_par_titre(self, titre):
+        url = f"https://api.jikan.moe/v4/manga?q={titre}"
+        response = requests.get(url)
+        
+        if response.status_code == 200:
+            resultats = response.json()['data']
+            if not resultats:
+                print("Aucun manga trouvé.")
+                return None  # Pas de mangas trouvés
+
+            # Affichage des mangas trouvés
+            for index, manga in enumerate(resultats):
+                print(f"{index + 1}. Titre: {manga['title']}, ID: {manga['mal_id']}")
+
+            return resultats  # Retourner les résultats pour un usage ultérieur
+        else:
+            print("Erreur lors de la recherche.")
+            return None
