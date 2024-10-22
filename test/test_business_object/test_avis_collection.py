@@ -1,7 +1,7 @@
 import unittest
 from src.business_object.avis_collection import AvisCollection
 
-class TestAvisCollection:
+class TestAvisCollection(unittest.TestCase):
     def test_creation_avis_collection(self):
         # GIVEN
         expected_id_avis = 1
@@ -20,10 +20,8 @@ class TestAvisCollection:
         )
 
         # THEN
-        assert avis.id_avis == expected_id_avis
-        assert avis.id_utilisateur == expected_id_utilisateur
-        assert avis.commentaire == expected_commentaire
-        assert avis.note == expected_note
-        assert avis.id_collection == expected_id_collection
-
-
+        self.assertEqual(avis.id_avis, expected_id_avis)
+        self.assertEqual(avis.id_utilisateur, expected_id_utilisateur)
+        self.assertEqual(avis.commentaire, expected_commentaire)
+        self.assertEqual(avis.note, expected_note)
+        self.assertEqual(avis.id_collection, expected_id_collection)
