@@ -1,5 +1,5 @@
 import unittest
-from src.business_object.avis_collection import AvisCollection 
+from business_object.avis_collection import AvisCollection 
 
 class TestAvisCollection:
     def test_creation_avis_collection(self):
