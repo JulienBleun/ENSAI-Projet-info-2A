@@ -1,5 +1,5 @@
 from abc import ABC
- """
+"""
     Classe abstraite représentant un avis .
 
     Parametres :

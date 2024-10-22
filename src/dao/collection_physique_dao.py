@@ -5,7 +5,8 @@ from utils.singleton import Singleton
 
 from dao.db_connection import DBConnection
 
-from business_object.collection_coherente import Collection_coherente
+
+from business_object.collection_physique import CollectionPhysique
 
 
 class CollectionPhysiqueDAO(metaclass=Singleton):

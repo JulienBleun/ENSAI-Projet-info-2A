@@ -26,9 +26,9 @@ def creer_compte():
     email = input("Email : ")
     mot_de_passe = input("Mot de passe : ")
 
-    creer_compte_controller(nom, prenom, username, email, mot_de_passe)
+    creer_compte(nom, prenom, username, email, mot_de_passe)
 
 def connexion():
     username = input("Nom d'utilisateur : ")
     mot_de_passe = input("Mot de passe : ")
-    connexion_controller(username, mot_de_passe)
+    connexion(username, mot_de_passe)
