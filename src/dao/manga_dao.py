@@ -11,12 +11,12 @@ from business_object.manga import Manga
 
 
 class MangaDao(metaclass=Singleton):
-    """Classe contenant les méthodes pour accéder aux Joueurs de la base de """
+    """Classe contenant les méthodes pour accéder aux Mangas de la base de """
     """données"""
 
     @log
     def rechercher_manga_par_id(self, id_manga) -> Manga:
-        """trouver un manga grace à son id
+        """Trouver un manga grace à son id
 
         Parameters
         ----------
@@ -51,12 +51,12 @@ class MangaDao(metaclass=Singleton):
             )
 
         return manga
-    
+
     @log
     def rechercher_manga_par_titre(self, titre):
         url = f"https://api.jikan.moe/v4/manga?q={titre}"
         response = requests.get(url)
-        
+
         if response.status_code == 200:
             resultats = response.json()['data']
             if not resultats:
