@@ -3,7 +3,7 @@ class AvisCollection():
     Classe représentant un avis spécifique à une collection.
 
     Cette classe hérite de `AbstractAvis` et ajoute un attribut supplémentaire pour l'identifiant
-    de la collection à laquelle l'avis est lié. 
+    de la collection à laquelle l'avis est lié.
 
     Attributs supplémentaires :
     ---------------------------
