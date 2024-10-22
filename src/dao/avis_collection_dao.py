@@ -6,7 +6,7 @@ from utils.log_decorator import log
 
 from dao.db_connection import DBConnection
 
-from business_object.avis_manga import AvisManga
+from business_object.avis_collection import AvisCollection
 
 
 class AvisCollectionDao(metaclass=Singleton):
@@ -14,12 +14,12 @@ class AvisCollectionDao(metaclass=Singleton):
     """de la base de données"""
 
     #log
-    def create_avis(self, avis: AvisManga) -> bool:
-        """trouver un manga grace à son id
+    def create_avis_collection(self, avis: AvisCollection) -> bool:
+        """Création d'un avis sur une collection dans la base de données
 
         Parameters
         ----------
-        avis : AvisManga
+        avis : AvisCollection
 
         Returns
         -------
@@ -31,15 +31,15 @@ class AvisCollectionDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO avis_manga(id_avis, id_utilisateur, "
-                        "id_manga, contenu, note) VALUES                 "
-                        "(%(id_avis)s, %(id_utilisateur)s, %(id_manga)s, "
+                        "INSERT INTO Avis_collection(id_avis, id_utilisateur, "
+                        "id_collection, contenu, note) VALUES                 "
+                        "(%(id_avis)s, %(id_utilisateur)s, %(id_collection)s, "
                         " %(contenu)s, %(note)s)                         "
-                        "  RETURNING id_joueur;                          ",
+                        "  RETURNING id_avis;                          ",
                         {
                             "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
-                            "id_manga": avis.id_manga,
+                            "id_collection": avis.id_collection,
                             "contenu": avis.contenu,
                             "note": avis.note,
                         },
@@ -56,12 +56,12 @@ class AvisCollectionDao(metaclass=Singleton):
         return created
 
     #@log
-    def UpdateAvis(self, avis: AvisManga) -> bool:
-        """Modifier un avis dans la bas de données
+    def update_avis_collection(self, avis: AvisCollection) -> bool:
+        """Modifier un avis de collection dans la base de données
 
         Parameters
         ----------
-        avis : AvisManga
+        avis : AvisCollection
 
         Returns
         -------
@@ -75,7 +75,7 @@ class AvisCollectionDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE avis                                      "
+                        "UPDATE Avis_collection                            "
                         "   SET id_avis        = %(id_avis)s,             "
                         "       id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
@@ -97,12 +97,12 @@ class AvisCollectionDao(metaclass=Singleton):
         return res == 1
 
     @log
-    def DeleteAvis(self, avis: AvisManga) -> bool:
-        """Supprimer un avis dans la bas de données
+    def delete_avis_collection(self, avis: AvisCollection) -> bool:
+        """Supprimer un avis de collection dans la base de données
 
         Parameters
         ----------
-        avis : AvisManga
+        avis : AvisCollection
             avis à supprimer de la base de données
 
         Returns
@@ -115,7 +115,7 @@ class AvisCollectionDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "DELETE FROM avis                  "
+                        "DELETE FROM Avis_collection                  "
                         " WHERE id_avis=%(id_avis)s        ",
                         {"id_avis": avis.id_avis},
                     )
@@ -127,7 +127,7 @@ class AvisCollectionDao(metaclass=Singleton):
         return res > 0
 
     @log
-    def ReadAvis(self, id_avis) -> AvisManga:
+    def read_avis(self, id_avis) -> AvisCollection:
         """Trouver un avis grâce à son id
 
         Parameters
@@ -145,7 +145,7 @@ class AvisCollectionDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                           "
-                        "  FROM avis                      "
+                        "  FROM Avis_collection                     "
                         " WHERE id_avis = %(id_avis)s;  ",
                         {"id_avis": id_avis},
                     )
@@ -156,7 +156,7 @@ class AvisCollectionDao(metaclass=Singleton):
 
         avis = None
         if res:
-            avis = AvisManga(
+            avis = AvisCollection(
                 id_manga=res["id_manga"],
                 id_utilisateur=res["id_utilisateur"],
                 commentaire=res["commentaire"],
