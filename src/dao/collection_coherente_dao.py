@@ -12,7 +12,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
     """Classe DAO pour gérer les collections cohérentes dans la base de données"""
 
 #    @log
-    def CreateCoherent(self, collection: Collection_coherente) -> bool:
+    def CreateCoherente(self, collection: Collection_coherente) -> bool:
         """Création d'une nouvelle collection cohérente dans la base de données
 
         Parameters
@@ -31,14 +31,14 @@ class Collection_coherenteDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO collection_coherente (id, titre, description, mangas) VALUES "
+                        "INSERT INTO collection_coherente (id, titre, description) VALUES "
                         "(%(id)s, %(titre)s, %(description)s, %(mangas)s) RETURNING id_collection;",
                         {
                             "id": collection.id,  # Utilisation des attributs de l'objet collection
                             "titre": collection.titre,
                             "description": collection.description,
-                            "mangas": collection.mangas,  # Attention stucture de mangas tableau JSON
                         },
+                        "INSERT INTO"
                     )
                     res = cursor.fetchone()
 #        except Exception as e:
