@@ -11,8 +11,8 @@ from business_object.avis_manga import AvisManga
 
 
 class AvisMangaDao(metaclass=Singleton):
-    """Classe contenant les méthodes pour accéder aux avis des mangas de la base de """
-    """données"""
+    """Classe contenant les méthodes pour accéder aux avis des mangas de la """
+    """base de données"""
 
     @log
     def create_avis(self, avis) -> AvisManga:
@@ -82,7 +82,7 @@ class AvisMangaDao(metaclass=Singleton):
                         "       id_manga       = %(id_manga)s,            "
                         "       contenu        = %(contenu)s,             "
                         "       note           = %(note)s                 "
-                        " WHERE id_joueur = %(id_joueur)s;                ",
+                        " WHERE id_joueur      = %(id_joueur)s;           ",
                         {
                             "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
