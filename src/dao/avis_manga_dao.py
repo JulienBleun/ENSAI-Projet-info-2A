@@ -31,7 +31,7 @@ class AvisMangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO Avis_manga(id_avis, id_utilisateur, "
+                        "INSERT INTO avis_manga(id_avis, id_utilisateur, "
                         "id_manga, contenu, note) VALUES                 "
                         "(%(id_avis)s, %(id_utilisateur)s, %(id_manga)s, "
                         " %(contenu)s, %(note)s)                         "
@@ -75,7 +75,7 @@ class AvisMangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE Avis_manga                                     "
+                        "UPDATE avis_manga                                     "
                         "   SET id_avis        = %(id_avis)s,             "
                         "       id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
@@ -115,7 +115,7 @@ class AvisMangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "DELETE FROM Avis_manga                  "
+                        "DELETE FROM avis_manga                  "
                         " WHERE id_avis=%(id_avis)s        ",
                         {"id_avis": avis.id_avis},
                     )
@@ -145,7 +145,7 @@ class AvisMangaDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                           "
-                        "  FROM Avis_manga                      "
+                        "  FROM avis_manga                      "
                         " WHERE id_avis = %(id_avis)s;  ",
                         {"id_avis": id_avis},
                     )

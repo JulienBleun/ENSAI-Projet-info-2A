@@ -94,7 +94,7 @@ CREATE TABLE tp.association_manga_collection_coherente (
 
 DROP TABLE IF EXISTS tp.avis_manga CASCADE;
 CREATE TABLE tp.avis_manga (
-    id_avis SERIAL PRIMARY KEY,  -- Corrigé ici
+    id_avis SERIAL PRIMARY KEY,
     id_manga INT REFERENCES tp.manga(id_manga),
     id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur),
     commentaire TEXT,

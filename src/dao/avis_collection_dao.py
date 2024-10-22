@@ -31,7 +31,7 @@ class AvisCollectionDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO Avis_collection(id_avis, id_utilisateur, "
+                        "INSERT INTO avis_collection(id_avis, id_utilisateur, "
                         "id_collection, contenu, note) VALUES                 "
                         "(%(id_avis)s, %(id_utilisateur)s, %(id_collection)s, "
                         " %(contenu)s, %(note)s)                         "
@@ -75,7 +75,7 @@ class AvisCollectionDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE Avis_collection                            "
+                        "UPDATE avis_collection                            "
                         "   SET id_avis        = %(id_avis)s,             "
                         "       id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
@@ -96,7 +96,7 @@ class AvisCollectionDao(metaclass=Singleton):
 
         return res == 1
 
-    @log
+    #@log
     def delete_avis_collection(self, avis: AvisCollection) -> bool:
         """Supprimer un avis de collection dans la base de données
 
@@ -115,7 +115,7 @@ class AvisCollectionDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "DELETE FROM Avis_collection                  "
+                        "DELETE FROM avis_collection                  "
                         " WHERE id_avis=%(id_avis)s        ",
                         {"id_avis": avis.id_avis},
                     )
@@ -126,7 +126,7 @@ class AvisCollectionDao(metaclass=Singleton):
 
         return res > 0
 
-    @log
+    #@log
     def read_avis(self, id_avis) -> AvisCollection:
         """Trouver un avis grâce à son id
 
@@ -145,7 +145,7 @@ class AvisCollectionDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                           "
-                        "  FROM Avis_collection                     "
+                        "  FROM avis_collection                     "
                         " WHERE id_avis = %(id_avis)s;  ",
                         {"id_avis": id_avis},
                     )

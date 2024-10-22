@@ -11,7 +11,7 @@ from business_object.manga import Manga
 
 
 class MangaDao(metaclass=Singleton):
-    """Classe contenant les méthodes pour accéder aux Joueurs de la base de """
+    """Classe contenant les méthodes pour accéder aux Mangas de la base de """
     """données"""
 
     @log
