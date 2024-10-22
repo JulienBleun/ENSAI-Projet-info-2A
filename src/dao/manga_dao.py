@@ -1,4 +1,4 @@
-### A voir si ça marche c'est un copié collé de la template ...
+# A voir si ça marche c'est un copié collé de la template ...
 
 import logging
 
@@ -11,7 +11,8 @@ from business_object.manga import Manga
 
 
 class MangaDao(metaclass=Singleton):
-    """Classe contenant les méthodes pour accéder aux Joueurs de la base de données"""
+    """Classe contenant les méthodes pour accéder aux Joueurs de la base de """
+    """données"""
 
     @log
     def trouver_par_id(self, id_manga) -> Manga:

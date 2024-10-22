@@ -1,4 +1,7 @@
-class avis():
+from abc import ABC
+
+
+class AbstractAvis(ABC):
 
     def __init__(self,
                  id_avis: int,
