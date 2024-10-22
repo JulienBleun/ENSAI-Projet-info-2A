@@ -42,3 +42,62 @@ class TestCollectionPhysique:
                 contenu = "un long manga ",
             )
 
+    def test_creation_collection_physique_id_collection(self):
+        # GIVEN
+        invalid_id_collection = "abc" 
+        
+        # THEN
+        with self.assertRaises(TypeError):
+            # WHEN
+            collection_physique(
+                id_utilisateur = 1, 
+                _id_collection = invalid_id_collection,
+                titre = "One Piece",
+                description = "Un manga incroyable !",
+                contenu = "un long manga ",
+            )
+    def test_creation_collection_physique_titre(self):
+        # GIVEN 
+        invalid_titre = 55
+        # THEN
+        with self.assertRaises(TypeError):
+            # WHEN
+            collection_physique(
+                id_utilisateur = 1, 
+                _id_collection = 545,
+                titre = invalid_titre,
+                description = "Un manga incroyable !",
+                contenu = "un long manga ",
+
+            )
+    def test_creation_collection_physique_description(self):
+        # GIVEN 
+        invalid_description = 55
+        # THEN
+        with self.assertRaises(TypeError):
+            # WHEN
+            collection_physique(
+                id_utilisateur = 1, 
+                _id_collection = 545,
+                titre = "abc",
+                description = invalid_description,
+                contenu = "un long manga ",
+
+            )
+def test_creation_collection_physique_contenu (self):
+        # GIVEN 
+        invalid_contenu = 55
+        # THEN
+        with self.assertRaises(TypeError):
+            # WHEN
+            collection_physique(
+                id_utilisateur = 1, 
+                _id_collection = 545,
+                titre = invalid_titre,
+                description = "Un manga incroyable !",
+                contenu = invalid_contenu,
+
+            )
+    
+if __name__ == '__main__':
+    unittest.main()
