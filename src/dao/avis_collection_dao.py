@@ -9,13 +9,13 @@ from dao.db_connection import DBConnection
 from business_object.avis_manga import AvisManga
 
 
-class AvisMangaDao(metaclass=Singleton):
-    """Classe contenant les méthodes pour accéder aux avis des mangas de la """
-    """base de données"""
+class AvisCollectionDao(metaclass=Singleton):
+    """Classe contenant les méthodes pour accéder aux avis des collections """
+    """de la base de données"""
 
     #log
-    def create_avis_manga(self, avis: AvisManga) -> bool:
-        """Création d'un manga dans la base de données
+    def create_avis(self, avis: AvisManga) -> bool:
+        """trouver un manga grace à son id
 
         Parameters
         ----------
@@ -56,7 +56,7 @@ class AvisMangaDao(metaclass=Singleton):
         return created
 
     #@log
-    def update_avis_manga(self, avis: AvisManga) -> bool:
+    def UpdateAvis(self, avis: AvisManga) -> bool:
         """Modifier un avis dans la bas de données
 
         Parameters
@@ -96,8 +96,8 @@ class AvisMangaDao(metaclass=Singleton):
 
         return res == 1
 
-    #@log
-    def delete_avis_manga(self, avis: AvisManga) -> bool:
+    @log
+    def DeleteAvis(self, avis: AvisManga) -> bool:
         """Supprimer un avis dans la bas de données
 
         Parameters
@@ -126,8 +126,8 @@ class AvisMangaDao(metaclass=Singleton):
 
         return res > 0
 
-    #@log
-    def read_avis_manga(self, id_avis) -> AvisManga:
+    @log
+    def ReadAvis(self, id_avis) -> AvisManga:
         """Trouver un avis grâce à son id
 
         Parameters

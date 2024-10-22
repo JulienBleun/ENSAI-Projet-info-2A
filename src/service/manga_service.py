@@ -1,7 +1,6 @@
 from tabulate import tabulate
 
 from utils.log_decorator import log
-from utils.securite import hash_password
 
 from business_object.manga import Manga
 from dao.manga_dao import MangaDao

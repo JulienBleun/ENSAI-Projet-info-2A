@@ -1,4 +1,5 @@
-from controller.auth_controller import creer_compte_controller, connexion_controller
+# Importer fonctions 
+
 
 def afficher_menu_principal():
     while True:
