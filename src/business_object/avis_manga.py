@@ -1,4 +1,5 @@
 from abstract_avis import AbstractAvis
+from src.business_object.abstract_avis import AbstractAvis  
 
 
 class AvisManga(AbstractAvis):

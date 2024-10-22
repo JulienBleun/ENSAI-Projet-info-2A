@@ -1,5 +1,6 @@
 import unittest
-from business_object.collection_physique import collection_physique
+from src.business_object.collection_physique import CollectionPhysique
+
 
 class TestCollectionPhysique:
     def test_creation_collection_physique(self):
