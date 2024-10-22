@@ -1,92 +1,103 @@
 import unittest
-from unittest.mock import MagicMock, patch
-from business_object.collection_coherente import Collection_coherente
+from src.business_object.collection_coherente import CollectionCoherente
 
-# In test_collection_coherente.py:
-from src.dao.collection_coherente_dao import Collection_coherenteDAO
+class TestCollectionCoherente(unittest.TestCase):
 
-class TestCollectionCoherenteDAO(unittest.TestCase):
-
-    @patch('dao.collection_coherente_dao.DBConnection')
-    def test_create_coherent_success(self, mock_db_connection):
+    def test_creation_collection_coherente(self):
         # GIVEN
-        mock_connection = MagicMock()
-        mock_cursor = MagicMock()
-        mock_db_connection.return_value.connection.return_value = mock_connection
-        mock_connection.cursor.return_value = mock_cursor
-        mock_cursor.fetchone.return_value = {'id_collection': 1}  # Simulate successful insertion
-
-        collection = Collection_coherente(id=1, titre="My Collection", description="A cool collection", mangas=[])
-        dao = Collection_coherenteDAO()
+        expected_id_utilisateur = 1
+        expected_id_collection = 1
+        expected_titre = "Ma Collection"
+        expected_description = "Une super collection"
+        expected_contenu = "Contenu de la collection"
 
         # WHEN
-        created = dao.CreateCoherente(collection)
+        collection = CollectionCoherente(
+            id_utilisateur=expected_id_utilisateur,
+            id_collection=expected_id_collection,
+            titre=expected_titre,
+            description=expected_description,
+            contenu=expected_contenu
+        )
 
         # THEN
-        self.assertTrue(created)
-        mock_cursor.execute.assert_called_once()  # Verify the SQL query was executed
+        self.assertEqual(collection.id_utilisateur, expected_id_utilisateur)
+        self.assertEqual(collection.id_collection, expected_id_collection)
+        self.assertEqual(collection.titre, expected_titre)
+        self.assertEqual(collection.description, expected_description)
+        self.assertEqual(collection.contenu, expected_contenu)
 
-    @patch('dao.collection_coherente_dao.DBConnection')
-    def test_update_coherent_success(self, mock_db_connection):
+    def test_creation_collection_coherente_invalid_id_utilisateur(self):
         # GIVEN
-        mock_connection = MagicMock()
-        mock_cursor = MagicMock()
-        mock_db_connection.return_value.connection.return_value = mock_connection
-        mock_connection.cursor.return_value = mock_cursor
-        mock_cursor.rowcount = 1  # Simulate one row updated
-
-        collection = Collection_coherente(id=1, titre="Updated Title", description="Updated description", mangas=[])
-        dao = Collection_coherenteDAO()
-
-        # WHEN
-        updated = dao.UpdateCoherent(collection)
+        invalid_id_utilisateur = "abc"
 
         # THEN
-        self.assertTrue(updated)
-        mock_cursor.execute.assert_called_once()
+        with self.assertRaises(ValueError):
+            # WHEN
+            CollectionCoherente(
+                id_utilisateur=invalid_id_utilisateur,
+                id_collection=1,
+                titre="Ma Collection",
+                description="Une super collection",
+                contenu="Contenu de la collection"
+            )
 
-    @patch('dao.collection_coherente_dao.DBConnection')
-    def test_delete_coherent_success(self, mock_db_connection):
+    def test_creation_collection_coherente_invalid_id_collection(self):
         # GIVEN
-        mock_connection = MagicMock()
-        mock_cursor = MagicMock()
-        mock_db_connection.return_value.connection.return_value = mock_connection
-        mock_connection.cursor.return_value = mock_cursor
-        mock_cursor.rowcount = 1  # Simulate one row deleted
-
-        dao = Collection_coherenteDAO()
-        collection_id = 1
-
-        # WHEN
-        deleted = dao.DeleteCoherent(collection_id)
+        invalid_id_collection = "abc"
 
         # THEN
-        self.assertTrue(deleted)
-        mock_cursor.execute.assert_called_once()
+        with self.assertRaises(ValueError):
+            # WHEN
+            CollectionCoherente(
+                id_utilisateur=1,
+                id_collection=invalid_id_collection,
+                titre="Ma Collection",
+                description="Une super collection",
+                contenu="Contenu de la collection"
+            )
 
-    @patch('dao.collection_coherente_dao.DBConnection')
-    def test_read_coherent_success(self, mock_db_connection):
+    def test_creation_collection_coherente_invalid_titre(self):
         # GIVEN
-        mock_connection = MagicMock()
-        mock_cursor = MagicMock()
-        mock_db_connection.return_value.connection.return_value = mock_connection
-        mock_connection.cursor.return_value = mock_cursor
-        mock_cursor.fetchone.return_value = {
-            'id': 1,
-            'titre': 'Test Collection',
-            'description': 'A test collection',
-            'mangas': []
-        }
-
-        dao = Collection_coherenteDAO()
-        collection_id = 1
-
-        # WHEN
-        collection = dao.ReadCoherent(collection_id)
+        invalid_titre = 123
 
         # THEN
-        self.assertIsNotNone(collection)
-        self.assertEqual(collection.id, 1)
-        self.assertEqual(collection.titre, 'Test Collection')
-        mock_cursor.execute.assert_called_once()
+        with self.assertRaises(TypeError):
+            # WHEN
+            CollectionCoherente(
+                id_utilisateur=1,
+                id_collection=1,
+                titre=invalid_titre,
+                description="Une super collection",
+                contenu="Contenu de la collection"
+            )
 
+    def test_creation_collection_coherente_invalid_description(self):
+        # GIVEN
+        invalid_description = 123
+
+        # THEN
+        with self.assertRaises(TypeError):
+            # WHEN
+            CollectionCoherente(
+                id_utilisateur=1,
+                id_collection=1,
+                titre="Ma Collection",
+                description=invalid_description,
+                contenu="Contenu de la collection"
+            )
+
+    def test_creation_collection_coherente_invalid_contenu(self):
+        # GIVEN
+        invalid_contenu = 123
+
+        # THEN
+        with self.assertRaises(TypeError):
+            # WHEN
+            CollectionCoherente(
+                id_utilisateur=1,
+                id_collection=1,
+                titre="Ma Collection",
+                description="Une super collection",
+                contenu=invalid_contenu
+            )
