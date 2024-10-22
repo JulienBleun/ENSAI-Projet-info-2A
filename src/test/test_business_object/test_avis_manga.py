@@ -1,5 +1,5 @@
 import unittest
-from src.business_object.avis_manga import AvisManga  
+from business_object.avis_manga import AvisManga  
 
 class TestAvisManga:
     def test_creation_avis_manga(self):
