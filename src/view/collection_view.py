@@ -2,14 +2,14 @@
 def creer_collection_coherente_view(utilisateur_id):
     titre = input("Titre de la collection cohérente : ")
     description = input("Description : ")
-    creer_collection_coherente_controller(utilisateur_id, titre, description)
+    creer_collection_coherente(utilisateur_id, titre, description)
     print("Collection cohérente créée avec succès.")
 
 def creer_collection_physique_view(utilisateur_id):
     titre = input("Titre de la collection physique : ")
     dernier_tome_acquis = int(input("Dernier tome acquis : "))
     status = input("Statut de la série ('reading' ou 'dropped') : ")
-    creer_collection_physique_controller(utilisateur_id, titre, dernier_tome_acquis, status)
+    creer_collection_physique(utilisateur_id, titre, dernier_tome_acquis, status)
     print("Collection physique créée avec succès.")
 
 # Autres fonctions pour afficher, mettre à jour et supprimer des collections...
