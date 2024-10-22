@@ -23,3 +23,4 @@ class AvisCollection(AbstractAvis):
 
         super().__init__(id_avis, id_utilisateur, commentaire, note)
         self.id_collection = id_collection
+        self.id_utilisateur = id_utilisateur
