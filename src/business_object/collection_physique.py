@@ -1,5 +1,7 @@
 from abstract_collection import AbstractCollection
 
+from business_object.manga_physique import MangaPhysique
+
 
 class CollectionPhysique(AbstractCollection):
     """
@@ -24,7 +26,7 @@ class CollectionPhysique(AbstractCollection):
                  id_collection,
                  titre,
                  description,
-                 contenu):
+                 contenu: list[MangaPhysique]):
 
         if not isinstance(id_utilisateur, int):
             raise ValueError(

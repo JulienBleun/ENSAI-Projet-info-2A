@@ -40,10 +40,10 @@ class MangaPhysiqueDAO(metaclass=Singleton):
                         "  RETURNING id_manga_physique;                          ",
                         {
                             "id_manga_physique": manga.id_manga_physique,
-                            "id_collection": manga.id_collection,
+                            "id_collection": manga.id_collection_physique,
                             "id_manga": manga.id_manga,
                             "dernier_tome_acquis": manga.dernier_tome_acquis,
-                            "tomes_manquants": manga.tomes_manquants,
+                            "tomes_manquants": manga.tomes_manquant,
                             "statut": manga.statut
                         },
                     )
@@ -90,10 +90,10 @@ class MangaPhysiqueDAO(metaclass=Singleton):
                     " WHERE id_manga_physique        = %(id_manga_physique)s;  ",
                     {
                             "id_manga_physique": manga.id_manga_physique,
-                            "id_collection": manga.id_collection,
+                            "id_collection": manga.id_collection_physique,
                             "id_manga": manga.id_manga,
                             "dernier_tome_acquis": manga.dernier_tome_acquis,
-                            "tomes_manquants": manga.tomes_manquants,
+                            "tomes_manquants": manga.tomes_manquant,
                             "statut": manga.statut
                     },
                 )

@@ -1,3 +1,5 @@
+#TODO Nothing
+
 from tabulate import tabulate
 
 from utils.log_decorator import log
@@ -12,4 +14,4 @@ class MangaService:
     @log
     def consulter_manga(self, id_manga) -> Manga:
 
-        return MangaDao().trouver_par_id(id_manga)
+        return MangaDao().read_avis(id_manga)
