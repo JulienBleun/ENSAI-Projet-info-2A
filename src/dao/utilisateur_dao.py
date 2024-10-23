@@ -78,3 +78,46 @@ class UtilisateurDao(metaclass=Singleton):
             deleted = True
 
         return deleted
+
+        def read_profil(self, id: int) -> dict:
+    """
+    Lire le profil d'un utilisateur à partir de la base de données.
+
+    Paramètres :
+    ------------
+    id : int
+        Identifiant de l'utilisateur.
+
+    Retourne :
+    ----------
+    dict : Un dictionnaire contenant les informations du profil utilisateur si trouvé, sinon None.
+    """
+
+    try:
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT id, nom, mdp
+                    FROM utilisateurs
+                    WHERE id = %s;
+                    """,
+                    (id,)
+                )
+                res = cursor.fetchone()  # Récupérer la première ligne de la requête
+
+        if res:
+            # Retourne un dictionnaire représentant le profil de l'utilisateur
+            return {
+                "id": res["id"],
+                "nom": res["nom"],
+                "mdp": res["mdp"]
+            }
+        else:
+            print(f"Utilisateur avec l'ID {id} introuvable.")
+            return None
+
+    except Exception as e:
+        print(f"Erreur lors de la lecture du profil : {e}")
+        return None
+
