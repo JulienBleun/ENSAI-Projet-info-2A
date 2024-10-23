@@ -8,7 +8,7 @@ from src.utils.log_decorator import log
 from src.dao.db_connection import DBConnection
 
 from src.business_object.manga import Manga
-from src.business_object.utilisateur import utilisateur
+from src.business_object.utilisateur import Utilisateur
 
 class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
@@ -129,8 +129,8 @@ class UtilisateurDao(metaclass=Singleton):
 
         return deleted
 
-@log
-    def se_connecter(self, nom , mdp) -> utilisateur :
+    @log
+    def se_connecter(self, nom , mdp) -> Utilisateur :
         """se connecter grâce à son nom et son mot de passe
 
         Parameters

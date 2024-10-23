@@ -1,4 +1,4 @@
-from src.view.main_menu_view import afficher_menu_principal
+from src.view.log_view import afficher_menu_principal
 
 if __name__ == "__main__":
     try:

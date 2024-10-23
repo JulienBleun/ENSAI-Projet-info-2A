@@ -1,6 +1,5 @@
 # Importer fonctions 
 from src.dao.utilisateur_dao import UtilisateurDao
-from src.dao.utilisateur_dao import se_connecter
 
 
 def afficher_menu_principal():
