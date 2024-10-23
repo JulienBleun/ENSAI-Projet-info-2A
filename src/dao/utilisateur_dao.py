@@ -1,4 +1,4 @@
-# A voir si ça marche .
+# TODO Rajouter une fonction permettant la connexion
 
 import logging
 
@@ -120,4 +120,3 @@ class UtilisateurDao(metaclass=Singleton):
     except Exception as e:
         print(f"Erreur lors de la lecture du profil : {e}")
         return None
-
