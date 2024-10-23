@@ -95,7 +95,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                         "id_collection": collection.id,
                     },
                     )
-                
+
                 # Suppression des mangas existants pour cette collection dans la table d'association
                     cursor.execute(
                     """
@@ -158,7 +158,7 @@ def DeleteCoherent(self, id: int) -> bool:
                     """,
                     {"id": id},
                 )
-                
+
                 # Vérifier si la suppression de la collection a bien eu lieu
                 deleted = cursor.rowcount > 0  # rowcount > 0 indique si une ligne a été supprimée
 
@@ -215,14 +215,14 @@ def ReadCoherent(self, id: int) -> CollectionCoherente:
                             description=manga["description"]
                         ) for manga in mangas_res
                     ]
-                    
+
                     collection = CollectionCoherente(
                         id=res["id_collection"],
                         titre=res["titre"],
                         description=res["description"],
                         mangas=mangas  # Liste d'objets Manga associés à la collection
                     )
-                    
+
 #    except Exception as e:
  #       logging.error(f"Erreur lors de la lecture de la collection cohérente : {e}")
   #      collection = None
