@@ -1,12 +1,13 @@
 from abstract_collection import AbstractCollection
+from src.business_object.abstract_collection import AbstractCollection  
 
 
 class CollectionCoherente(AbstractCollection):
-    """Classe pour modéliser une collection cohérente.
+    """
+    Classe pour modéliser une collection cohérente.
 
-    Parameters
-    ----------
-
+    Attributs supllémentaires :
+    ---------------------------
 
     titre : str
         Titre de la collection.
@@ -20,20 +21,20 @@ class CollectionCoherente(AbstractCollection):
 
     """
     def __init__(self,
-                 id_utilisateur,
                  id_collection,
+                 id_utilisateur,
                  titre,
                  description,
                  contenu):
 
-        if not isinstance(id_utilisateur, int):
-            raise ValueError(
-                "L'identifiant de l'utilisateur doit être un entier"
+        if not isinstance(id_collection, int):
+            raise TypeError(
+                "L'identifiant de la collection doit être un entier"
             )
 
-        if not isinstance(id_collection, int):
-            raise ValueError(
-                "L'identifiant de la collection doit être un entier"
+        if not isinstance(id_utilisateur, int):
+            raise TypeError(
+                "L'identifiant de l'utilisateur doit être un entier"
             )
 
         if not isinstance(titre, str):
@@ -51,7 +52,7 @@ class CollectionCoherente(AbstractCollection):
                 "Le contenu doit être une chaîne de caractère"
             )
 
-        super().__init__(id_utilisateur, id_collection)
+        super().__init__(id_collection, id_utilisateur)
 
         self.titre = titre
         self.description = description

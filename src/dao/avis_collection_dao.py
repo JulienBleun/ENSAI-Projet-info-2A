@@ -32,16 +32,16 @@ class AvisCollectionDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "INSERT INTO avis_collection(id_avis, id_utilisateur, "
-                        "id_collection, contenu, note) VALUES                 "
+                        "commentaire, note, id_collection) VALUES                 "
                         "(%(id_avis)s, %(id_utilisateur)s, %(id_collection)s, "
                         " %(contenu)s, %(note)s)                         "
                         "  RETURNING id_avis;                          ",
                         {
                             "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
-                            "id_collection": avis.id_collection,
-                            "contenu": avis.contenu,
+                            "commentaire": avis.commentaire,
                             "note": avis.note,
+                            "id_collection": avis.id_collection,
                         },
                     )
                     res = cursor.fetchone()
@@ -79,14 +79,14 @@ class AvisCollectionDao(metaclass=Singleton):
                         "   SET id_avis        = %(id_avis)s,             "
                         "       id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
-                        "       contenu        = %(contenu)s,             "
+                        "       commentaire    = %(commentaire)s,             "
                         "       note           = %(note)s                 "
                         " WHERE id_joueur      = %(id_joueur)s;           ",
                         {
                             "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
-                            "id_manga": avis.id_manga,
-                            "contenu": avis.contenu,
+                            "id_collection": avis.id_collection,
+                            "commentaire": avis.commentaire,
                             "note": avis.note
                         },
                     )

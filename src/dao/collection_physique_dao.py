@@ -5,7 +5,8 @@ from utils.singleton import Singleton
 
 from dao.db_connection import DBConnection
 
-from business_object.collection_coherente import Collection_coherente
+
+from business_object.collection_physique import CollectionPhysique
 
 
 class CollectionPhysiqueDAO(metaclass=Singleton):
@@ -37,12 +38,21 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             "id_collection": collection.id_collection,  # Utilisation des attributs de l'objet collection
                             "id_utilisateur": collection.id_utilisateur,
                             },
-                        "INSERT INTO manga_physique (id_maga_physique, id_collection, id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES"
-                        "(%(id_maga_physique)s, %(id_collection)s, %(id_manga)s, %(dernier_tome_acquis)s, %(tomes_manquants)s, %(statut)s)"
-                        {
-                            
-                        }
                     )
+                    for c in collection.contenu :
+                        cursor.execute(
+                            "INSERT INTO manga_physique (id_manga_physique, id_collection, id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES"
+                            "(%(id_maga_physique)s, %(id_collection)s, %(id_manga)s, %(dernier_tome_acquis)s, %(tomes_manquants)s, %(statut)s)"
+                            {
+                                "id_manga_physique": c.id_manga_physique,
+                                "id_collection": c.id_collection_physique,
+                                "id_manga": c.id_manga
+                                "dernier_tome_acquis": c.dernier_tome_acquis
+                                "tomes_manquants": c.tomes_manquants
+                                "statut": c.statut
+                            
+                                }
+                        )
                     res = cursor.fetchone()
 #        except Exception as e:
 #            logging.info(e)
@@ -52,3 +62,83 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
             created = True
 
         return created
+
+    #    @log
+    def DeletePhysique(self, collection : CollectionPhysique) -> bool:
+        """Suppression d'une collection physique de la base de données
+
+        Parameters
+        ----------
+        collection : CollectionPhysique
+            La collection à supprimer
+
+        Returns
+        -------
+        deleted : bool
+            True si la suppression a réussi, False sinon
+        """
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "DELETE FROM collection WHERE id_collection = %(id_collection)s;",
+                        {"id_collection": collection.id_collection},
+                    )
+                    deleted = cursor.rowcount > 0  # rowcount > 0 indique si la suppression a affecté des lignes
+#        except Exception as e:
+#            logging.info(e)
+#            deleted = False
+
+        return deleted
+
+#    @log
+    def ReadPhysique(self, id : int) -> CollectionCoherente:
+        """Lecture d'une collection physique à partir de son ID
+
+        Parameters
+        ----------
+        id : int
+            ID de la collection à lire
+
+        Returns
+        -------
+        collection : CollectionCoherente
+            L'objet CollectionCoherente correspondant
+        """
+        collection = None
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT * FROM collection_physique WHERE id = %(id)s;",
+                        {"id": id},
+                    )
+                    res = cursor.fetone()
+
+                    cursor.execute(
+                        "SELECT * ",
+                        "FROM collection_physique as c ",
+                        "JOIN manga_physique as m",
+                        "ON c.id_collection = m.id_collection",
+                        "WHERE id = %(id)s;",
+                        {"id": id},
+                    )
+                    res2 = cursor.fetchall()
+
+                    if res:
+                        collection = CollectionPhysique(
+                            id_collection=res["id_collection"],
+                            id_utilisateur=res["id_utilisateur"],
+                            contenu=[MangaPhysique(
+                            id_manga_physique=manga["id_manga_physique"],
+                            id_manga=manga["id_manga"],id_collection_physique=manga["id_collection_physique"],
+                            dernier_tome_acquis = manga[dernier_tome_acquis],
+                            tomes_manquants= manga[tomes_manquants],
+                            statut = manga[statut]
+                        ) for manga in res2]  # Liste d'objets MangaPhysique
+                    )
+#        except Exception as e:
+#            logging.info(e)
+
+        return collection

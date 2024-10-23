@@ -1,4 +1,5 @@
 from abstract_avis import AbstractAvis
+from src.business_object.abstract_avis import AbstractAvis  #
 
 
 class AvisCollection(AbstractAvis):
@@ -10,6 +11,7 @@ class AvisCollection(AbstractAvis):
 
     Attributs supplémentaires :
     ---------------------------
+
     id_collection : int
         Identifiant unique de la collection associée à cet avis.
     """

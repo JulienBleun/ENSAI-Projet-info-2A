@@ -1,15 +1,22 @@
+from dao.collection_physique_dao import CollectionPhysiqueDAO
+from dao.collection_coherente_dao import Collection_coherenteDAO
+from business_object.collection_physique import CollectionPhysique
+from business_object.collection_coherente import CollectionCoherente
+
+
+
 
 def creer_collection_coherente_view(utilisateur_id):
     titre = input("Titre de la collection cohérente : ")
     description = input("Description : ")
-    creer_collection_coherente(utilisateur_id, titre, description)
+    CreateCoherente(utilisateur_id, titre, description)
     print("Collection cohérente créée avec succès.")
 
 def creer_collection_physique_view(utilisateur_id):
     titre = input("Titre de la collection physique : ")
     dernier_tome_acquis = int(input("Dernier tome acquis : "))
     status = input("Statut de la série ('reading' ou 'dropped') : ")
-    creer_collection_physique(utilisateur_id, titre, dernier_tome_acquis, status)
+    CreatePhysique(utilisateur_id, titre, dernier_tome_acquis, status)
     print("Collection physique créée avec succès.")
 
 # Autres fonctions pour afficher, mettre à jour et supprimer des collections...

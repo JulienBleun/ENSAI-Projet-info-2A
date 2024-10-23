@@ -1,4 +1,5 @@
 from abstract_avis import AbstractAvis
+from src.business_object.abstract_avis import AbstractAvis  
 
 
 class AvisManga(AbstractAvis):
@@ -10,8 +11,9 @@ class AvisManga(AbstractAvis):
 
     Attributs supplémentaires :
     ---------------------------
+
     id_collection : int
-        Identifiant unique de la collection associée à cet avis.
+        Identifiant de la collection associée à cet avis.
     """
 
     def __init__(self,
