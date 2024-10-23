@@ -8,7 +8,7 @@ from src.view.collection_view import ajouter_a_collection_view
 def rechercher_manga_view(utilisateur_id):
     titre = input("Entrez le titre du manga : ")
     # Utiliser l'instance de MangaDao
-    mangas = MangaDao.rechercher_manga_par_titre(titre)
+    mangas = MangaDao().rechercher_manga_par_titre(titre)
 
     if mangas:
         for i, manga in enumerate(mangas, 1):

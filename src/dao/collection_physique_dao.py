@@ -56,8 +56,9 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             }
                         )
                     res = cursor.fetchone()
-#        except Exception as e:
-#            logging.info(e)
+
+        except Exception as e:
+            logging.info(e)
 
         created = False
         if res:
@@ -87,9 +88,9 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                         {"id_collection": collection.id_collection},
                     )
                     deleted = cursor.rowcount > 0  # rowcount > 0 indique si la suppression a affecté des lignes
-#        except Exception as e:
-#            logging.info(e)
-#            deleted = False
+        except Exception as e:
+            logging.info(e)
+            deleted = False
 
         return deleted
 
@@ -140,7 +141,7 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             statut = manga["statut"]
                         ) for manga in res2]  # Liste d'objets MangaPhysique
                     )
-#        except Exception as e:
-#            logging.info(e)
+        except Exception as e:
+            logging.info(e)
 
         return collection

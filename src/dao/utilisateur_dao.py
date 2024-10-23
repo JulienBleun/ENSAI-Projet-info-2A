@@ -54,8 +54,8 @@ class UtilisateurDao(metaclass=Singleton):
         return created
 
     def read_profil(self, id: int) -> dict:
-    """
-    Lire le profil d'un utilisateur à partir de la base de données.
+        """
+        Lire le profil d'un utilisateur à partir de la base de données.
 
         Paramètres :
         ------------
@@ -95,9 +95,9 @@ class UtilisateurDao(metaclass=Singleton):
             print(f"Erreur lors de la lecture du profil : {e}")
             return None
 
-    except Exception as e:
-        print(f"Erreur lors de la lecture du profil : {e}")
-        return None
+        except Exception as e:
+            print(f"Erreur lors de la lecture du profil : {e}")
+            return None
 
 
 

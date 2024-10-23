@@ -6,6 +6,7 @@ class TestMangaPhysique(unittest.TestCase):
     def test_creation_manga_physique(self):
         # GIVEN
         expected_id_manga_physique = 1
+        expected_id_manga = 456  # Ajout de cette ligne
         expected_id_collection_physique = 123
         expected_dernier_tome_acquis = 5
         expected_tomes_manquant = [6, 7, 8]
@@ -14,6 +15,7 @@ class TestMangaPhysique(unittest.TestCase):
         # WHEN
         manga_physique = MangaPhysique(
             id_manga_physique=expected_id_manga_physique,
+            id_manga=expected_id_manga,  # Ajout de cette ligne
             id_collection_physique=expected_id_collection_physique,
             dernier_tome_acquis=expected_dernier_tome_acquis,
             tomes_manquant=expected_tomes_manquant,
@@ -22,8 +24,8 @@ class TestMangaPhysique(unittest.TestCase):
 
         # THEN
         self.assertEqual(manga_physique.id_manga_physique, expected_id_manga_physique)
+        self.assertEqual(manga_physique.id_manga, expected_id_manga)  # Ajout de cette ligne
         self.assertEqual(manga_physique.id_collection_physique, expected_id_collection_physique)
         self.assertEqual(manga_physique.dernier_tome_acquis, expected_dernier_tome_acquis)
         self.assertEqual(manga_physique.tomes_manquant, expected_tomes_manquant)
         self.assertEqual(manga_physique.statut, expected_statut)
-
