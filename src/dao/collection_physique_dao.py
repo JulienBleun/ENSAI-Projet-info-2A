@@ -7,13 +7,16 @@ from dao.db_connection import DBConnection
 
 
 from business_object.collection_physique import CollectionPhysique
+from business_object.manga_physique import MangaPhysique
+
+
 
 
 class CollectionPhysiqueDAO(metaclass=Singleton):
     """Classe DAO pour gérer les collections physiques dans la base de données"""
 
 #    @log
-    def CreatePhysique(self, collection : CollectionPhysique) -> bool:
+    def CreatePhysique(self, collection: CollectionPhysique) -> bool:
         """Création d'une nouvelle collection physique dans la base de données
 
         Parameters
@@ -35,23 +38,22 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                         "INSERT INTO collection (id_collection, id_utilisateur) VALUES "
                         "(%(id_collection)s, %(id_utilisateur)s)",
                         {
-                            "id_collection": collection.id_collection,  # Utilisation des attributs de l'objet collection
+                            "id_collection": collection.id_collection,
                             "id_utilisateur": collection.id_utilisateur,
-                            },
+                        },
                     )
-                    for c in collection.contenu :
+                    for c in collection.contenu:
                         cursor.execute(
-                            "INSERT INTO manga_physique (id_manga_physique, id_collection, id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES"
-                            "(%(id_maga_physique)s, %(id_collection)s, %(id_manga)s, %(dernier_tome_acquis)s, %(tomes_manquants)s, %(statut)s)"
+                            "INSERT INTO manga_physique (id_manga_physique, id_collection, id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES "
+                            "(%(id_manga_physique)s, %(id_collection)s, %(id_manga)s, %(dernier_tome_acquis)s, %(tomes_manquants)s, %(statut)s)",
                             {
                                 "id_manga_physique": c.id_manga_physique,
                                 "id_collection": c.id_collection_physique,
-                                "id_manga": c.id_manga
-                                "dernier_tome_acquis": c.dernier_tome_acquis
-                                "tomes_manquants": c.tomes_manquants
-                                "statut": c.statut
-                            
-                                }
+                                "id_manga": c.id_manga, 
+                                "dernier_tome_acquis": c.dernier_tome_acquis,  
+                                "tomes_manquants": c.tomes_manquant,  
+                                "statut": c.statut 
+                            }
                         )
                     res = cursor.fetchone()
 #        except Exception as e:
@@ -92,7 +94,7 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
         return deleted
 
 #    @log
-    def ReadPhysique(self, id : int) -> CollectionCoherente:
+    def ReadPhysique(self, id : int) -> CollectionPhysique:
         """Lecture d'une collection physique à partir de son ID
 
         Parameters
@@ -133,9 +135,9 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             contenu=[MangaPhysique(
                             id_manga_physique=manga["id_manga_physique"],
                             id_manga=manga["id_manga"],id_collection_physique=manga["id_collection_physique"],
-                            dernier_tome_acquis = manga[dernier_tome_acquis],
-                            tomes_manquants= manga[tomes_manquants],
-                            statut = manga[statut]
+                            dernier_tome_acquis = manga["dernier_tome_acquis"],
+                            tomes_manquants= manga["tomes_manquants"],
+                            statut = manga["statut"]
                         ) for manga in res2]  # Liste d'objets MangaPhysique
                     )
 #        except Exception as e:

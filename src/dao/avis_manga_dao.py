@@ -32,15 +32,15 @@ class AvisMangaDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "INSERT INTO avis_manga(id_avis, id_utilisateur, "
-                        "id_manga, contenu, note) VALUES                 "
+                        "id_manga, commentaire, note) VALUES                 "
                         "(%(id_avis)s, %(id_utilisateur)s, %(id_manga)s, "
-                        " %(contenu)s, %(note)s)                         "
+                        " %(commentaire)s, %(note)s)                         "
                         "  RETURNING id_avis;                          ",
                         {
                             "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
                             "id_manga": avis.id_manga,
-                            "contenu": avis.contenu,
+                            "commentaire": avis.commentaire,
                             "note": avis.note,
                         },
                     )
@@ -79,14 +79,14 @@ class AvisMangaDao(metaclass=Singleton):
                         "   SET id_avis        = %(id_avis)s,             "
                         "       id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
-                        "       contenu        = %(contenu)s,             "
+                        "       commentaire    = %(commentaire)s,             "
                         "       note           = %(note)s                 "
                         " WHERE id_avis      = %(id_avis)s;           ",
                         {
                             "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
                             "id_manga": avis.id_manga,
-                            "contenu": avis.contenu,
+                            "commentaire": avis.commentaire,
                             "note": avis.note
                         },
                     )

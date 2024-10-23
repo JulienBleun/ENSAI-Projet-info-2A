@@ -12,7 +12,7 @@ class AvisManga(AbstractAvis):
     Attributs supplémentaires :
     ---------------------------
 
-    id_collection : int
+    id_manga : int
         Identifiant de la collection associée à cet avis.
     """
 
@@ -23,6 +23,6 @@ class AvisManga(AbstractAvis):
                  note: int,
                  id_manga: int):
 
-        super().__init__(id_avis, id_utilisateur, commentaire, note)
-        self.id_collection = id_manga
+        super().__init__(id_avis, id_utilisateur, commentaire, note, id_manga)
+        self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
