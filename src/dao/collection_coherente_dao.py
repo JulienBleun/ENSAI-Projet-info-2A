@@ -34,7 +34,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                 # 1. Insertion de la collection cohérente et récupération de son ID
                     cursor.execute(
                         "INSERT INTO collection_coherente (titre, description) VALUES "
-                        "(%(titre)s, %(description)s, %(mangas)s) RETURNING id_collection;",
+                        "(%(titre)s, %(description)s) RETURNING id_collection;",
                         {
                             "titre": collection.titre,
                             "description": collection.description,
