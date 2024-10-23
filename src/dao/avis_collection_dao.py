@@ -38,9 +38,9 @@ class AvisCollectionDao(metaclass=Singleton):
                          "  RETURNING id_joueur;                  ",
                         {
                             "id_utilisateur": avis.id_utilisateur,
-                            "id_collection": avis.id_collection,
-                            "contenu": avis.contenu,
+                            "commentaire": avis.commentaire,
                             "note": avis.note,
+                            "id_collection": avis.id_collection,
                         },
                     )
                     res = cursor.fetchone()
@@ -77,7 +77,7 @@ class AvisCollectionDao(metaclass=Singleton):
                         "UPDATE avis_collection                           "
                         "   SET id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
-                        "       contenu        = %(contenu)s,             "
+                        "       commentaire    = %(commentaire)s,             "
                         "       note           = %(note)s                 "
                         " WHERE id_avis      = %(id_avis)s;           ",
                         {

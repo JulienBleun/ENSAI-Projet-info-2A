@@ -10,18 +10,18 @@ from dao.db_connection import DBConnection
 from business_object.manga import Manga
 
 
-class utilisateur_dao(metaclass=Singleton):
+class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
 
 #    @log
-    def Add_Utilisateur(self,utilisateur) -> bool:
+    def add_Utilisateur(self,utilisateur) -> bool:
         """
         Ajouter un utilisateur à la base de données.
 
         Paramètres :
         ------------
-        utilisateur : dict
-            Dictionnaire représentant un utilisateur avec 'id', 'nom', et 'mdp' (mot de passe).
+        utilisateur : Utilisateur
+            Instance d'utilisateur.
 
         Retourne :
         ----------
@@ -53,7 +53,7 @@ class utilisateur_dao(metaclass=Singleton):
 
         return created
 
-     def delete_utilisateur(self, id: int) -> bool:
+    def delete_utilisateur(self, id: int) -> bool:
         """
         Supprime un utilisateur de la base de données en fonction de l'identifiant.
 
@@ -80,3 +80,46 @@ class utilisateur_dao(metaclass=Singleton):
             deleted = True
 
         return deleted
+
+        def read_profil(self, id: int) -> dict:
+    """
+    Lire le profil d'un utilisateur à partir de la base de données.
+
+    Paramètres :
+    ------------
+    id : int
+        Identifiant de l'utilisateur.
+
+    Retourne :
+    ----------
+    dict : Un dictionnaire contenant les informations du profil utilisateur si trouvé, sinon None.
+    """
+
+    try:
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    """
+                    SELECT id, nom, mdp
+                    FROM utilisateurs
+                    WHERE id = %s;
+                    """,
+                    (id,)
+                )
+                res = cursor.fetchone()  # Récupérer la première ligne de la requête
+
+        if res:
+            # Retourne un dictionnaire représentant le profil de l'utilisateur
+            return {
+                "id": res["id"],
+                "nom": res["nom"],
+                "mdp": res["mdp"]
+            }
+        else:
+            print(f"Utilisateur avec l'ID {id} introuvable.")
+            return None
+
+    except Exception as e:
+        print(f"Erreur lors de la lecture du profil : {e}")
+        return None
+

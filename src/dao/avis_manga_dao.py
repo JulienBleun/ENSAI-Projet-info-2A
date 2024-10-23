@@ -39,7 +39,7 @@ class AvisMangaDao(metaclass=Singleton):
                         {
                             "id_utilisateur": avis.id_utilisateur,
                             "id_manga": avis.id_manga,
-                            "contenu": avis.contenu,
+                            "commentaire": avis.commentaire,
                             "note": avis.note,
                         },
                     )
@@ -77,8 +77,9 @@ class AvisMangaDao(metaclass=Singleton):
                         "UPDATE avis_manga                                "
                         "   SET id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
-                        "       contenu        = %(contenu)s,             "
+                        "       commentaire    = %(commentaire)s,             "
                         "       note           = %(note)s                 "
+                        " WHERE id_avis      = %(id_avis)s;           ",
                         " WHERE id_avis      = %(id_avis)s;           ",
                         {
                             "id_utilisateur": avis.id_utilisateur,

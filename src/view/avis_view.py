@@ -1,4 +1,4 @@
-from dao.avis_manga_dao import create_avis, UpdateAvis
+from src.dao.avis_manga_dao import create_avis, UpdateAvis
 
 
 def ajouter_avis_view(utilisateur_id, manga_id):

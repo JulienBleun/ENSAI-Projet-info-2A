@@ -1,14 +1,14 @@
 # Importer
-from dao.manga_dao import rechercher_manga_par_titre    
-from avis_view import ajouter_avis_view, lire_avis_view
-from collection_view import ajouter_a_collection_view
-from main_menu_view import afficher_menu_principal
+from src.dao.manga_dao import MangaDao
+from src.view.avis_view import ajouter_avis_view, lire_avis_view
+from src.view.collection_view import ajouter_a_collection_view
 
 
 
 def rechercher_manga_view(utilisateur_id):
     titre = input("Entrez le titre du manga : ")
-    mangas = rechercher_manga_par_titre(titre)
+    # Utiliser l'instance de MangaDao
+    mangas = MangaDao.rechercher_manga_par_titre(titre)
 
     if mangas:
         for i, manga in enumerate(mangas, 1):
