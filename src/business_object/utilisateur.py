@@ -23,7 +23,7 @@ class Utilisateur():
 
     def __init__(self, id: int, nom: str, prenom: str,
                  pseudo: str,
-                 email: str, mot_de_passe: str
+                 email: str, mdp: str
                  ):
 
         self.id = id
@@ -31,4 +31,4 @@ class Utilisateur():
         self.prenom = prenom
         self.pseudo = pseudo
         self.email = email
-        self.mot_de_passe = mot_de_passe
+        self.mdp = mdp
