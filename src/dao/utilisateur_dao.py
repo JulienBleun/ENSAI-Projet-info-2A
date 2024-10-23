@@ -10,18 +10,18 @@ from dao.db_connection import DBConnection
 from business_object.manga import Manga
 
 
-class utilisateur_dao(metaclass=Singleton):
+class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
 
 #    @log
-    def Add_Utilisateur(self,utilisateur) -> bool:
+    def add_Utilisateur(self,utilisateur) -> bool:
         """
         Ajouter un utilisateur à la base de données.
 
         Paramètres :
         ------------
-        utilisateur : dict
-            Dictionnaire représentant un utilisateur avec 'id', 'nom', et 'mdp' (mot de passe).
+        utilisateur : Utilisateur
+            Instance d'utilisateur.
 
         Retourne :
         ----------
@@ -51,7 +51,7 @@ class utilisateur_dao(metaclass=Singleton):
 
         return created
 
-     def delete_utilisateur(self, id: int) -> bool:
+    def delete_utilisateur(self, id: int) -> bool:
         """
         Supprime un utilisateur de la base de données en fonction de l'identifiant.
 

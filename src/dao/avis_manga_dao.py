@@ -81,7 +81,7 @@ class AvisMangaDao(metaclass=Singleton):
                         "       id_manga       = %(id_manga)s,            "
                         "       contenu        = %(contenu)s,             "
                         "       note           = %(note)s                 "
-                        " WHERE id_joueur      = %(id_joueur)s;           ",
+                        " WHERE id_avis      = %(id_avis)s;           ",
                         {
                             "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
