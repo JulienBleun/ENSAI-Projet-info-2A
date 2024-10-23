@@ -17,10 +17,6 @@ class UtilisateurService:
     return nouveau_utilisateur if UtilisateurDao().add_Utilisateur(nouveau_utilisateur) else None
 
 
-
-    
-        
-
 def supprimer(self, avis : AvisManga) -> bool:
 
         # On supprime l'avis à partir de son id.
