@@ -16,40 +16,55 @@ class Collection_coherenteDAO(metaclass=Singleton):
     def CreateCoherente(self, collection: CollectionCoherente) -> bool:
         """Création d'une nouvelle collection cohérente dans la base de données
 
-        Parameters
-        ----------
-        collection : Collection_coherente
-            Objet représentant la collection cohérente
+    Parameters
+    ----------
+    collection : CollectionCoherente
+        Objet représentant la collection cohérente
 
-        Returns
-        -------
-        created : bool
-            True si la création a réussi, False sinon
+    Returns
+    -------
+    created : bool
+        True si la création a réussi, False sinon
         """
-        res = None
+        created = False
 
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                # 1. Insertion de la collection cohérente et récupération de son ID
                     cursor.execute(
-                        "INSERT INTO collection_coherente (id, titre, description) VALUES "
-                        "(%(id)s, %(titre)s, %(description)s, %(mangas)s) RETURNING id_collection;",
+                        "INSERT INTO collection_coherente (titre, description) VALUES "
+                        "(%(titre)s, %(description)s) RETURNING id_collection;",
                         {
-                            "id": collection.id_collection,  # Utilisation des attributs de l'objet collection
                             "titre": collection.titre,
                             "description": collection.description,
                         },
-                        "INSERT INTO"
                     )
-                    res = cursor.fetchone()
-#        except Exception as e:
-#            logging.info(e)
+                    res = cursor.fetchone()  # Récupération de l'ID de la collection nouvellement créée
 
-        created = False
-        if res:
-            created = True
+                    if res:
+                        id_collection = res[0]  # ID de la collection créée
+
+                    # 2. Insertion des mangas dans la table d'association
+                        for manga in collection.mangas:
+                            cursor.execute(
+                            """
+                                INSERT INTO Association_manga_collection_coherente (id_manga, id_collection_coherente)
+                                VALUES (%(id_manga)s, %(id_collection_coherente)s);
+                            """,
+                                {
+                                    "id_manga": manga.id_manga,
+                                    "id_collection_coherente": id_collection,  # Utilisation de l'ID récupéré
+                                },
+                            )
+                        created = True  # Si tout s'est bien passé
+
+ #   except Exception as e:
+  #      logging.error(f"Erreur lors de la création de la collection cohérente : {e}")
+   #     created = False
 
         return created
+
 
 #    @log
     def UpdateCoherent(self, collection: CollectionCoherente) -> bool:
