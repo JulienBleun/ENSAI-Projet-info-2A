@@ -1,4 +1,5 @@
 from abstract_collection import AbstractCollection
+from src.business_object.abstract_collection import AbstractCollection  
 
 
 class CollectionCoherente(AbstractCollection):

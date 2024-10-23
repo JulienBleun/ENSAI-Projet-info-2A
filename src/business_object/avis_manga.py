@@ -1,4 +1,5 @@
 from abstract_avis import AbstractAvis
+from src.business_object.abstract_avis import AbstractAvis  
 
 
 class AvisManga(AbstractAvis):
@@ -24,3 +25,5 @@ class AvisManga(AbstractAvis):
 
         super().__init__(id_avis, id_utilisateur, commentaire, note)
         self.id_collection = id_manga
+        self.id_utilisateur = id_utilisateur
+

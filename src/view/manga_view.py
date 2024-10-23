@@ -1,7 +1,8 @@
 # Importer
-from dao.manga_dao import rechercher_manga_par_titre
+from dao.manga_dao import rechercher_manga_par_titre    
 from avis_view import ajouter_avis_view, lire_avis_view
 from collection_view import ajouter_a_collection_view
+from main_menu_view import afficher_menu_principal
 
 
 
