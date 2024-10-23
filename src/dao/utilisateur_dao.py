@@ -8,7 +8,7 @@ from src.utils.log_decorator import log
 from src.dao.db_connection import DBConnection
 
 from src.business_object.manga import Manga
-
+from src.business_object.utilisateur import utilisateur
 
 class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
@@ -53,38 +53,9 @@ class UtilisateurDao(metaclass=Singleton):
 
         return created
 
-    def delete_utilisateur(self, utilisateur: Utilisateur) -> bool:
-        """
-        Supprime un utilisateur de la base de données en fonction de l'identifiant.
-
-        Paramètres :
-        ------------
-        id : int
-            L'identifiant unique de l'utilisateur à supprimer.
-
-        Retourne :
-        ----------
-        bool : Indique si la suppression a été effectuée avec succès.
-        """
-        deleted = False
-
-        with DBConnection().connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "DELETE FROM utilisateurs WHERE id_utilisateur = %(id_utilisateur)s
-                    ",
-                    {"id_utilisateur": id_utilisateur}
-                )
-                res = cursor.fetchone()
-
-        if res:
-            deleted = True
-
-        return deleted
-
     def read_profil(self, id: int) -> dict:
-        """
-        Lire le profil d'un utilisateur à partir de la base de données.
+    """
+    Lire le profil d'un utilisateur à partir de la base de données.
 
         Paramètres :
         ------------
@@ -123,3 +94,81 @@ class UtilisateurDao(metaclass=Singleton):
         except Exception as e:
             print(f"Erreur lors de la lecture du profil : {e}")
             return None
+
+    except Exception as e:
+        print(f"Erreur lors de la lecture du profil : {e}")
+        return None
+
+    
+
+    def delete_utilisateur(self, id: int) -> bool:
+        """
+        Supprime un utilisateur de la base de données en fonction de l'identifiant.
+
+        Paramètres :
+        ------------
+        id : int
+            L'identifiant unique de l'utilisateur à supprimer.
+
+        Retourne :
+        ----------
+        bool : Indique si la suppression a été effectuée avec succès.
+        """
+        deleted = False
+
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "DELETE FROM utilisateurs WHERE id = %(id)s RETURNING id;",
+                    {"id": id}
+                )
+                res = cursor.fetchone()
+
+        if res:
+            deleted = True
+
+        return deleted
+
+@log
+    def se_connecter(self, nom , mdp) -> utilisateur :
+        """se connecter grâce à son nom et son mot de passe
+
+        Parameters
+        ----------
+        nom : str
+            nom de l'utilisateur
+        mdp : str
+            mot de passe de l'utilisateur
+
+        Returns
+        -------
+        utilisateur : utilisateur 
+            renvoie l' utilisateur que l'on cherche
+        """
+        res = None
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT *                           "
+                        "  FROM utilisateurs                   "
+                        " WHERE nom = %(nom)s         "
+                        "   AND mdp = %(mdp)s;              ",
+                        {"nom": nom , "mdp": mdp},
+                    )
+                    res = cursor.fetchone()
+        except Exception as e:
+            logging.info(e)
+
+        utilisateur = None
+
+        if res:
+            utilisateur = utilisateur (
+                nom=res["nom"],
+                prenom =res["prenom"],
+                pseudo =res["pseudo"],
+                mail=res["mail"],
+                mdp=res["mdp"])
+
+        return utilisateur
+       
