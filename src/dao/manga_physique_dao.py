@@ -32,14 +32,13 @@ class MangaPhysiqueDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO manga_physique(id_manga_physique, id_collection, "
+                        "INSERT INTO manga_physique(id_collection, "
                         "id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES                 "
                         "(%(id_manga_physique)s, %(id_collection)s, %(id_manga)s"
                         " %(dernier_tome_acquis)s, %(tomes_manquants)s, "
                         "%(statut)s)                         "
                         "  RETURNING id_manga_physique;                          ",
                         {
-                            "id_manga_physique": manga.id_manga_physique,
                             "id_collection": manga.id_collection_physique,
                             "id_manga": manga.id_manga,
                             "dernier_tome_acquis": manga.dernier_tome_acquis,
@@ -81,20 +80,19 @@ class MangaPhysiqueDAO(metaclass=Singleton):
             with connection.cursor() as cursor:
                 cursor.execute(
                     "UPDATE manga_physique                                     "
-                    "   SET id_manga_physique        = %(id_manga_physique)s,  "
-                    "       id_collection            = %(id_collection)s,      "
+                    "   SET id_collection            = %(id_collection)s,      "
                     "       id_manga                 = %(id_manga)s,           "
                     "       dernier_tome_acquis      = %(dernier_tome_acquis)s,"
                     "       tomes_manquants          = %(tomes_manquants)s     "
                     "       statut                   = %(statut)s              "
                     " WHERE id_manga_physique        = %(id_manga_physique)s;  ",
                     {
-                            "id_manga_physique": manga.id_manga_physique,
                             "id_collection": manga.id_collection_physique,
                             "id_manga": manga.id_manga,
                             "dernier_tome_acquis": manga.dernier_tome_acquis,
                             "tomes_manquants": manga.tomes_manquant,
-                            "statut": manga.statut
+                            "statut": manga.statut,
+                            "id_manga_physique": manga.id_manga_physique,
                     },
                 )
                 res = cursor.rowcount
@@ -145,3 +143,32 @@ class MangaPhysiqueDAO(metaclass=Singleton):
                 statut=res["statut"]
             )
         return manga
+
+    def delete_manga_physique(self, manga_physique) -> bool:
+        """
+        Suppression d'un manga physique dans la base de données
+
+        Parameters
+        ----------
+        manga_physique : MangaPhysique
+            manga physique à supprimer de la base de données
+
+        Returns
+        -------
+            True si le manga physique a bien été supprimé
+        """
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "DELETE FROM manga_physique                 "
+                        " WHERE id_manga_physique=%(id_manga_physique)s      ",
+                        {"id_manga_physique": manga_physique.id_manga_physique},
+                    )
+                    res = cursor.rowcount
+        except Exception as e:
+            logging.info(e)
+            raise
+
+        return res > 0
