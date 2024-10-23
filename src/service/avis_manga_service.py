@@ -26,7 +26,7 @@ class AvisMangaService:
         return nouvel_avis_manga if AvisMangaDao().create_avis_manga(nouvel_avis_manga) else None
 
     @log
-    def Mettre_a_jour(self, avis_modifié : AvisManga) -> AvisManga:
+    def mettre_a_jour(self, avis_modifié: AvisManga) -> AvisManga:
 
         # avis_modifié doit être une instance d'AvisManga. On accède aux informations
         # de l'avis associé à son id, puis on les modifie avec les nouvelles infos
@@ -34,7 +34,7 @@ class AvisMangaService:
         return avis_modifié if AvisMangaDao().update_avis_manga(avis_modifié) else None
 
     @log
-    def supprimer(self, avis : AvisManga) -> bool:
+    def supprimer(self, avis: AvisManga) -> bool:
 
         # On supprime l'avis à partir de son id.
 

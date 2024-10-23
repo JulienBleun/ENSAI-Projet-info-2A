@@ -87,7 +87,7 @@ class MangaPhysiqueDAO(metaclass=Singleton):
                     "       dernier_tome_acquis      = %(dernier_tome_acquis)s,"
                     "       tomes_manquants          = %(tomes_manquants)s     "
                     "       statut                   = %(statut)s              "
-                    " WHERE id_joueur                = %(id_joueur)s;          ",
+                    " WHERE id_manga_physique        = %(id_manga_physique)s;  ",
                     {
                             "id_manga_physique": manga.id_manga_physique,
                             "id_collection": manga.id_collection,
