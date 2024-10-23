@@ -43,7 +43,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                     res = cursor.fetchone()  # Récupération de l'ID de la collection nouvellement créée
 
                     if res:
-                        id_collection = res[0]  # ID de la collection créée
+                        id_collection = res["id_collection"]  # ID de la collection créée
 
                     # 2. Insertion des mangas dans la table d'association
                         for manga in collection.mangas:
@@ -90,9 +90,9 @@ class Collection_coherenteDAO(metaclass=Singleton):
                     WHERE id_collection = %(id_collection)s;
                     """,
                     {
+                        "id_collection": collection.id_collection,
                         "titre": collection.titre,
                         "description": collection.description,
-                        "id_collection": collection.id,
                     },
                     )
 
@@ -102,7 +102,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                     DELETE FROM Association_manga_collection_coherente
                     WHERE id_collection_coherente = %(id_collection)s;
                     """,
-                    {"id_collection": collection.id},
+                    {"id_collection": collection.id_collection},
                 )
 
                 # Réinsertion des mangas mis à jour dans la table d'association
@@ -114,7 +114,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                         """,
                         {
                             "id_manga": manga.id_manga,
-                            "id_collection_coherente": collection.id,
+                            "id_collection_coherente": collection.id_collection,
                         },
                         )
                     updated = cursor.rowcount > 0  # rowcount > 0 indique si la mise à jour a affecté des lignes
@@ -125,7 +125,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
         return updated
 
 #    @log
-def DeleteCoherent(self, id: int) -> bool:
+def DeleteCoherent(self, collection: CollectionCoherente) -> bool:
     """Suppression d'une collection cohérente de la base de données
 
     Parameters
@@ -147,7 +147,7 @@ def DeleteCoherent(self, id: int) -> bool:
                     DELETE FROM Association_manga_collection_coherente
                     WHERE id_collection_coherente = %(id)s;
                     """,
-                    {"id": id},
+                    {"id": collection.id_collection},
                 )
 
                 # 2. Supprimer ensuite la collection cohérente
@@ -156,7 +156,7 @@ def DeleteCoherent(self, id: int) -> bool:
                     DELETE FROM collection_coherente
                     WHERE id_collection = %(id)s;
                     """,
-                    {"id": id},
+                    {"id": collection.id_collection},
                 )
 
                 # Vérifier si la suppression de la collection a bien eu lieu
