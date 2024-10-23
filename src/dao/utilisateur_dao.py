@@ -33,14 +33,16 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                    cursor.execute(
                     """
-                    INSERT INTO utilisateurs (id, nom, mdp)
-                    VALUES (%(id)s, %(nom)s, %(mdp)s)
-                    RETURNING id;
+                    INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe)
+                    VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mot_de_passe)s)
+                    RETURNING id_utilisateur;
                     """,
                     {
-                        "id": utilisateur["id"],
                         "nom": utilisateur["nom"],
-                        "mdp": utilisateur["mdp"],
+                        "prenom": utilisateur["prenom"],
+                        "pseudo": utilisateur["pseudo"],
+                        "email": utilisateur["email"],
+                        "mot_de_passe": utilisateur["mot_de_passe"],
                     },
                 )
                 res = cursor.fetchone()

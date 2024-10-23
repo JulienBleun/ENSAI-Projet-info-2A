@@ -31,13 +31,12 @@ class AvisMangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO avis_manga(id_avis, id_utilisateur, "
-                        "id_manga, commentaire, note) VALUES                 "
-                        "(%(id_avis)s, %(id_utilisateur)s, %(id_manga)s, "
-                        " %(commentaire)s, %(note)s)                         "
+                        "INSERT INTO avis_manga(id_utilisateur, "
+                        "id_manga, contenu, note) VALUES                 "
+                        "(%(id_utilisateur)s, %(id_manga)s, "
+                        " %(contenu)s, %(note)s)                         "
                         "  RETURNING id_avis;                          ",
                         {
-                            "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
                             "id_manga": avis.id_manga,
                             "commentaire": avis.commentaire,
@@ -75,19 +74,19 @@ class AvisMangaDao(metaclass=Singleton):
         with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE avis_manga                                     "
-                        "   SET id_avis        = %(id_avis)s,             "
-                        "       id_utilisateur = %(id_utilisateur)s,      "
+                        "UPDATE avis_manga                                "
+                        "   SET id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
                         "       commentaire    = %(commentaire)s,             "
                         "       note           = %(note)s                 "
                         " WHERE id_avis      = %(id_avis)s;           ",
+                        " WHERE id_avis      = %(id_avis)s;           ",
                         {
-                            "id_avis": avis.id_avis,
                             "id_utilisateur": avis.id_utilisateur,
                             "id_manga": avis.id_manga,
-                            "commentaire": avis.commentaire,
-                            "note": avis.note
+                            "contenu": avis.contenu,
+                            "note": avis.note,
+                            "id_avis": avis.id_avis
                         },
                     )
                     res = cursor.rowcount
@@ -157,10 +156,10 @@ class AvisMangaDao(metaclass=Singleton):
         avis = None
         if res:
             avis = AvisManga(
+                id_avis=res["id_avis"],
                 id_manga=res["id_manga"],
                 id_utilisateur=res["id_utilisateur"],
                 commentaire=res["commentaire"],
                 note=res["note"],
-                id_avis=res["id_avis"],
-            )
+                )
         return avis

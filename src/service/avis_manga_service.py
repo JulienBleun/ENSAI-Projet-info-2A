@@ -13,7 +13,7 @@ class AvisMangaService:
 
     @log
     def rédiger_avis_manga(self, id_avis, id_utilisateur, id_manga, contenu,
-    note) -> AvisManga:
+                           note) -> AvisManga:
 
         nouvel_avis_manga = AvisManga(
                 id_avis=id_avis,
@@ -34,7 +34,7 @@ class AvisMangaService:
         return avis_modifié if AvisMangaDao().update_avis_manga(avis_modifié) else None
 
     @log
-    def supprimer(self, avis: AvisManga) -> bool:
+    def supprimer(self, avis : AvisManga) -> bool:
 
         # On supprime l'avis à partir de son id.
 
