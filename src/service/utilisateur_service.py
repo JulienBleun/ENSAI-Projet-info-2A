@@ -1,9 +1,9 @@
 from tabulate import tabulate
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from business_object.utilisateur import utilisateur
-from dao.utilisateur_dao import UtilisateurDao
+from src.business_object.utilisateur import utilisateur
+from src.dao.utilisateur_dao import UtilisateurDao
 
 
 class UtilisateurService:

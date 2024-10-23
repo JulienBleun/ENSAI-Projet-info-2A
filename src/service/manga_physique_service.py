@@ -2,10 +2,10 @@
 
 from tabulate import tabulate
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from business_object.manga_physique import MangaPhysique
-from dao.manga_physique_dao import MangaPhysiqueDAO
+from src.business_object.manga_physique import MangaPhysique
+from src.dao.manga_physique_dao import MangaPhysiqueDAO
 
 
 class MangaPhysiqueService:
