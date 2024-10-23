@@ -58,8 +58,8 @@ def log(func):
         args_list = tuple(args_list)
 
         # Affichage dans le fichier de log
-        logger.info(f"{indentation}{class_name}.{method_name}{args_list} -
-                    DEBUT")
+        logger.info(f"""{indentation}{class_name}.{method_name}{args_list} -
+                    DEBUT""") 
         result = func(*args, **kwargs)
         logger.info(f"{indentation}{class_name}.{method_name}{args_list} - FIN")
 
