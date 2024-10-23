@@ -22,6 +22,6 @@ class AvisManga(AbstractAvis):
                  note: int,
                  id_manga: int):
 
-        super().__init__(id_avis, id_utilisateur, commentaire, note, id_manga)
+        super().__init__(id_avis, id_utilisateur, commentaire, note)
         self.id_manga = id_manga
-        self.id_utilisateur = id_utilisateur
+       

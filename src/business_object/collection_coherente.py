@@ -1,3 +1,6 @@
+from src.business_object.abstract_collection import AbstractCollection
+from src.business_object.abstract_collection import AbstractCollection
+from src.business_object.manga import Manga
 from src.business_object.abstract_collection import AbstractCollection  
 
 
@@ -24,7 +27,7 @@ class CollectionCoherente(AbstractCollection):
                  id_utilisateur,
                  titre,
                  description,
-                 contenu):
+                 contenu: list[Manga]):
 
         if not isinstance(id_collection, int):
             raise TypeError(

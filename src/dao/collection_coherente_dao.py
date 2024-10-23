@@ -59,11 +59,11 @@ class Collection_coherenteDAO(metaclass=Singleton):
                             )
                         created = True  # Si tout s'est bien passé
 
- #   except Exception as e:
-  #      logging.error(f"Erreur lors de la création de la collection cohérente : {e}")
-   #     created = False
-
-        return created
+        except Exception as e:
+            logging.error(f"Erreur lors de la création de la collection cohérente : {e}")
+            created = False
+        
+            return created
 
 
 #    @log
@@ -118,9 +118,9 @@ class Collection_coherenteDAO(metaclass=Singleton):
                         },
                         )
                     updated = cursor.rowcount > 0  # rowcount > 0 indique si la mise à jour a affecté des lignes
-#        except Exception as e:
-#            logging.info(e)
-#            updated = False
+        except Exception as e:
+            logging.info(e)
+            updated = False
 
         return updated
 
@@ -162,9 +162,9 @@ def DeleteCoherent(self, collection: CollectionCoherente) -> bool:
                 # Vérifier si la suppression de la collection a bien eu lieu
                 deleted = cursor.rowcount > 0  # rowcount > 0 indique si une ligne a été supprimée
 
-#    except Exception as e:
- #       logging.error(f"Erreur lors de la suppression de la collection cohérente : {e}")
-  #      deleted = False
+    except Exception as e:
+        logging.error(f"Erreur lors de la suppression de la collection cohérente : {e}")
+        deleted = False
 
     return deleted
 
@@ -223,8 +223,8 @@ def ReadCoherent(self, id: int) -> CollectionCoherente:
                         mangas=mangas  # Liste d'objets Manga associés à la collection
                     )
 
-#    except Exception as e:
- #       logging.error(f"Erreur lors de la lecture de la collection cohérente : {e}")
-  #      collection = None
+    except Exception as e:
+        logging.error(f"Erreur lors de la lecture de la collection cohérente : {e}")
+        collection = None
 
     return collection

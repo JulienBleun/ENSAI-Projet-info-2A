@@ -1,4 +1,4 @@
-# A voir si ça marche .
+# TODO Rajouter une fonction permettant la connexion
 
 import logging
 
@@ -8,7 +8,7 @@ from src.utils.log_decorator import log
 from src.dao.db_connection import DBConnection
 
 from src.business_object.manga import Manga
-from src.business_object.utilisateur import utilisateur
+from src.business_object.utilisateur import Utilisateur
 
 class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
@@ -54,8 +54,8 @@ class UtilisateurDao(metaclass=Singleton):
         return created
 
     def read_profil(self, id: int) -> dict:
-    """
-    Lire le profil d'un utilisateur à partir de la base de données.
+        """
+        Lire le profil d'un utilisateur à partir de la base de données.
 
         Paramètres :
         ------------
@@ -95,11 +95,11 @@ class UtilisateurDao(metaclass=Singleton):
             print(f"Erreur lors de la lecture du profil : {e}")
             return None
 
-    except Exception as e:
-        print(f"Erreur lors de la lecture du profil : {e}")
-        return None
+        except Exception as e:
+            print(f"Erreur lors de la lecture du profil : {e}")
+            return None
 
-    
+
 
     def delete_utilisateur(self, id: int) -> bool:
         """
@@ -129,8 +129,8 @@ class UtilisateurDao(metaclass=Singleton):
 
         return deleted
 
-@log
-    def se_connecter(self, nom , mdp) -> utilisateur :
+    @log
+    def se_connecter(self, nom , mdp) -> Utilisateur :
         """se connecter grâce à son nom et son mot de passe
 
         Parameters
@@ -142,7 +142,7 @@ class UtilisateurDao(metaclass=Singleton):
 
         Returns
         -------
-        utilisateur : utilisateur 
+        utilisateur : utilisateur
             renvoie l' utilisateur que l'on cherche
         """
         res = None
@@ -171,4 +171,3 @@ class UtilisateurDao(metaclass=Singleton):
                 mdp=res["mdp"])
 
         return utilisateur
-       

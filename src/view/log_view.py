@@ -1,9 +1,10 @@
 # Importer fonctions 
+from src.dao.utilisateur_dao import UtilisateurDao
 
 
 def afficher_menu_principal():
     while True:
-        print("\nBienvenue dans l'application de gestion de collection de mangas !")
+        print("\nBienvenue sur MangaLover, l'application de gestion de collection de mangas !")
         print("1. Créer un compte")
         print("2. Se connecter")
         print("3. Quitter")
@@ -22,13 +23,14 @@ def afficher_menu_principal():
 def creer_compte():
     nom = input("Nom : ")
     prenom = input("Prénom : ")
-    username = input("Nom d'utilisateur : ")
+    nom_utilisateur = input("Nom d'utilisateur : ")
     email = input("Email : ")
     mot_de_passe = input("Mot de passe : ")
 
-    creer_compte(nom, prenom, username, email, mot_de_passe)
+    UtilisateurDao().add_Utilisateur(nom, prenom, nom_utilisateur, email, mot_de_passe)
 
 def connexion():
-    username = input("Nom d'utilisateur : ")
+    nom_utilisateur = input("Nom d'utilisateur : ")
     mot_de_passe = input("Mot de passe : ")
-    connexion(username, mot_de_passe)
+    
+    UtilisateurDao().se_connecter(nom_utilisateur, mot_de_passe)

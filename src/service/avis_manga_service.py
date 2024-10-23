@@ -1,8 +1,12 @@
 #TODO Nothing normally
 
+<<<<<<< HEAD
+from utils.log_decorator import log
+=======
 from tabulate import tabulate
 
 from src.utils.log_decorator import log
+>>>>>>> 60ec57f3723f72405a8845463e46e123ab8dee4f
 
 from src.business_object.avis_manga import AvisManga
 from src.dao.avis_manga_dao import AvisMangaDao
@@ -42,4 +46,5 @@ class AvisMangaService:
 
     @log
     def consulter(self, id_avis) -> AvisManga:
+
         return AvisMangaDao().read_avis_manga(id_avis)

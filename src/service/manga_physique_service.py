@@ -1,6 +1,4 @@
-#TODO Nothing apparently
-
-from tabulate import tabulate
+#TODO Nothing normally
 
 from src.utils.log_decorator import log
 
@@ -25,15 +23,15 @@ class MangaPhysiqueService:
                 statut=statut,
             )
 
-        return nouveau_manga_physique if MangaPhysiqueDAO().create_manga_physique(nouveau_manga_physique) else None
+        return nouveau_manga_physique if MangaPhysiqueDAO().UpdateCoherent(nouveau_manga_physique) else None
 
     @log
-    def mettre_a_jour(self, manga_modifié: MangaPhysique) -> MangaPhysique:
+    def mettre_a_jour(self, manga_modif: MangaPhysique) -> MangaPhysique:
 
         # manga_modifié doit être une instance de MangaPhysique. On accède aux informations
         # de l'avis associé à son id, puis on les modifie avec les nouvelles infos
 
-        return manga_modifié if MangaPhysiqueDAO().update_manga_physique(manga_modifié) else None
+        return manga_modif if MangaPhysiqueDAO().update_manga_physique(manga_modif) else None
 
     @log
     def consulter_manga_physique(self, id_manga_physique) -> MangaPhysique:

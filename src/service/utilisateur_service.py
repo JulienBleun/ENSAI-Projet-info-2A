@@ -1,6 +1,8 @@
+
 from tabulate import tabulate
 
 from src.utils.log_decorator import log
+
 
 from src.business_object.utilisateur import utilisateur
 from src.dao.utilisateur_dao import UtilisateurDao
@@ -15,6 +17,10 @@ class UtilisateurService:
                 nom= nom ,
                 mdp = mdp )
     return nouveau_utilisateur if UtilisateurDao().add_Utilisateur(nouveau_utilisateur) else None
+
+
+
+
 
 
 def supprimer(self, avis : AvisManga) -> bool:

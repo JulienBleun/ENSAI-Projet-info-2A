@@ -8,7 +8,7 @@ CREATE SCHEMA tp;
 DROP TABLE IF EXISTS tp.utilisateur CASCADE;
 
 CREATE TABLE tp.utilisateur (
-    id_utilisateur SERIAL PRIMARY KEY,
+    id_utilisateur SERIAL PRIMARY KEY, #Pas besoin de clé primaire
     nom VARCHAR(100),
     prenom VARCHAR(100),
     nom_utilisateur VARCHAR(1000) UNIQUE,

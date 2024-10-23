@@ -1,7 +1,7 @@
-from dao.collection_physique_dao import CollectionPhysiqueDAO
-from dao.collection_coherente_dao import Collection_coherenteDAO
-from business_object.collection_physique import CollectionPhysique
-from business_object.collection_coherente import CollectionCoherente
+from src.dao.collection_physique_dao import CollectionPhysiqueDAO
+from src.dao.collection_coherente_dao import Collection_coherenteDAO
+from src.business_object.collection_physique import CollectionPhysique
+from src.business_object.collection_coherente import CollectionCoherente
 
 
 

@@ -47,7 +47,7 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             "INSERT INTO manga_physique (id_manga_physique, id_collection, id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES "
                             "(%(id_manga_physique)s, %(id_collection)s, %(id_manga)s, %(dernier_tome_acquis)s, %(tomes_manquants)s, %(statut)s)",
                             {
-                                "id_manga_physique": c.id_manga_physique,
+                                "id_manga_physique": c.id_manga_physique, # Problème résolu
                                 "id_collection": c.id_collection_physique,
                                 "id_manga": c.id_manga,
                                 "dernier_tome_acquis": c.dernier_tome_acquis,
@@ -56,8 +56,9 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             }
                         )
                     res = cursor.fetchone()
-#        except Exception as e:
-#            logging.info(e)
+
+        except Exception as e:
+            logging.info(e)
 
         created = False
         if res:
@@ -97,9 +98,9 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                         {"id_collection": collection.id_collection},
                     )
                     deleted = cursor.rowcount > 0  # rowcount > 0 indique si la suppression a affecté des lignes
-#        except Exception as e:
-#            logging.info(e)
-#            deleted = False
+        except Exception as e:
+            logging.info(e)
+            deleted = False
 
         return deleted
 
@@ -149,7 +150,7 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             statut = manga["statut"]
                         ) for manga in res2]  # Liste d'objets MangaPhysique
                     )
-#        except Exception as e:
-#            logging.info(e)
+        except Exception as e:
+            logging.info(e)
 
         return collection
