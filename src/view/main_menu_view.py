@@ -2,6 +2,7 @@
 from src.view.manga_view import rechercher_manga_view
 from src.view.collection_view import afficher_mes_collections_view
 from src.view.modif_view import modifier_compte_view
+
 # from  xxx import deconnexion
 
 
