@@ -4,7 +4,7 @@ from src.business_object.abstract_avis import AbstractAvis
 
 class AvisManga(AbstractAvis):
     """
-    Classe représentant un avis spécifique à une collection.
+    Classe représentant un avis spécifique à un manga.
 
     Cette classe hérite de `AbstractAvis` et ajoute un attribut supplémentaire
     pour l'identifiant de la collection à laquelle l'avis est lié.
@@ -12,7 +12,7 @@ class AvisManga(AbstractAvis):
     Attributs supplémentaires :
     ---------------------------
 
-    id_collection : int
+    id_manga : int
         Identifiant de la collection associée à cet avis.
     """
 
@@ -23,7 +23,7 @@ class AvisManga(AbstractAvis):
                  note: int,
                  id_manga: int):
 
-        super().__init__(id_avis, id_utilisateur, commentaire, note)
-        self.id_collection = id_manga
+        super().__init__(id_avis, id_utilisateur, commentaire, note, id_manga)
+        self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
 
