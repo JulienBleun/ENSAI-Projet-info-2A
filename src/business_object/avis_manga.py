@@ -7,7 +7,7 @@ class AvisManga(AbstractAvis):
     Classe représentant un avis spécifique à un manga.
 
     Cette classe hérite de `AbstractAvis` et ajoute un attribut supplémentaire
-    pour l'identifiant de la collection à laquelle l'avis est lié.
+    pour l'identifiant du manga auquel l'avis est lié.
 
     Attributs supplémentaires :
     ---------------------------
@@ -26,4 +26,3 @@ class AvisManga(AbstractAvis):
         super().__init__(id_avis, id_utilisateur, commentaire, note, id_manga)
         self.id_manga = id_manga
         self.id_utilisateur = id_utilisateur
-
