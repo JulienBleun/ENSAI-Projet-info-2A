@@ -51,35 +51,7 @@ class UtilisateurDao(metaclass=Singleton):
 
         return created
 
-    def delete_utilisateur(self, id: int) -> bool:
-        """
-        Supprime un utilisateur de la base de données en fonction de l'identifiant.
-
-        Paramètres :
-        ------------
-        id : int
-            L'identifiant unique de l'utilisateur à supprimer.
-
-        Retourne :
-        ----------
-        bool : Indique si la suppression a été effectuée avec succès.
-        """
-        deleted = False
-
-        with DBConnection().connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "DELETE FROM utilisateurs WHERE id = %(id)s RETURNING id;",
-                    {"id": id}
-                )
-                res = cursor.fetchone()
-
-        if res:
-            deleted = True
-
-        return deleted
-
-        def read_profil(self, id: int) -> dict:
+    def read_profil(self, id: int) -> dict:
     """
     Lire le profil d'un utilisateur à partir de la base de données.
 
@@ -121,3 +93,34 @@ class UtilisateurDao(metaclass=Singleton):
         print(f"Erreur lors de la lecture du profil : {e}")
         return None
 
+    
+
+    def delete_utilisateur(self, id: int) -> bool:
+        """
+        Supprime un utilisateur de la base de données en fonction de l'identifiant.
+
+        Paramètres :
+        ------------
+        id : int
+            L'identifiant unique de l'utilisateur à supprimer.
+
+        Retourne :
+        ----------
+        bool : Indique si la suppression a été effectuée avec succès.
+        """
+        deleted = False
+
+        with DBConnection().connection as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "DELETE FROM utilisateurs WHERE id = %(id)s RETURNING id;",
+                    {"id": id}
+                )
+                res = cursor.fetchone()
+
+        if res:
+            deleted = True
+
+        return deleted
+
+       
