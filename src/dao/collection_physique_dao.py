@@ -114,7 +114,7 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                         "SELECT * FROM collection_physique WHERE id = %(id)s;",
                         {"id": id},
                     )
-                    res = cursor.fetchone()
+                    res = cursor.fetone()
 
                     cursor.execute(
                         "SELECT * ",
@@ -124,14 +124,20 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                         "WHERE id = %(id)s;",
                         {"id": id},
                     )
-                    res2 = cursor.fetchone()
+                    res2 = cursor.fetchall()
 
                     if res:
                         collection = CollectionPhysique(
                             id_collection=res["id_collection"],
                             id_utilisateur=res["id_utilisateur"],
-                            contenu=res[""],
-                        )
+                            contenu=[MangaPhysique(
+                            id_manga_physique=manga["id_manga_physique"],
+                            id_manga=manga["id_manga"],id_collection_physique=manga["id_collection_physique"],
+                            dernier_tome_acquis = manga[dernier_tome_acquis],
+                            tomes_manquants= manga[tomes_manquants],
+                            statut = manga[statut]
+                        ) for manga in res2]  # Liste d'objets MangaPhysique
+                    )
 #        except Exception as e:
 #            logging.info(e)
 
