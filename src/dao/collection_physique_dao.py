@@ -47,12 +47,12 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             "INSERT INTO manga_physique (id_manga_physique, id_collection, id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES "
                             "(%(id_manga_physique)s, %(id_collection)s, %(id_manga)s, %(dernier_tome_acquis)s, %(tomes_manquants)s, %(statut)s)",
                             {
-                                "id_manga_physique": c.id_manga_physique,
+                                "id_manga_physique": c.id_manga_physique, # Problème résolu
                                 "id_collection": c.id_collection_physique,
-                                "id_manga": c.id_manga, 
-                                "dernier_tome_acquis": c.dernier_tome_acquis,  
-                                "tomes_manquants": c.tomes_manquant,  
-                                "statut": c.statut 
+                                "id_manga": c.id_manga,
+                                "dernier_tome_acquis": c.dernier_tome_acquis,
+                                "tomes_manquants": c.tomes_manquant,
+                                "statut": c.statut
                             }
                         )
                     res = cursor.fetchone()

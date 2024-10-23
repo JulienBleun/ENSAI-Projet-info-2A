@@ -1,5 +1,3 @@
-from tabulate import tabulate
-
 from utils.log_decorator import log
 
 from business_object.utilisateur import utilisateur
@@ -18,8 +16,8 @@ class UtilisateurService:
 
 
 
-    
-        
+
+
 
 def supprimer(self, avis : AvisManga) -> bool:
 
