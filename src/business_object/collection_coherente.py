@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 from abstract_collection import AbstractCollection
 from src.business_object.abstract_collection import AbstractCollection
 from business_object.manga import Manga
+=======
+from src.business_object.abstract_collection import AbstractCollection  
+>>>>>>> 60ec57f3723f72405a8845463e46e123ab8dee4f
 
 
 class CollectionCoherente(AbstractCollection):

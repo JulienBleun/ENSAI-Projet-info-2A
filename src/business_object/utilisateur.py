@@ -1,6 +1,6 @@
 
 
-class utilisateur():
+class Utilisateur():
     """
     Classe représentant l' utilisateur.
 

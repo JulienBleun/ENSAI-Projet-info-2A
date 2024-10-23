@@ -1,9 +1,15 @@
 #TODO Nothing normally
 
+<<<<<<< HEAD
 from utils.log_decorator import log
+=======
+from tabulate import tabulate
 
-from business_object.avis_manga import AvisManga
-from dao.avis_manga_dao import AvisMangaDao
+from src.utils.log_decorator import log
+>>>>>>> 60ec57f3723f72405a8845463e46e123ab8dee4f
+
+from src.business_object.avis_manga import AvisManga
+from src.dao.avis_manga_dao import AvisMangaDao
 
 
 class AvisMangaService:

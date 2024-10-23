@@ -1,11 +1,11 @@
 import logging
 
-from utils.singleton import Singleton
+from src.utils.singleton import Singleton
 #from utils.log_decorator import log
 
-from dao.db_connection import DBConnection
+from src.dao.db_connection import DBConnection
 
-from business_object.collection_coherente import CollectionCoherente
+from src.business_object.collection_coherente import CollectionCoherente
 
 
 
@@ -16,40 +16,55 @@ class Collection_coherenteDAO(metaclass=Singleton):
     def CreateCoherente(self, collection: CollectionCoherente) -> bool:
         """Création d'une nouvelle collection cohérente dans la base de données
 
-        Parameters
-        ----------
-        collection : Collection_coherente
-            Objet représentant la collection cohérente
+    Parameters
+    ----------
+    collection : CollectionCoherente
+        Objet représentant la collection cohérente
 
-        Returns
-        -------
-        created : bool
-            True si la création a réussi, False sinon
+    Returns
+    -------
+    created : bool
+        True si la création a réussi, False sinon
         """
-        res = None
+        created = False
 
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                # 1. Insertion de la collection cohérente et récupération de son ID
                     cursor.execute(
-                        "INSERT INTO collection_coherente (id, titre, description) VALUES "
-                        "(%(id)s, %(titre)s, %(description)s, %(mangas)s) RETURNING id_collection;",
+                        "INSERT INTO collection_coherente (titre, description) VALUES "
+                        "(%(titre)s, %(description)s) RETURNING id_collection;",
                         {
-                            "id": collection.id_collection,  # Utilisation des attributs de l'objet collection
                             "titre": collection.titre,
                             "description": collection.description,
                         },
-                        "INSERT INTO"
                     )
-                    res = cursor.fetchone()
-#        except Exception as e:
-#            logging.info(e)
+                    res = cursor.fetchone()  # Récupération de l'ID de la collection nouvellement créée
 
-        created = False
-        if res:
-            created = True
+                    if res:
+                        id_collection = res[0]  # ID de la collection créée
+
+                    # 2. Insertion des mangas dans la table d'association
+                        for manga in collection.mangas:
+                            cursor.execute(
+                            """
+                                INSERT INTO Association_manga_collection_coherente (id_manga, id_collection_coherente)
+                                VALUES (%(id_manga)s, %(id_collection_coherente)s);
+                            """,
+                                {
+                                    "id_manga": manga.id_manga,
+                                    "id_collection_coherente": id_collection,  # Utilisation de l'ID récupéré
+                                },
+                            )
+                        created = True  # Si tout s'est bien passé
+
+ #   except Exception as e:
+  #      logging.error(f"Erreur lors de la création de la collection cohérente : {e}")
+   #     created = False
 
         return created
+
 
 #    @log
     def UpdateCoherent(self, collection: CollectionCoherente) -> bool:
@@ -80,7 +95,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                         "id_collection": collection.id,
                     },
                     )
-                
+
                 # Suppression des mangas existants pour cette collection dans la table d'association
                     cursor.execute(
                     """
@@ -92,7 +107,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
 
                 # Réinsertion des mangas mis à jour dans la table d'association
                     for manga in collection.mangas:
-                    cursor.execute(
+                        cursor.execute(
                         """
                         INSERT INTO Association_manga_collection_coherente (id_manga, id_collection_coherente)
                         VALUES (%(id_manga)s, %(id_collection_coherente)s);
@@ -101,7 +116,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                             "id_manga": manga.id_manga,
                             "id_collection_coherente": collection.id,
                         },
-                    )
+                        )
                     updated = cursor.rowcount > 0  # rowcount > 0 indique si la mise à jour a affecté des lignes
 #        except Exception as e:
 #            logging.info(e)
@@ -143,7 +158,7 @@ def DeleteCoherent(self, id: int) -> bool:
                     """,
                     {"id": id},
                 )
-                
+
                 # Vérifier si la suppression de la collection a bien eu lieu
                 deleted = cursor.rowcount > 0  # rowcount > 0 indique si une ligne a été supprimée
 
@@ -200,14 +215,14 @@ def ReadCoherent(self, id: int) -> CollectionCoherente:
                             description=manga["description"]
                         ) for manga in mangas_res
                     ]
-                    
+
                     collection = CollectionCoherente(
                         id=res["id_collection"],
                         titre=res["titre"],
                         description=res["description"],
                         mangas=mangas  # Liste d'objets Manga associés à la collection
                     )
-                    
+
 #    except Exception as e:
  #       logging.error(f"Erreur lors de la lecture de la collection cohérente : {e}")
   #      collection = None

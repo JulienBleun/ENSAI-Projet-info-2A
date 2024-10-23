@@ -2,12 +2,12 @@
 
 import logging
 
-from utils.singleton import Singleton
-from utils.log_decorator import log
+from src.utils.singleton import Singleton
+from src.utils.log_decorator import log
 
-from dao.db_connection import DBConnection
+from src.dao.db_connection import DBConnection
 
-from business_object.manga import Manga
+from src.business_object.manga import Manga
 
 
 class UtilisateurDao(metaclass=Singleton):
@@ -33,14 +33,16 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                    cursor.execute(
                     """
-                    INSERT INTO utilisateurs (id, nom, mdp)
-                    VALUES (%(id)s, %(nom)s, %(mdp)s)
-                    RETURNING id;
+                    INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe)
+                    VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mot_de_passe)s)
+                    RETURNING id_utilisateur;
                     """,
                     {
-                        "id": utilisateur["id"],
                         "nom": utilisateur["nom"],
-                        "mdp": utilisateur["mdp"],
+                        "prenom": utilisateur["prenom"],
+                        "pseudo": utilisateur["pseudo"],
+                        "email": utilisateur["email"],
+                        "mot_de_passe": utilisateur["mot_de_passe"],
                     },
                 )
                 res = cursor.fetchone()
@@ -51,7 +53,7 @@ class UtilisateurDao(metaclass=Singleton):
 
         return created
 
-    def delete_utilisateur(self, id: int) -> bool:
+    def delete_utilisateur(self, utilisateur: Utilisateur) -> bool:
         """
         Supprime un utilisateur de la base de données en fonction de l'identifiant.
 
@@ -69,8 +71,9 @@ class UtilisateurDao(metaclass=Singleton):
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
-                    "DELETE FROM utilisateurs WHERE id = %(id)s RETURNING id;",
-                    {"id": id}
+                    "DELETE FROM utilisateurs WHERE id_utilisateur = %(id_utilisateur)s
+                    ",
+                    {"id_utilisateur": id_utilisateur}
                 )
                 res = cursor.fetchone()
 
@@ -79,44 +82,51 @@ class UtilisateurDao(metaclass=Singleton):
 
         return deleted
 
-        def read_profil(self, id: int) -> dict:
-    """
-    Lire le profil d'un utilisateur à partir de la base de données.
+    def read_profil(self, id: int) -> dict:
+        """
+        Lire le profil d'un utilisateur à partir de la base de données.
 
-    Paramètres :
-    ------------
-    id : int
-        Identifiant de l'utilisateur.
+        Paramètres :
+        ------------
+        id : int
+            Identifiant de l'utilisateur.
 
-    Retourne :
-    ----------
-    dict : Un dictionnaire contenant les informations du profil utilisateur si trouvé, sinon None.
-    """
+        Retourne :
+        ----------
+        dict : Un dictionnaire contenant les informations du profil utilisateur si trouvé, sinon None.
+        """
 
-    try:
-        with DBConnection().connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    """
-                    SELECT id, nom, mdp
-                    FROM utilisateurs
-                    WHERE id = %s;
-                    """,
-                    (id,)
-                )
-                res = cursor.fetchone()  # Récupérer la première ligne de la requête
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        """
+                        SELECT id, nom, mdp
+                        FROM utilisateurs
+                        WHERE id = %s;
+                        """,
+                        (id,)
+                        )
+                    res = cursor.fetchone()  # Récupérer la première ligne de la requête
 
-        if res:
-            # Retourne un dictionnaire représentant le profil de l'utilisateur
-            return {
-                "id": res["id"],
-                "nom": res["nom"],
-                "mdp": res["mdp"]
-            }
-        else:
-            print(f"Utilisateur avec l'ID {id} introuvable.")
+            if res:
+                # Retourne un dictionnaire représentant le profil de l'utilisateur
+                return {
+                    "id": res["id"],
+                    "nom": res["nom"],
+                    "mdp": res["mdp"]
+                }
+            else:
+                print(f"Utilisateur avec l'ID {id} introuvable.")
+                return None
+
+        except Exception as e:
+            print(f"Erreur lors de la lecture du profil : {e}")
             return None
+<<<<<<< HEAD
 
     except Exception as e:
         print(f"Erreur lors de la lecture du profil : {e}")
         return None
+=======
+>>>>>>> 60ec57f3723f72405a8845463e46e123ab8dee4f
