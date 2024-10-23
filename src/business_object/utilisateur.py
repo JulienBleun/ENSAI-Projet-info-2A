@@ -1,21 +1,34 @@
 
 
 class utilisateur():
-    """Classe représentant l' utilisateur.
+    """
+    Classe représentant l' utilisateur.
 
-    Attributs :
-    -----------
-    id_avis : int
-        L'identifiant unique de l'avis.
-        """
+    Parametres :
+    ------------
 
-    def __init__(self, id: int, prenom: str,
-                 nom_utilisateur: str,
+    id : int
+        L'identifiant unique associé à l'utilisateur.
+
+    nom : str
+
+    prenom : str
+
+    pseudo : str
+
+    email : str
+
+    mot_de_passe : str
+    """
+
+    def __init__(self, id: int, nom: str, prenom: str,
+                 pseudo: str,
                  email: str, mot_de_passe: str
                  ):
 
         self.id = id
-        self.nom_utisateur = nom_utilisateur
+        self.nom = nom
+        self.prenom = prenom
+        self.pseudo = pseudo
         self.email = email
         self.mot_de_passe = mot_de_passe
-        

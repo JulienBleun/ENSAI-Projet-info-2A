@@ -10,6 +10,7 @@ class AvisCollection(AbstractAvis):
 
     Attributs supplémentaires :
     ---------------------------
+
     id_collection : int
         Identifiant unique de la collection associée à cet avis.
     """

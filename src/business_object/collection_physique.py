@@ -2,11 +2,11 @@ from abstract_collection import AbstractCollection
 
 
 class CollectionPhysique(AbstractCollection):
-    """Classe pour modéliser une collection physique.
+    """
+    Classe pour modéliser une collection physique.
 
-    Parameters
-    ----------
-
+    Attributs supplémentaires :
+    ---------------------------
 
     titre : str
         Titre de la collection.
