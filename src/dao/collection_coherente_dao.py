@@ -5,7 +5,6 @@ from utils.singleton import Singleton
 
 from dao.db_connection import DBConnection
 
-from business_object.collection_coherente import Collection_coherente
 from business_object.collection_coherente import CollectionCoherente
 
 
@@ -36,7 +35,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                         "INSERT INTO collection_coherente (id, titre, description) VALUES "
                         "(%(id)s, %(titre)s, %(description)s, %(mangas)s) RETURNING id_collection;",
                         {
-                            "id": collection.id,  # Utilisation des attributs de l'objet collection
+                            "id": collection.id_collection,  # Utilisation des attributs de l'objet collection
                             "titre": collection.titre,
                             "description": collection.description,
                         },

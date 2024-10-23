@@ -1,9 +1,9 @@
 from abc import ABC
 
-    """
-    Classe abstraite représentant un avis.
-=======
 
+class AbstractAvis(ABC):
+    """
+    Classe abstraite représentant un avis .
 
     Parametres :
     -----------
@@ -17,8 +17,6 @@ from abc import ABC
         La note attribuée à l'avis
 
     """
-
-class AbstractAvis(ABC):
 
     def __init__(self,
                  id_avis: int,
