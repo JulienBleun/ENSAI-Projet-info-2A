@@ -107,7 +107,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
 
                 # Réinsertion des mangas mis à jour dans la table d'association
                     for manga in collection.mangas:
-                    cursor.execute(
+                        cursor.execute(
                         """
                         INSERT INTO Association_manga_collection_coherente (id_manga, id_collection_coherente)
                         VALUES (%(id_manga)s, %(id_collection_coherente)s);
@@ -116,7 +116,7 @@ class Collection_coherenteDAO(metaclass=Singleton):
                             "id_manga": manga.id_manga,
                             "id_collection_coherente": collection.id,
                         },
-                    )
+                        )
                     updated = cursor.rowcount > 0  # rowcount > 0 indique si la mise à jour a affecté des lignes
 #        except Exception as e:
 #            logging.info(e)
