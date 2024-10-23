@@ -1,9 +1,9 @@
 from tabulate import tabulate
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from business_object.manga import Manga
-from dao.manga_dao import MangaDao
+from src.business_object.manga import Manga
+from src.dao.manga_dao import MangaDao
 
 
 class MangaService:
@@ -13,3 +13,5 @@ class MangaService:
     def consulter_manga(self, id_manga) -> Manga:
 
         return MangaDao().trouver_par_id(id_manga)
+
+

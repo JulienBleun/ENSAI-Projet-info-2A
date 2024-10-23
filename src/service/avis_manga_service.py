@@ -2,10 +2,10 @@
 
 from tabulate import tabulate
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from business_object.avis_manga import AvisManga
-from dao.avis_manga_dao import AvisMangaDao
+from src.business_object.avis_manga import AvisManga
+from src.dao.avis_manga_dao import AvisMangaDao
 
 
 class AvisMangaService:
