@@ -45,10 +45,10 @@ class MangaDao(metaclass=Singleton):
         manga = None
         if res:
             manga = Manga(
+                id_manga=res["id_manga"],
                 titre=res["pseudo"],
                 auteur=res["age"],
-                id_manga=res["id_manga"],
-            )
+                )
 
         return manga
 
