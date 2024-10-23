@@ -1,3 +1,5 @@
+#TODO Nothing normally
+
 from tabulate import tabulate
 
 from utils.log_decorator import log
@@ -8,7 +10,7 @@ from dao.avis_collection_dao import AvisCollectionDao
 
 
 class AvisCollectionService:
-    """Classe contenant les méthodes de service des avis de mangas"""
+    """Classe contenant les méthodes de service des avis de collections"""
 
     @log
     def rédiger_avis_collection(self, id_avis, id_utilisateur, commentaire,
