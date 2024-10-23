@@ -49,10 +49,10 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             {
                                 "id_manga_physique": c.id_manga_physique,
                                 "id_collection": c.id_collection_physique,
-                                "id_manga": c.id_manga, 
-                                "dernier_tome_acquis": c.dernier_tome_acquis,  
-                                "tomes_manquants": c.tomes_manquant,  
-                                "statut": c.statut 
+                                "id_manga": c.id_manga,
+                                "dernier_tome_acquis": c.dernier_tome_acquis,
+                                "tomes_manquants": c.tomes_manquant,
+                                "statut": c.statut
                             }
                         )
                     res = cursor.fetchone()
@@ -82,6 +82,16 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                    # 1. Supprimer d'abord les mangas physiques associés à la collection physique que l'on souhaite supprimer
+                    cursor.execute(
+                        """
+                        DELETE FROM manga_physique
+                        WHERE id_collection = %(id_collection)s;
+                        """,
+                        {"id_collection": collection.id_collection},
+                    )
+                    # 2. Supprimer ensuite la collection physique
+
                     cursor.execute(
                         "DELETE FROM collection WHERE id_collection = %(id_collection)s;",
                         {"id_collection": collection.id_collection},
@@ -113,18 +123,16 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT * FROM collection_physique WHERE id = %(id)s;",
-                        {"id": id},
+                        "SELECT * FROM collection WHERE id_collection = %(id_collection)s;",
+                        {"id_collection": id},
                     )
                     res = cursor.fetone()
 
                     cursor.execute(
                         "SELECT * ",
-                        "FROM collection_physique as c ",
-                        "JOIN manga_physique as m",
-                        "ON c.id_collection = m.id_collection",
-                        "WHERE id = %(id)s;",
-                        {"id": id},
+                        "FROM manga_physique",
+                        "WHERE id_collection = %(id_collection)s;",
+                        {"id_collection": id},
                     )
                     res2 = cursor.fetchall()
 
@@ -134,7 +142,8 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                             id_utilisateur=res["id_utilisateur"],
                             contenu=[MangaPhysique(
                             id_manga_physique=manga["id_manga_physique"],
-                            id_manga=manga["id_manga"],id_collection_physique=manga["id_collection_physique"],
+                            id_manga=manga["id_manga"],
+                            id_collection_physique=manga["id_collection"],
                             dernier_tome_acquis = manga["dernier_tome_acquis"],
                             tomes_manquants= manga["tomes_manquants"],
                             statut = manga["statut"]
