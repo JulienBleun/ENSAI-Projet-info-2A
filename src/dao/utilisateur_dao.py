@@ -47,6 +47,10 @@ class UtilisateurDao(metaclass=Singleton):
                 )
                 res = cursor.fetchone()
 
+        except Exception as e:
+            logging.info(e)
+            raise
+
         if res:
             utilisateur["id"] = res["id"]
             created = True
