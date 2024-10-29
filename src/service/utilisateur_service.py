@@ -13,9 +13,10 @@ class UtilisateurService:
     @log
     def inscription(self, utilisateur):
         nouveau_utilisateur = utilisateur(
-                id_utilisateur=id_utilisateur,
-                nom= nom ,
-                mdp = mdp )
+            id_utilisateur=utilisateur.id_utilisateur,
+            nom=utilisateur.nom,
+            mdp=utilisateur.mdp
+        )
     return nouveau_utilisateur if UtilisateurDao().add_Utilisateur(nouveau_utilisateur) else None
 
 

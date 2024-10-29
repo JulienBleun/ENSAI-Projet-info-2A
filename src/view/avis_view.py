@@ -6,9 +6,12 @@ from src.utils.log_decorator import log
 
 
 def ajouter_avis_view(utilisateur_id, manga_id):
-    contenu = input("Entrez votre avis : ")
-    AvisMangaDao().create_avis_manga(utilisateur_id, manga_id, contenu)  
-    print("Avis ajouté avec succès.")
+    contenu = input("Entrez votre avis : ").strip()  # Stripping whitespace
+    if contenu:  # Simple check to ensure content isn't empty
+        AvisMangaDao().create_avis_manga(utilisateur_id, manga_id, contenu)  
+        print("Avis ajouté avec succès.")
+    else:
+        print("L'avis ne peut pas être vide.")
 
 
 def lire_avis_view(manga_id):

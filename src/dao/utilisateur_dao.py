@@ -154,11 +154,8 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT *                           "
-                        "  FROM utilisateurs                   "
-                        " WHERE nom = %(nom)s         "
-                        "   AND mdp = %(mdp)s;              ",
-                        {"nom": nom , "mdp": mdp},
+                        "SELECT * FROM utilisateurs WHERE nom = %(nom)s AND mot_de_passe = %(mdp)s;",
+                        {"nom": nom, "mdp": mdp},
                     )
                     res = cursor.fetchone()
         except Exception as e:
@@ -167,11 +164,13 @@ class UtilisateurDao(metaclass=Singleton):
         utilisateur = None
 
         if res:
-            utilisateur = utilisateur (
+            utilisateur = Utilisateur(  # Corrected this line
+                id_utilisateur=res["id_utilisateur"],  # Assuming you have an ID field in the DB
                 nom=res["nom"],
-                prenom =res["prenom"],
-                pseudo =res["pseudo"],
-                mail=res["mail"],
-                mdp=res["mdp"])
+                prenom=res["prenom"],
+                pseudo=res["pseudo"],
+                email=res["email"],
+                mot_de_passe=res["mot_de_passe"]  # Ensure the field name matches your DB schema
+            )
 
         return utilisateur

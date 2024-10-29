@@ -46,6 +46,6 @@ class AbstractAvis(ABC):
 
 
         self.id_avis = id_avis
-        self.id_utilisateur = id_objet_avis
+        self.id_utilisateur = id_utilisateur
         self.commentaire = commentaire
         self.note = note
