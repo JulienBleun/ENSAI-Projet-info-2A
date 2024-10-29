@@ -1,7 +1,13 @@
 # Importer
+<<<<<<< HEAD
 from src.dao.manga_dao import MangaDao
 from src.view.avis_view import ajouter_avis_view, lire_avis_view
 from src.view.collection_view import ajouter_a_collection_view
+=======
+from dao.manga_dao import rechercher_manga_par_titre    
+from view.avis_view import ajouter_avis_view, lire_avis_view
+from view.collection_view import ajouter_a_collection_view
+>>>>>>> e6174b3 (changes)
 
 
 
