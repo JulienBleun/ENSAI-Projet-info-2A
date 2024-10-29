@@ -14,46 +14,54 @@ class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
 
 #    @log
-    def add_Utilisateur(self,utilisateur) -> bool:
+    @log
+    def add_utilisateur(self, nom, prenom, pseudo, email, mot_de_passe) -> bool:
         """
         Ajouter un utilisateur à la base de données.
 
         Paramètres :
         ------------
-        utilisateur : Utilisateur
-            Instance d'utilisateur.
+        nom : str
+            Nom de l'utilisateur.
+        prenom : str
+            Prénom de l'utilisateur.
+        pseudo : str
+            Pseudo de l'utilisateur.
+        email : str
+            Email de l'utilisateur.
+        mot_de_passe : str
+            Mot de passe de l'utilisateur.
 
         Retourne :
         ----------
         bool : Indique si l'utilisateur a été ajouté avec succès.
         """
-
+        created = False
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                   cursor.execute(
-                    """
-                    INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe)
-                    VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mot_de_passe)s)
-                    RETURNING id_utilisateur;
-                    """,
-                    {
-                        "nom": utilisateur["nom"],
-                        "prenom": utilisateur["prenom"],
-                        "pseudo": utilisateur["pseudo"],
-                        "email": utilisateur["email"],
-                        "mot_de_passe": utilisateur["mot_de_passe"],
-                    },
-                )
-                res = cursor.fetchone()
+                    cursor.execute(
+                        """
+                        INSERT INTO utilisateurs (nom, prenom, pseudo, email, mot_de_passe)
+                        VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mot_de_passe)s)
+                        RETURNING id_utilisateur;
+                        """,
+                        {
+                            "nom": nom,
+                            "prenom": prenom,
+                            "pseudo": pseudo,
+                            "email": email,
+                            "mot_de_passe": mot_de_passe,
+                        },
+                    )
+                    res = cursor.fetchone()
+
+            if res:
+                created = True
 
         except Exception as e:
             logging.info(e)
             raise
-
-        if res:
-            utilisateur["id"] = res["id"]
-            created = True
 
         return created
 
@@ -134,28 +142,27 @@ class UtilisateurDao(metaclass=Singleton):
         return deleted
 
     @log
-    def se_connecter(self, nom , mdp) -> Utilisateur :
-        """se connecter grâce à son nom et son mot de passe
+    def se_connecter(self, pseudo, mdp) -> Utilisateur:
+        """Se connecter grâce à son pseudo et son mot de passe.
 
         Parameters
         ----------
-        nom : str
-            nom de l'utilisateur
+        pseudo : str
+            Pseudo de l'utilisateur.
         mdp : str
-            mot de passe de l'utilisateur
+            Mot de passe de l'utilisateur.
 
         Returns
         -------
-        utilisateur : utilisateur
-            renvoie l' utilisateur que l'on cherche
+        Utilisateur : L'utilisateur connecté ou None si échoue.
         """
         res = None
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT * FROM utilisateurs WHERE nom = %(nom)s AND mot_de_passe = %(mdp)s;",
-                        {"nom": nom, "mdp": mdp},
+                        "SELECT * FROM utilisateurs WHERE pseudo = %(pseudo)s AND mot_de_passe = %(mdp)s;",
+                        {"pseudo": pseudo, "mdp": mdp},
                     )
                     res = cursor.fetchone()
         except Exception as e:
@@ -164,13 +171,13 @@ class UtilisateurDao(metaclass=Singleton):
         utilisateur = None
 
         if res:
-            utilisateur = Utilisateur(  # Corrected this line
+            utilisateur = Utilisateur(
                 id_utilisateur=res["id_utilisateur"],  # Assuming you have an ID field in the DB
                 nom=res["nom"],
                 prenom=res["prenom"],
                 pseudo=res["pseudo"],
                 email=res["email"],
-                mot_de_passe=res["mot_de_passe"]  # Ensure the field name matches your DB schema
+                mot_de_passe=res["mot_de_passe"]
             )
 
         return utilisateur

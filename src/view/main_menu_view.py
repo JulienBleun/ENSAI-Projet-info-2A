@@ -1,30 +1,25 @@
 # Importer les fonctions 
-from src.view.manga_view import rechercher_manga_view
-from src.view.collection_view import afficher_mes_collections_view
-from src.view.modif_view import modifier_compte_view
 
 # from  xxx import deconnexion
 
+from src.view.inscription_view import inscription_view
+from src.view.connexion_view import connexion_view
 
-def afficher_menu_principal(utilisateur_id):
-    print("\n=== Menu Principal ===")
-    print("1. Rechercher un manga")
-    print("2. Accéder à mes collections")
-    print("3. Modifier mon compte")
-    print("4. Déconnexion")
-    
-    choix = input("Choisissez une option : ")
+def afficher_menu_principal():
+    while True:
+        print("\n--- Menu Principal ---")
+        print("1. Créer un compte")
+        print("2. Se connecter")
+        print("3. Quitter l'application")
 
-    options = {
-        "1": lambda: rechercher_manga_view(utilisateur_id),
-        "2": lambda: afficher_mes_collections_view(utilisateur_id),
-        "3": lambda: modifier_compte_view(utilisateur_id),
-        # "4": deconnexion  # Pas besoin de l'utilisateur_id pour déconnexion
-    }
+        choix = input("Entrez votre choix (1, 2 ou 3) : ")
 
-    action = options.get(choix)
-    if action:
-        action()
-    else:
-        print("Choix invalide.")
-        afficher_menu_principal(utilisateur_id)
+        if choix == '1':
+            inscription_view()  # Fonction de création de compte
+        elif choix == '2':
+            connexion_view()  # Fonction de connexion
+        elif choix == '3':
+            print("Merci d'avoir utilisé l'application. Au revoir!")
+            break  # Quitte l'application
+        else:
+            print("Choix invalide. Veuillez réessayer.")
