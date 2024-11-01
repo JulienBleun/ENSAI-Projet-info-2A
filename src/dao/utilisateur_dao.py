@@ -43,7 +43,7 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
-                        "INSERT INTO utilisateur (nom, prenom, pseudo, email, mot_de_passe)"
+                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mot_de_passe)"
                         "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mot_de_passe)s)"
                         "RETURNING id_utilisateur;",
                         """,
