@@ -22,16 +22,19 @@ class CollectionPhysiqueService:
             contenu=contenu
         )
 
-        return nouvelle_collection if CollectionPhysiqueDAO().CreatePhysique(nouvelle_collection) else None
+        return nouvelle_collection if CollectionPhysiqueDAO().CreatePhysique(
+               nouvelle_collection) else None
 
     @log
     def mettre_a_jour_physique(self, collection_modifiée: CollectionPhysique
                                ) -> CollectionPhysique:
 
-        # collection_modifiée doit être une instance de CollectionCoherente. On accède aux informations
-        # de la collection associée à son id, puis on les modifie avec les nouvelles infos
+        # collection_modifiée doit être une instance de CollectionCoherente.
+        # On accède aux informations de la collection associée à son id, puis
+        # on les modifie avec les nouvelles infos
 
-        return collection_modifiée if CollectionPhysiqueDAO().UpdatePhysique(collection_modifiée) else None
+        return collection_modifiée if CollectionPhysiqueDAO().UpdatePhysique(
+               collection_modifiée) else None
 
     @log
     def supprimer_physique(self, collection: CollectionPhysique) -> bool:

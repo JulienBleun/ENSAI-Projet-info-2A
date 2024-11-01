@@ -59,6 +59,7 @@ class MangaDao(metaclass=Singleton):
 
         if response.status_code == 200:
             resultats = response.json()['data']
+            print(resultats)
             if not resultats:
                 print("Aucun manga trouvé.")
                 return None  # Pas de mangas trouvés

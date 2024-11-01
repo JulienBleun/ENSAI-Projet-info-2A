@@ -30,7 +30,7 @@ class AbstractAvis(ABC):
             )
 
         if not isinstance(id_utilisateur, int):
-             raise TypeError(
+            raise TypeError(
                 "L'identifiant de l'utilisateur doit être un entier"
             )
 
@@ -44,8 +44,7 @@ class AbstractAvis(ABC):
                 "La note doit être un entier "
             )
 
-
         self.id_avis = id_avis
-        self.id_utilisateur = id_objet_avis
+        self.id_utilisateur = id_utilisateur
         self.commentaire = commentaire
         self.note = note

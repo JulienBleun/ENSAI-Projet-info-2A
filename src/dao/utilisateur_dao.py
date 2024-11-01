@@ -10,11 +10,12 @@ from src.dao.db_connection import DBConnection
 from src.business_object.manga import Manga
 from src.business_object.utilisateur import Utilisateur
 
+
 class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
 
 #    @log
-    def add_Utilisateur(self,utilisateur) -> bool:
+    def add_Utilisateur(self, utilisateur) -> bool:
         """
         Ajouter un utilisateur à la base de données.
 
@@ -85,7 +86,10 @@ class UtilisateurDao(metaclass=Singleton):
                     res = cursor.fetchone()  # Récupérer la première ligne de la requête
 
             if res:
-                # Retourne un dictionnaire représentant le profil de l'utilisateur
+
+                # Retourne un dictionnaire représentant le profil de
+                # utilisateur
+
                 return {
                     "id": res["id"],
                     "nom": res["nom"],
@@ -103,11 +107,10 @@ class UtilisateurDao(metaclass=Singleton):
             print(f"Erreur lors de la lecture du profil : {e}")
             return None
 
-
-
     def delete_utilisateur(self, id: int) -> bool:
         """
-        Supprime un utilisateur de la base de données en fonction de l'identifiant.
+        Supprime un utilisateur de la base de données en fonction de
+        l'identifiant.
 
         Paramètres :
         ------------
@@ -134,7 +137,7 @@ class UtilisateurDao(metaclass=Singleton):
         return deleted
 
     @log
-    def se_connecter(self, nom , mdp) -> Utilisateur :
+    def se_connecter(self, nom, mdp) -> Utilisateur:
         """se connecter grâce à son nom et son mot de passe
 
         Parameters
