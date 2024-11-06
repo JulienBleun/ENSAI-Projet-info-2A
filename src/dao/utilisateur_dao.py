@@ -18,55 +18,48 @@ class UtilisateurDao(metaclass=Singleton):
 
 #    @log
     @log
-    def add_utilisateur(self, nom, prenom, pseudo, email, mot_de_passe) -> bool:
+    def add_utilisateur(self, nom, prenom, nom_utilisateur, email, mot_de_passe):
+        # Vérifier si le schéma et la table existent, sinon les créer
+        create_schema_query = """
+            CREATE SCHEMA IF NOT EXISTS tp;
         """
-        Ajouter un utilisateur à la base de données.
-
-        Paramètres :
-        ------------
-        nom : str
-            Nom de l'utilisateur.
-        prenom : str
-            Prénom de l'utilisateur.
-        pseudo : str
-            Pseudo de l'utilisateur.
-        email : str
-            Email de l'utilisateur.
-        mot_de_passe : str
-            Mot de passe de l'utilisateur.
-
-        Retourne :
-        ----------
-        bool : Indique si l'utilisateur a été ajouté avec succès.
+        create_table_query = """
+            CREATE TABLE IF NOT EXISTS tp.utilisateur (
+                id_utilisateur SERIAL PRIMARY KEY,
+                nom VARCHAR(100),
+                prenom VARCHAR(100),
+                nom_utilisateur VARCHAR(1000) UNIQUE,
+                email VARCHAR(400),
+                mot_de_passe VARCHAR(10)
+            );
         """
-        created = False
+
+        insert_query = """
+            INSERT INTO tp.utilisateur
+                (nom, prenom, nom_utilisateur, email, mot_de_passe)
+            VALUES
+                (%s, %s, %s, %s, %s)
+            RETURNING id_utilisateur;
+        """
+        values = (nom, prenom, nom_utilisateur, email, mot_de_passe)
+
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    cursor.execute(
-                        """
-                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mot_de_passe)"
-                        "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mot_de_passe)s)"
-                        "RETURNING id_utilisateur;",
-                        """,
-                        {
-                            "nom": nom,
-                            "prenom": prenom,
-                            "pseudo": pseudo,
-                            "email": email,
-                            "mot_de_passe": mot_de_passe,
-                        },
-                    )
-                    res = cursor.fetchone()
-
-            if res:
-                created = True
-
+                    # Créer le schéma et la table si nécessaire
+                    cursor.execute(create_schema_query)
+                    cursor.execute(create_table_query)
+                    # Insérer l'utilisateur
+                    cursor.execute(insert_query, values)
+                    id_utilisateur = cursor.fetchone()[0]
+                    connection.commit()
+                    return id_utilisateur
         except Exception as e:
-            logging.info(e)
-            raise
-
-        return created
+            logging.error(f"Erreur lors de l'ajout de l'utilisateur: {e}")
+            logging.error(f"Détails de l'erreur: {str(e._class_._name_)}")
+            logging.error(f"Message d'erreur complet: {str(e)}")
+            logging.error(f"Valeurs tentées: nom={nom}, prenom={prenom}, nom_utilisateur={nom_utilisateur}, email={email}")
+            raise e
 
     def read_profil(self, id: int) -> dict:
         """
