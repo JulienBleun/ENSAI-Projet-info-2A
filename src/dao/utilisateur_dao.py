@@ -6,6 +6,8 @@ from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
+from collection_coherente_dao import CollectionCoherenteDAO57
+from collection_physique_dao import CollectionPhysiqueDAO
 
 from src.business_object.manga import Manga
 from src.business_object.utilisateur import Utilisateur
@@ -133,6 +135,32 @@ class UtilisateurDao(metaclass=Singleton):
 
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
+                # 1. On supprime ses avis
+                cursor.execute(
+                    "DELETE FROM avis_collection WHERE id_utilisateur = %(id_utilisateur)s;",
+                    {"id_utilisateur": id}
+                )
+                cursor.execute(
+                    "DELETE FROM avis_manga WHERE id_utilisateur = %(id_utilisateur)s;",
+                    {"id_utilisateur": id}
+                )
+
+                # 2. On supprime ses collections en utilisant les fonctionnalités des classes DAO appropriées
+
+                cursor.execute(
+                    "SELECT id_collection FROM collection WHERE id_utilisateur = %(id_utilisateur)s;",
+                    {"id_utilisateur": id}
+                )
+                res1 = cursor.fetchall()
+                for id_collection in res1 :
+                    collection_coherente = readCoherent (id_collection)
+                    suppression = deleteCoherent(collection_coherente)
+                    if not(suppression):
+                        collection_physique = readPhysique(id_collection)
+                        suppression = detePhysique(collection_physique)
+
+                # 3. On supprime finalement le compte
+
                 cursor.execute(
                     "DELETE FROM utilisateurs WHERE id = %(id)s RETURNING id;",
                     {"id": id}

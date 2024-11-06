@@ -9,7 +9,7 @@ from src.business_object.collection_coherente import CollectionCoherente
 
 
 
-class Collection_coherenteDAO(metaclass=Singleton):
+class CollectionCoherenteDAO(metaclass=Singleton):
     """Classe DAO pour gérer les collections cohérentes dans la base de données"""
 
 #    @log
