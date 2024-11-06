@@ -59,10 +59,19 @@ class Collection_coherenteDAO(metaclass=Singleton):
                             )
                         created = True  # Si tout s'est bien passé
 
+                    # 3. Insertion des informations dans la table Collection
+                        cursor.execute(
+                        "INSERT INTO collection (id_collection, id_utilisateur) VALUES "
+                        "(%(id_collection)s, %(id_utilisateur)s);",
+                        {
+                            "id_collection": id_collection,
+                            "id_utilisateur": collection.id_utilisateur,
+                        },
+                    )
         except Exception as e:
             logging.error(f"Erreur lors de la création de la collection cohérente : {e}")
             created = False
-        
+
             return created
 
 
@@ -158,6 +167,14 @@ def DeleteCoherent(self, collection: CollectionCoherente) -> bool:
                     """,
                     {"id": collection.id_collection},
                 )
+                # 3. Supprimer la collection associée
+                cursor.execute(
+                    """
+                    DELETE FROM collection
+                    WHERE id_collection = %(id)s;
+                    """,
+                    {"id": collection.id_collection},
+                )
 
                 # Vérifier si la suppression de la collection a bien eu lieu
                 deleted = cursor.rowcount > 0  # rowcount > 0 indique si une ligne a été supprimée
@@ -192,9 +209,16 @@ def ReadCoherent(self, id: int) -> CollectionCoherente:
                     "SELECT * FROM collection_coherente WHERE id_collection = %(id)s;",
                     {"id": id},
                 )
-                res = cursor.fetchone()
+                res1 = cursor.fetchone()
 
-                # 2. Récupérer les mangas associés via la table d'association
+                # 2. Récupérer l'id de l'utilisateur
+                cursor.execute(
+                    "SELECT * FROM collection WHERE id_collection = %(id)s;",
+                    {"id": id},
+                )
+                res2 = cursor.fetchone()
+
+                # 3. Récupérer les mangas associés via la table d'association
                 cursor.execute(
                     """
                     SELECT m.id_manga, m.titre, m.description
@@ -206,7 +230,7 @@ def ReadCoherent(self, id: int) -> CollectionCoherente:
                 )
                 mangas_res = cursor.fetchall()
 
-                # 3. Si la collection est trouvée, construire l'objet CollectionCoherente
+                # 4. Si la collection est trouvée, construire l'objet CollectionCoherente
                 if res:
                     mangas = [
                         Manga(
@@ -217,10 +241,11 @@ def ReadCoherent(self, id: int) -> CollectionCoherente:
                     ]
 
                     collection = CollectionCoherente(
-                        id=res["id_collection"],
-                        titre=res["titre"],
-                        description=res["description"],
-                        mangas=mangas  # Liste d'objets Manga associés à la collection
+                        id_collection=res1["id_collection"],
+                        id_utilisateur=res2["id_utilisateur"],
+                        titre=res1["titre"],
+                        description=res1["description"],
+                        contenu=mangas  # Liste d'objets Manga associés à la collection
                     )
 
     except Exception as e:
