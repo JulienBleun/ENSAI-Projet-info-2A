@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS tp.manga CASCADE;
 CREATE TABLE tp.manga (
     id_manga SERIAL PRIMARY KEY,
     titre VARCHAR(400),
-    description TEXT
+    descript TEXT
 );
 
 --------------------------------------------------------------
