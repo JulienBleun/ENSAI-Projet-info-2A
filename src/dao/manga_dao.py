@@ -75,3 +75,5 @@ class MangaDao(metaclass=Singleton):
 
 # Créer une instance de MangaDao pour être utilisée ailleurs
 manga_dao = MangaDao()
+
+rechercher_manga_par_titre("naruto")
