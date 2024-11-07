@@ -6,8 +6,8 @@ from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
-from collection_coherente_dao import CollectionCoherenteDAO57
-from collection_physique_dao import CollectionPhysiqueDAO
+from src.dao.collection_coherente_dao import CollectionCoherenteDAO
+from src.dao.collection_physique_dao import CollectionPhysiqueDAO
 
 from src.business_object.manga import Manga
 from src.business_object.utilisateur import Utilisateur
