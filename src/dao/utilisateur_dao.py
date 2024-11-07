@@ -6,8 +6,8 @@ from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
-from collection_coherente_dao import CollectionCoherenteDAO57
-from collection_physique_dao import CollectionPhysiqueDAO
+from src.dao.collection_coherente_dao import CollectionCoherenteDAO
+from src.dao.collection_physique_dao import CollectionPhysiqueDAO
 
 from src.business_object.manga import Manga
 from src.business_object.utilisateur import Utilisateur
@@ -42,7 +42,7 @@ class UtilisateurDao(metaclass=Singleton):
                 (%s, %s, %s, %s, %s)
             RETURNING id_utilisateur;
         """
-        values = (nom, prenom, nom_utilisateur, email, mot_de_passe)
+        values = (utilisateur.nom, utilisateur.prenom, utilisateur.nom_utilisateur, utilisateur.email, utilisateur.mot_de_passe)
 
         try:
             with DBConnection().connection as connection:
