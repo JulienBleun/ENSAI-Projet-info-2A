@@ -1,10 +1,10 @@
 # TODO Normally nothing
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from business_object.collection_coherente import CollectionCoherente
-from business_object.manga import Manga
-from dao.collection_coherente_dao import Collection_coherenteDAO
+from src.business_object.collection_coherente import CollectionCoherente
+from src.business_object.manga import Manga
+from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 
 
 class CollectionCoherenteService:
@@ -22,7 +22,7 @@ class CollectionCoherenteService:
             contenu=contenu
         )
 
-        return nouvelle_collection if Collection_coherenteDAO(
+        return nouvelle_collection if CollectionCoherenteDAO(
                ).CreateCoherente(nouvelle_collection) else None
 
     @log
