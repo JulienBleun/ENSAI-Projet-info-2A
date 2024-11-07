@@ -11,15 +11,11 @@ from src.dao.utilisateur_dao import UtilisateurDao
 class UtilisateurService:
     """Classe contenant les méthodes de service de l utilisateur """
     @log
-    def inscription(self, nom, prenom, pseudo, email, mdp):
-        """"Création d'un utilisateur"""
-
+    def inscription(self, Utilisateur):
         nouveau_utilisateur = Utilisateur(
-            nom=nom,
-            prenom=prenom,
-            pseudo=pseudo,
-            email=email,
-            mdp=hacher_mot_de_passe(mdp, pseudo)
+            id=utilisateur.id,
+            nom=utilisateur.nom,
+            mdp=utilisateur.mdp
         )
         return nouveau_utilisateur if UtilisateurDao().add_Utilisateur(
                nouveau_utilisateur) else None

@@ -13,12 +13,13 @@ from src.business_object.manga import Manga
 from src.business_object.utilisateur import Utilisateur
 
 
+
 class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
 
 #    @log
     @log
-    def add_utilisateur(self, nom, prenom, nom_utilisateur, email, mot_de_passe):
+    def add_utilisateur(self, utilisateur : Utilisateur):
         # Vérifier si le schéma et la table existent, sinon les créer
         create_schema_query = """
             CREATE SCHEMA IF NOT EXISTS tp;
