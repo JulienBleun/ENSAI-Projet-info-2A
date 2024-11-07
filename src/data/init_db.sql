@@ -1,13 +1,11 @@
-DROP SCHEMA IF EXISTS tp CASCADE;
-CREATE SCHEMA tp;
 
 --------------------------------------------------------------
 -- Utilisateur
 --------------------------------------------------------------
 
-DROP TABLE IF EXISTS tp.utilisateur CASCADE;
+DROP TABLE IF EXISTS utilisateur CASCADE;
 
-CREATE TABLE tp.utilisateur (
+CREATE TABLE utilisateur (
     id_utilisateur SERIAL PRIMARY KEY,
     nom VARCHAR(100),
     prenom VARCHAR(100),
@@ -20,9 +18,9 @@ CREATE TABLE tp.utilisateur (
 -- Collection
 --------------------------------------------------------------
 
-DROP TABLE IF EXISTS tp.collection CASCADE;
+DROP TABLE IF EXISTS collection CASCADE;
 
-CREATE TABLE tp.collection (
+CREATE TABLE collection (
     id_collection SERIAL PRIMARY KEY,
     id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur)
 );
