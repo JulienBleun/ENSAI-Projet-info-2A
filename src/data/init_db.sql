@@ -11,9 +11,9 @@ CREATE TABLE tp.utilisateur (
     id_utilisateur SERIAL PRIMARY KEY,
     nom VARCHAR(100),
     prenom VARCHAR(100),
-    nom_utilisateur VARCHAR(1000) UNIQUE,
+    pseudo VARCHAR(1000) UNIQUE,
     email VARCHAR(400),
-    mot_de_passe VARCHAR(10)
+    mdp VARCHAR(10)
 );
 
 --------------------------------------------------------------

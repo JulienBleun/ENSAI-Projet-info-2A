@@ -11,12 +11,13 @@ from src.business_object.manga import Manga
 from src.business_object.utilisateur import Utilisateur
 
 
+
 class UtilisateurDao(metaclass=Singleton):
     """Classe DAO pour ............... dans la base de données"""
 
 #    @log
     @log
-    def add_utilisateur(self, nom, prenom, pseudo, email, mot_de_passe) -> bool:
+    def add_utilisateur(self, nom, prenom, pseudo, email, mdp) -> bool:
         """
         Ajouter un utilisateur à la base de données.
 
@@ -43,16 +44,16 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
-                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mot_de_passe)"
-                        "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mot_de_passe)s)"
-                        "RETURNING id_utilisateur;",
+                        INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp)
+                        VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s)
+                        RETURNING id_utilisateur;
                         """,
                         {
                             "nom": nom,
                             "prenom": prenom,
                             "pseudo": pseudo,
                             "email": email,
-                            "mot_de_passe": mot_de_passe,
+                            "mdp": mdp,
                         },
                     )
                     res = cursor.fetchone()

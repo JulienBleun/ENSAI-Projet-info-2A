@@ -11,9 +11,9 @@ from src.dao.utilisateur_dao import UtilisateurDao
 class UtilisateurService:
     """Classe contenant les méthodes de service de l utilisateur """
     @log
-    def inscription(self, utilisateur):
-        nouveau_utilisateur = utilisateur(
-            id_utilisateur=utilisateur.id_utilisateur,
+    def inscription(self, Utilisateur):
+        nouveau_utilisateur = Utilisateur(
+            id=utilisateur.id,
             nom=utilisateur.nom,
             mdp=utilisateur.mdp
         )
