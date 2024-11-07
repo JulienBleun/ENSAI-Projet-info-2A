@@ -19,7 +19,7 @@ class UtilisateurDao(metaclass=Singleton):
 
 #    @log
     @log
-    def add_utilisateur(self, nom, prenom, nom_utilisateur, email, mot_de_passe):
+    def add_utilisateur(self, utilisateur : Utilisateur):
         # Vérifier si le schéma et la table existent, sinon les créer
         create_schema_query = """
             CREATE SCHEMA IF NOT EXISTS tp;
@@ -42,7 +42,7 @@ class UtilisateurDao(metaclass=Singleton):
                 (%s, %s, %s, %s, %s)
             RETURNING id_utilisateur;
         """
-        values = (nom, prenom, nom_utilisateur, email, mot_de_passe)
+        values = (utilisateur.nom, utilisateur.prenom, utilisateur.nom_utilisateur, utilisateur.email, utilisateur.mot_de_passe)
 
         try:
             with DBConnection().connection as connection:

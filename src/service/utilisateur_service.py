@@ -2,9 +2,9 @@
 from tabulate import tabulate
 
 from src.utils.log_decorator import log
+from utils.mdp_utils import hacher_mot_de_passe
 
-
-from src.business_object.utilisateur import utilisateur
+from src.business_object.utilisateur import Utilisateur
 from src.dao.utilisateur_dao import UtilisateurDao
 
 
@@ -17,7 +17,8 @@ class UtilisateurService:
             nom=utilisateur.nom,
             mdp=utilisateur.mdp
         )
-    return nouveau_utilisateur if UtilisateurDao().add_Utilisateur(nouveau_utilisateur) else None
+        return nouveau_utilisateur if UtilisateurDao().add_Utilisateur(
+               nouveau_utilisateur) else None
 
 
 
