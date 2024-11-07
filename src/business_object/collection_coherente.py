@@ -48,6 +48,10 @@ class CollectionCoherente(AbstractCollection):
             raise TypeError(
                 "La description doit être une chaîne de caractère"
             )
+        if not all(isinstance(manga, Manga) for manga in contenu):
+            raise TypeError(
+                "Le contenu doit être une liste d'instances de la classe Manga"
+            )
 
 
 
