@@ -19,7 +19,7 @@ class UtilisateurDao(metaclass=Singleton):
 
 #    @log
     @log
-    def add_utilisateur(self, nom, prenom, nom_utilisateur, email, mot_de_passe):
+    def add_utilisateur(self, utilisateur : Utilisateur):
         # Vérifier si le schéma et la table existent, sinon les créer
         create_schema_query = """
             CREATE SCHEMA IF NOT EXISTS tp;
