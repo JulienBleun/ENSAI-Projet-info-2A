@@ -10,7 +10,7 @@ def pop_manga_from_api(metaclass=Singleton)
     SEARCH_ENDPOINT = "manga"
 
     # BDD
-    conn = psycopg2.connect(database="test", user="postgres", password="root")
+    conn = psycopg2.connect(database="id2424", user="postgres", password="root")
     cur = conn.cursor()
 
     # Création schéma + table
