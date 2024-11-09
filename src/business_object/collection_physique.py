@@ -38,11 +38,12 @@ class CollectionPhysique(AbstractCollection):
                 "L'identifiant de la collection doit être un entier"
             )
 
-        if not isinstance(contenu, str):
+        if not all(isinstance(manga, MangaPhysique) for manga in contenu):
             raise TypeError(
-                "Le contenu doit être une chaîne de caractère"
+                "Le contenu doit être une liste d'instances de la classe MangaPhysique"
             )
 
         super().__init__(id_utilisateur, id_collection)
-
+        self.titre=titre
+        self.description=description
         self.contenu = contenu

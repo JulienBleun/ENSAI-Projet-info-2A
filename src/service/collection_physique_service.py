@@ -1,10 +1,10 @@
 #TODO Nothing, normally
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from business_object.collection_physique import CollectionPhysique
-from business_object.manga_physique import MangaPhysique
-from dao.collection_physique_dao import CollectionPhysiqueDAO
+from src.business_object.collection_physique import CollectionPhysique
+from src.business_object.manga_physique import MangaPhysique
+from src.dao.collection_physique_dao import CollectionPhysiqueDAO
 
 
 class CollectionPhysiqueService:
