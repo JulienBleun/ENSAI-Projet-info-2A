@@ -43,7 +43,7 @@ class CollectionPhysique(AbstractCollection):
                 "Le contenu doit être une liste d'instances de la classe MangaPhysique"
             )
 
-        super().__init__(id_utilisateur, id_collection)
+        super().__init__(id_collection, id_utilisateur)
         self.titre=titre
         self.description=description
         self.contenu = contenu

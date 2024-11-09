@@ -110,7 +110,7 @@ def test_consulter_physique_ok():
     # WHEN
     service = CollectionPhysiqueService()
     result = service.consulter_physique(id_collection)
-
+  
     # THEN
     assert result is not None
     assert result.id_collection == id_collection
@@ -119,3 +119,4 @@ def test_consulter_physique_ok():
 if __name__ == "__main__":
     import pytest
     pytest.main([__file__])
+
