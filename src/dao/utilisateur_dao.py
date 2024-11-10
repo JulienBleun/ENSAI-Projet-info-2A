@@ -19,48 +19,33 @@ class UtilisateurDao(metaclass=Singleton):
 
 #    @log
     @log
-    def add_utilisateur(self, utilisateur : Utilisateur):
-        # Vérifier si le schéma et la table existent, sinon les créer
-        create_schema_query = """
-            CREATE SCHEMA IF NOT EXISTS tp;
-        """
-        create_table_query = """
-            CREATE TABLE IF NOT EXISTS tp.utilisateur (
-                id_utilisateur SERIAL PRIMARY KEY,
-                nom VARCHAR(100),
-                prenom VARCHAR(100),
-                nom_utilisateur VARCHAR(1000) UNIQUE,
-                email VARCHAR(400),
-                mot_de_passe VARCHAR(10)
-            );
-        """
-
-        insert_query = """
-            INSERT INTO tp.utilisateur
-                (nom, prenom, nom_utilisateur, email, mot_de_passe)
-            VALUES
-                (%s, %s, %s, %s, %s)
-            RETURNING id_utilisateur;
-        """
-        values = (utilisateur.nom, utilisateur.prenom, utilisateur.nom_utilisateur, utilisateur.email, utilisateur.mot_de_passe)
+    def add_utilisateur(self, utilisateur: Utilisateur):
 
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    # Créer le schéma et la table si nécessaire
-                    cursor.execute(create_schema_query)
-                    cursor.execute(create_table_query)
-                    # Insérer l'utilisateur
-                    cursor.execute(insert_query, values)
-                    id_utilisateur = cursor.fetchone()[0]
-                    connection.commit()
-                    return id_utilisateur
+                    cursor.execute(
+                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp)"
+                        "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s)"
+                        "RETURNING id_utilisateur;",
+                        {
+                            "nom": utilisateur.nom,
+                            "prenom": utilisateur.prenom,
+                            "pseudo": utilisateur.pseudo,
+                            "email": utilisateur.email,
+                            "mdp": utilisateur.mdp,
+                        },)
+                    res = cursor.fetchone()
         except Exception as e:
-            logging.error(f"Erreur lors de l'ajout de l'utilisateur: {e}")
-            logging.error(f"Détails de l'erreur: {str(e._class_._name_)}")
-            logging.error(f"Message d'erreur complet: {str(e)}")
-            logging.error(f"Valeurs tentées: nom={nom}, prenom={prenom}, nom_utilisateur={nom_utilisateur}, email={email}")
-            raise e
+            logging.info(e)
+            raise
+
+        created = False
+        if res:
+            utilisateur.id_utilisateur = res["id_utilisateur"]
+            created = True
+
+        return created
 
     def read_profil(self, id: int) -> dict:
         """
@@ -186,7 +171,7 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT * FROM utilisateurs WHERE pseudo = %(pseudo)s AND mot_de_passe = %(mdp)s;",
+                        "SELECT * FROM tp.utilisateur WHERE pseudo = %(pseudo)s AND mdp = %(mdp)s;",
                         {"pseudo": pseudo, "mdp": mdp},
                     )
                     res = cursor.fetchone()
@@ -202,7 +187,7 @@ class UtilisateurDao(metaclass=Singleton):
                 prenom=res["prenom"],
                 pseudo=res["pseudo"],
                 email=res["email"],
-                mot_de_passe=res["mot_de_passe"]
+                mdp=res["mdp"]
             )
 
         return utilisateur

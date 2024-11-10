@@ -47,20 +47,27 @@ class ResetDatabase(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    for i in range(1, 250):
+                    i = 120
+                    can_continue = True
+                    while (can_continue):
                         response = requests.get(BASE_URL + SEARCH_ENDPOINT, params={"page": i})
                         if response.status_code == 200:
                             mangas = response.json()["data"]
                             for manga in mangas:
-                                cursor.execute(
-                                    "INSERT INTO tp.manga (id_manga, titre, descript) VALUES (%s, %s, %s);",
-                                    (manga['mal_id'], manga['title'], manga['synopsis'])
-                                )
+                                cursor.execute("SELECT * from tp.manga wHERE id_manga = %s", (manga['mal_id'],))
+                                if cursor.fetchone() is None:
+                                    cursor.execute(
+                                        "INSERT INTO tp.manga (id_manga, titre, descript) VALUES (%s, %s, %s);",
+                                        (manga['mal_id'], manga['title'], manga['synopsis'])
+                                    )
+                            print(f'La page {i} a correctement été chargée')
+                            i += 1
+                            can_continue = response.json()["pagination"]["has_next_page"]
+                            time.sleep(0.5)
                         else:
                             print(f"Erreur de requête pour la page {i}: {response.status_code}")
+                            time.sleep(2)
                         connection.commit()
-
-                        time.sleep(2)
 
         except Exception as e:
             print(f"Erreur lors de la récupération des données de mangas : {e}")

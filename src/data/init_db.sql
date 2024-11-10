@@ -32,7 +32,7 @@ CREATE TABLE tp.collection (
 
 DROP TABLE IF EXISTS tp.manga CASCADE;
 CREATE TABLE tp.manga (
-    id_manga SERIAL PRIMARY KEY,
+    id_manga INTEGER PRIMARY KEY,
     titre VARCHAR(400),
     descript TEXT
 );
