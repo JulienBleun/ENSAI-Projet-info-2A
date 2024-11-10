@@ -1,5 +1,4 @@
 import getpass
-
 from src.dao.utilisateur_dao import UtilisateurDao
 from src.business_object.utilisateur import Utilisateur
 import src.utils.mdp_utils as mdp_utils
@@ -17,7 +16,9 @@ def inscription_view():
     try:
         if UtilisateurDao().add_utilisateur(utilisateur):
             print("Inscription réussie !")
+            return utilisateur  # Retourne l'utilisateur inscrit
         else:
             print("L'inscription a échoué. Veuillez réessayer.")
     except Exception as e:
         print(f"Une erreur est survenue lors de l'inscription : {e}")
+        return None

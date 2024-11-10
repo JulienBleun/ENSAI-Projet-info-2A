@@ -1,8 +1,7 @@
 import tabulate
 from src.utils.log_decorator import log
 
-
-from src.business_object.utilisateur import utilisateur
+from src.business_object.utilisateur import Utilisateur
 from src.dao.utilisateur_dao import UtilisateurDao
 
 class UtilisateurService:
@@ -12,6 +11,8 @@ class UtilisateurService:
     def inscription(self, utilisateur):
         nouveau_utilisateur = utilisateur(
             id_utilisateur=utilisateur.id_utilisateur,
+            pseudo=utilisateur.pseudo,
+            email=utilisateur.email,
             nom=utilisateur.nom,
             mdp=utilisateur.mdp
         )

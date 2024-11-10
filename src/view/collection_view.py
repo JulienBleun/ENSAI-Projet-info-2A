@@ -1,10 +1,10 @@
-from src.dao.collection_coherente_dao import Collection_coherenteDAO
+from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 from src.dao.collection_physique_dao import CollectionPhysiqueDAO
 
 def creer_collection_coherente_view(utilisateur_id):
     titre = input("Titre de la collection cohérente : ")
     description = input("Description : ")
-    if Collection_coherenteDAO().CreateCoherente(titre, description, utilisateur_id):
+    if CollectionCoherenteDAO().CreateCoherente(titre, description, utilisateur_id):
         print("Collection cohérente créée avec succès.")
     else:
         print("Erreur lors de la création de la collection.")
