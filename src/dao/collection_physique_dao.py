@@ -127,7 +127,14 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                         "SELECT * FROM collection WHERE id_collection = %(id_collection)s;",
                         {"id_collection": id},
                     )
-                    res = cursor.fetone()
+                    res1 = cursor.fetone()
+
+                    # 2. Récupérer l'id de l'utilisateur
+                    cursor.execute(
+                        "SELECT * FROM collection WHERE id_collection = %(id)s;",
+                        {"id": id},
+                    )
+                    res2 = cursor.fetchone()
 
                     cursor.execute(
                         "SELECT * ",
@@ -135,21 +142,21 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
                         "WHERE id_collection = %(id_collection)s;",
                         {"id_collection": id},
                     )
-                    res2 = cursor.fetchall()
+                    res3 = cursor.fetchall()
 
-                    if res:
+                    if res1:
                         collection = CollectionPhysique(
-                            id_collection=res["id_collection"],
-                            id_utilisateur=res["id_utilisateur"],
+                            id_collection=res1["id_collection"],
+                            id_utilisateur=res2["id_utilisateur"],
                             contenu=[MangaPhysique(
-                            id_manga_physique=manga["id_manga_physique"],
-                            id_manga=manga["id_manga"],
-                            id_collection_physique=manga["id_collection"],
-                            dernier_tome_acquis = manga["dernier_tome_acquis"],
-                            tomes_manquants= manga["tomes_manquants"],
-                            statut = manga["statut"]
-                        ) for manga in res2]  # Liste d'objets MangaPhysique
-                    )
+                                id_manga_physique=manga["id_manga_physique"],
+                                id_manga=manga["id_manga"],
+                                id_collection_physique=manga["id_collection"],
+                                dernier_tome_acquis=manga["dernier_tome_acquis"],
+                                tomes_manquants=manga["tomes_manquants"],
+                                statut=manga["statut"]
+                            ) for manga in res3]  # Liste d'objets MangaPhysique
+                        )
         except Exception as e:
             logging.info(e)
 

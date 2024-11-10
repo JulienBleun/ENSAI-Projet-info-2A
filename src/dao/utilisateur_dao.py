@@ -6,9 +6,12 @@ from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
+from src.dao.collection_coherente_dao import CollectionCoherenteDAO
+from src.dao.collection_physique_dao import CollectionPhysiqueDAO
 
 from src.business_object.manga import Manga
 from src.business_object.utilisateur import Utilisateur
+
 
 
 class UtilisateurDao(metaclass=Singleton):
@@ -16,48 +19,33 @@ class UtilisateurDao(metaclass=Singleton):
 
 #    @log
     @log
-    def add_utilisateur(self, nom, prenom, nom_utilisateur, email, mot_de_passe):
-        # Vérifier si le schéma et la table existent, sinon les créer
-        create_schema_query = """
-            CREATE SCHEMA IF NOT EXISTS tp;
-        """
-        create_table_query = """
-            CREATE TABLE IF NOT EXISTS tp.utilisateur (
-                id_utilisateur SERIAL PRIMARY KEY,
-                nom VARCHAR(100),
-                prenom VARCHAR(100),
-                nom_utilisateur VARCHAR(1000) UNIQUE,
-                email VARCHAR(400),
-                mot_de_passe VARCHAR(10)
-            );
-        """
-
-        insert_query = """
-            INSERT INTO tp.utilisateur
-                (nom, prenom, nom_utilisateur, email, mot_de_passe)
-            VALUES
-                (%s, %s, %s, %s, %s)
-            RETURNING id_utilisateur;
-        """
-        values = (nom, prenom, nom_utilisateur, email, mot_de_passe)
+    def add_utilisateur(self, utilisateur: Utilisateur):
 
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    # Créer le schéma et la table si nécessaire
-                    cursor.execute(create_schema_query)
-                    cursor.execute(create_table_query)
-                    # Insérer l'utilisateur
-                    cursor.execute(insert_query, values)
-                    id_utilisateur = cursor.fetchone()[0]
-                    connection.commit()
-                    return id_utilisateur
+                    cursor.execute(
+                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp)"
+                        "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s)"
+                        "RETURNING id_utilisateur;",
+                        {
+                            "nom": utilisateur.nom,
+                            "prenom": utilisateur.prenom,
+                            "pseudo": utilisateur.pseudo,
+                            "email": utilisateur.email,
+                            "mdp": utilisateur.mdp,
+                        },)
+                    res = cursor.fetchone()
         except Exception as e:
-            logging.error(f"Erreur lors de l'ajout de l'utilisateur: {e}")
-            logging.error(f"Détails de l'erreur: {str(e._class_._name_)}")
-            logging.error(f"Message d'erreur complet: {str(e)}")
-            logging.error(f"Valeurs tentées: nom={nom}, prenom={prenom}, nom_utilisateur={nom_utilisateur}, email={email}")
-            raise e
+            logging.info(e)
+            raise
+
+        created = False
+        if res:
+            utilisateur.id_utilisateur = res["id_utilisateur"]
+            created = True
+
+        return created
 
     def read_profil(self, id: int) -> dict:
         """
@@ -126,6 +114,32 @@ class UtilisateurDao(metaclass=Singleton):
 
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
+                # 1. On supprime ses avis
+                cursor.execute(
+                    "DELETE FROM avis_collection WHERE id_utilisateur = %(id_utilisateur)s;",
+                    {"id_utilisateur": id}
+                )
+                cursor.execute(
+                    "DELETE FROM avis_manga WHERE id_utilisateur = %(id_utilisateur)s;",
+                    {"id_utilisateur": id}
+                )
+
+                # 2. On supprime ses collections en utilisant les fonctionnalités des classes DAO appropriées
+
+                cursor.execute(
+                    "SELECT id_collection FROM collection WHERE id_utilisateur = %(id_utilisateur)s;",
+                    {"id_utilisateur": id}
+                )
+                res1 = cursor.fetchall()
+                for id_collection in res1 :
+                    collection_coherente = readCoherent (id_collection)
+                    suppression = deleteCoherent(collection_coherente)
+                    if not(suppression):
+                        collection_physique = readPhysique(id_collection)
+                        suppression = detePhysique(collection_physique)
+
+                # 3. On supprime finalement le compte
+
                 cursor.execute(
                     "DELETE FROM utilisateurs WHERE id = %(id)s RETURNING id;",
                     {"id": id}
@@ -157,7 +171,7 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT * FROM utilisateurs WHERE pseudo = %(pseudo)s AND mot_de_passe = %(mdp)s;",
+                        "SELECT * FROM tp.utilisateur WHERE pseudo = %(pseudo)s AND mdp = %(mdp)s;",
                         {"pseudo": pseudo, "mdp": mdp},
                     )
                     res = cursor.fetchone()
@@ -173,7 +187,7 @@ class UtilisateurDao(metaclass=Singleton):
                 prenom=res["prenom"],
                 pseudo=res["pseudo"],
                 email=res["email"],
-                mot_de_passe=res["mot_de_passe"]
+                mdp=res["mdp"]
             )
 
         return utilisateur

@@ -1,10 +1,10 @@
 # TODO Normally nothing
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from business_object.collection_coherente import CollectionCoherente
-from business_object.manga import Manga
-from dao.collection_coherente_dao import Collection_coherenteDAO
+from src.business_object.collection_coherente import CollectionCoherente
+from src.business_object.manga import Manga
+from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 
 
 class CollectionCoherenteService:
@@ -22,7 +22,7 @@ class CollectionCoherenteService:
             contenu=contenu
         )
 
-        return nouvelle_collection if Collection_coherenteDAO(
+        return nouvelle_collection if CollectionCoherenteDAO(
                ).CreateCoherente(nouvelle_collection) else None
 
     @log
@@ -33,15 +33,15 @@ class CollectionCoherenteService:
         # On accède aux informations de la collection associée à son id, puis
         # on les modifie avec les nouvelles infos
 
-        return collection_modifiee if Collection_coherenteDAO(
+        return collection_modifiee if CollectionCoherenteDAO(
                ).UpdateCoherent(collection_modifiee) else None
 
     @log
     def supprimer_coherent(self, id_collection) -> bool:
 
-        return Collection_coherenteDAO().DeleteCoherent(id_collection)
+        return CollectionCoherenteDAO().DeleteCoherent(id_collection)
 
     @log
     def consulter_coherent(self, id_collection) -> CollectionCoherente:
 
-        return Collection_coherenteDAO().ReadCoherent(id_collection)
+        return CollectionCoherenteDAO().ReadCoherent(id_collection)

@@ -1,4 +1,8 @@
+import getpass
+
 from src.dao.utilisateur_dao import UtilisateurDao
+from src.business_object.utilisateur import Utilisateur
+import src.utils.mdp_utils as mdp_utils
 
 def inscription_view():
     """Fonction pour gérer l'inscription d'un utilisateur."""
@@ -6,12 +10,12 @@ def inscription_view():
     prenom = input("Entrez votre prénom : ")
     pseudo = input("Entrez votre pseudo : ")
     email = input("Entrez votre email : ")
-    mot_de_passe = input("Entrez votre mot de passe : ")
+    mdp = mdp_utils.hasher_mot_de_passe(getpass.getpass("Entrez votre mot de passe : "))
 
-    utilisateur_dao = UtilisateurDao()
+    utilisateur = Utilisateur(nom, prenom, pseudo, email, mdp)
 
     try:
-        if utilisateur_dao.add_utilisateur(nom, prenom, pseudo, email, mot_de_passe):
+        if UtilisateurDao().add_utilisateur(utilisateur):
             print("Inscription réussie !")
         else:
             print("L'inscription a échoué. Veuillez réessayer.")

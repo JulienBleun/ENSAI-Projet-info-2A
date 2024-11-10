@@ -18,8 +18,10 @@ class Manga():
             self,
             id_manga: int,
             titre: str,
-            auteur: str):
+            auteur: str,
+            descript: str):
 
         self.id_manga = id_manga
         self.titre = titre
         self.auteur = auteur
+        self.descript = descript
