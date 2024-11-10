@@ -48,7 +48,7 @@ class ResetDatabase(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     for i in range(1, 250):
-                        response = requests.get(BASE_URL + SEARCH_ENDPOINT)
+                        response = requests.get(BASE_URL + SEARCH_ENDPOINT, params={"page": i})
                         if response.status_code == 200:
                             mangas = response.json()["data"]
                             for manga in mangas:
