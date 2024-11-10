@@ -1,4 +1,5 @@
-
+import requests
+import time
 from src.dao.db_connection import DBConnection
 from src.utils.singleton import Singleton
 
@@ -37,6 +38,33 @@ class ResetDatabase(metaclass=Singleton):
             print(f"Erreur lors de la population de la base de données : {e}")
             raise
 
+    def pop_manga_from_api(self):
+
+        BASE_URL = "https://api.jikan.moe/v4"
+        SEARCH_ENDPOINT = "/manga"
+        print("Récupération et insertion des données de mangas")
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    for i in range(1, 250):
+                        response = requests.get(BASE_URL + SEARCH_ENDPOINT)
+                        if response.status_code == 200:
+                            mangas = response.json()["data"]
+                            for manga in mangas:
+                                cursor.execute(
+                                    "INSERT INTO tp.manga (id_manga, titre, descript) VALUES (%s, %s, %s);",
+                                    (manga['mal_id'], manga['title'], manga['synopsis'])
+                                )
+                        else:
+                            print(f"Erreur de requête pour la page {i}: {response.status_code}")
+                        connection.commit()
+
+                        time.sleep(2)
+
+        except Exception as e:
+            print(f"Erreur lors de la récupération des données de mangas : {e}")
+            raise
 
 
 if __name__ == "__main__":
