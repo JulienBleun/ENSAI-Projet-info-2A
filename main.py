@@ -1,8 +1,6 @@
 from src.view.main_menu_view import afficher_menu_principal
 from src.view.menu_utilisateur_view import afficher_menu_utilisateur
-from src.view.connexion_view import connexion_view
-from src.view.inscription_view import inscription_view
-from src.utils.reset_database import ResetDatabase
+
 
 
 def run_app():
