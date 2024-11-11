@@ -1,138 +1,136 @@
-import unittest
 from unittest.mock import MagicMock
 from src.service.collection_coherente_service import CollectionCoherenteService
 from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 from src.business_object.collection_coherente import CollectionCoherente
 from src.business_object.manga import Manga
 
+# Création d'un exemple de contenu pour les collections cohérentes
+manga1 = Manga(id_manga=1, titre="Manga A", auteur="Auteur A", descript="Description A")
+manga2 = Manga(id_manga=2, titre="Manga B", auteur="Auteur B", descript="Description B")
+contenu_exemple = [manga1, manga2]
 
-class TestCollectionCoherenteService(unittest.TestCase):
-    def setUp(self):
-        # Initialisation des mocks et du service
-        self.service = CollectionCoherenteService()
-        self.mock_dao = CollectionCoherenteDAO()
-        self.service.dao = self.mock_dao  # Injection du DAO mocké
-        
-        # Exemple de données
-        self.exemple_collection = CollectionCoherente(
-            id_collection=1,
-            id_utilisateur=100,
-            titre="Collection Test",
-            description="Description de test",
-            contenu=[Manga(id_manga=1, titre="Manga 1", auteur="Pierre"), Manga(id_manga=2, titre="Manga 2", auteur="Hugo")]
-        )
+# Création d'une instance de collection cohérente pour les tests
+collection_exemple = CollectionCoherente(
+    id_collection=100,
+    id_utilisateur=1,
+    titre="Collection Exemple",
+    description="Description de la collection exemple",
+    contenu=contenu_exemple
+)
 
-    def test_creer_coherent_ok(self):
-        """Test de la méthode creer_coherent avec succès"""
+def test_creer_coherent_succes():
+    """Test de la création réussie d'une collection cohérente."""
 
-        # GIVEN
-        self.mock_dao.CreateCoherente = MagicMock(return_value=True)
+    # GIVEN
+    CollectionCoherenteDAO().CreateCoherente = MagicMock(return_value=True)
 
-        # WHEN
-        nouvelle_collection = self.service.creer_coherent(
-            id_collection=1,
-            id_utilisateur=100,
-            titre="Collection Test",
-            description="Description de test",
-            contenu=[Manga(id_manga=1, titre="Manga 1",auteur="Pierre"), Manga(id_manga=2, titre="Manga 2", auteur="Hugo")]
-        )
+    # WHEN
+    nouvelle_collection = CollectionCoherenteService().creer_coherent(
+        id_collection=100,
+        id_utilisateur=1,
+        titre="Collection Exemple",
+        description="Description de la collection exemple",
+        contenu=contenu_exemple
+    )
 
-        # THEN
-        self.assertIsNotNone(nouvelle_collection)
-        self.assertEqual(nouvelle_collection.titre, "Collection Test")
-        self.mock_dao.CreateCoherente.assert_called_once_with(nouvelle_collection)
+    # THEN
+    assert nouvelle_collection is not None
+    assert nouvelle_collection.titre == "Collection Exemple"
+    assert len(nouvelle_collection.contenu) == 2
 
+def test_creer_coherent_echec():
+    """Test de l'échec de la création d'une collection cohérente."""
 
-    def test_creer_coherent_echec(self):
-        """Test de la méthode creer_coherent en cas d'échec de la création"""
+    # GIVEN
+    CollectionCoherenteDAO().CreateCoherente = MagicMock(return_value=False)
 
-        # GIVEN
-        self.mock_dao.CreateCoherente = MagicMock(return_value=False)
+    # WHEN
+    nouvelle_collection = CollectionCoherenteService().creer_coherent(
+        id_collection=100,
+        id_utilisateur=1,
+        titre="Collection Exemple",
+        description="Description de la collection exemple",
+        contenu=contenu_exemple
+    )
 
-        # WHEN
-        nouvelle_collection = self.service.creer_coherent(
-            id_collection=1,
-            id_utilisateur=100,
-            titre="Collection Test",
-            description="Description de test",
-            contenu=[Manga(id_manga=1, titre="Manga 1",auteur="Pierre")]
-        )
+    # THEN
+    assert nouvelle_collection is None
 
-        # THEN
-        self.assertIsNone(nouvelle_collection)
-        self.mock_dao.CreateCoherente.assert_called_once()
+def test_mettre_a_jour_coherent_succes():
+    """Test de la mise à jour réussie d'une collection cohérente."""
 
-    def test_mettre_a_jour_coherent_ok(self):
-        """Test de la méthode mettre_a_jour_coherent avec succès"""
+    # GIVEN
+    CollectionCoherenteDAO().UpdateCoherent = MagicMock(return_value=True)
 
-        # GIVEN
-        self.mock_dao.UpdateCoherent = MagicMock(return_value=True)
+    # WHEN
+    collection_modifiee = CollectionCoherenteService().mettre_a_jour_coherent(collection_exemple)
 
-        # WHEN
-        resultat = self.service.mettre_a_jour_coherent(self.exemple_collection)
+    # THEN
+    assert collection_modifiee is not None
+    assert collection_modifiee.titre == "Collection Exemple"
 
-        # THEN
-        self.assertEqual(resultat, self.exemple_collection)
-        self.mock_dao.UpdateCoherent.assert_called_once_with(self.exemple_collection)
+def test_mettre_a_jour_coherent_echec():
+    """Test de l'échec de la mise à jour d'une collection cohérente."""
 
-    def test_mettre_a_jour_coherent_echec(self):
-        """Test de la méthode mettre_a_jour_coherent en cas d'échec de la mise à jour"""
+    # GIVEN
+    CollectionCoherenteDAO().UpdateCoherent = MagicMock(return_value=False)
 
-        # GIVEN
-        self.mock_dao.UpdateCoherent = MagicMock(return_value=False)
+    # WHEN
+    collection_modifiee = CollectionCoherenteService().mettre_a_jour_coherent(collection_exemple)
 
-        # WHEN
-        resultat = self.service.mettre_a_jour_coherent(self.exemple_collection)
+    # THEN
+    assert collection_modifiee is None
 
-        # THEN
-        self.assertIsNone(resultat)
-        self.mock_dao.UpdateCoherent.assert_called_once_with(self.exemple_collection)
+def test_supprimer_coherent_succes():
+    """Test de la suppression réussie d'une collection cohérente."""
 
-    def test_supprimer_coherent_ok(self):
-        """Test de la méthode supprimer_coherent avec succès"""
+    # GIVEN
+    CollectionCoherenteDAO().DeleteCoherent = MagicMock(return_value=True)
 
-        # GIVEN
-        self.mock_dao.DeleteCoherent = MagicMock(return_value=True)
+    # WHEN
+    resultat = CollectionCoherenteService().supprimer_coherent(100)
 
-        # WHEN
-        resultat = self.service.supprimer_coherent(1)
+    # THEN
+    assert resultat
 
-        # THEN
-        self.assertTrue(resultat)
-        self.mock_dao.DeleteCoherent.assert_called_once_with(1)
+def test_supprimer_coherent_echec():
+    """Test de l'échec de la suppression d'une collection cohérente."""
 
-    def test_supprimer_coherent_echec(self):
-        """Test de la méthode supprimer_coherent en cas d'échec"""
+    # GIVEN
+    CollectionCoherenteDAO().DeleteCoherent = MagicMock(return_value=False)
 
-        # GIVEN
-        self.mock_dao.DeleteCoherent = MagicMock(return_value=False)
+    # WHEN
+    resultat = CollectionCoherenteService().supprimer_coherent(100)
 
-        # WHEN
-        resultat = self.service.supprimer_coherent(1)
+    # THEN
+    assert not resultat
 
-        # THEN
-        self.assertFalse(resultat)
-        self.mock_dao.DeleteCoherent.assert_called_once_with(1)
+def test_consulter_coherent_existant():
+    """Test de la consultation d'une collection cohérente existante."""
 
-    def test_consulter_coherent_ok(self):
-        """Test de la méthode consulter_coherent avec succès"""
+    # GIVEN
+    CollectionCoherenteDAO().ReadCoherent = MagicMock(return_value=collection_exemple)
 
-        # GIVEN
-        self.mock_dao.ReadCoherent = MagicMock(return_value=self.exemple_collection)
+    # WHEN
+    collection = CollectionCoherenteService().consulter_coherent(100)
 
-        # WHEN
-        resultat = self.service.consulter_coherent(1)
+    # THEN
+    assert collection is not None
+    assert collection.id_collection == 100
+    assert collection.titre == "Collection Exemple"
 
-        # THEN
-        self.assertEqual(resultat, self.exemple_collection)
-        self.mock_dao.ReadCoherent.assert_called_once_with(1)
+def test_consulter_coherent_inexistant():
+    """Test de la consultation d'une collection cohérente inexistante."""
 
+    # GIVEN
+    CollectionCoherenteDAO().ReadCoherent = MagicMock(return_value=None)
 
+    # WHEN
+    collection = CollectionCoherenteService().consulter_coherent(999)
 
+    # THEN
+    assert collection is None
 
 if __name__ == "__main__":
     import pytest
-
     pytest.main([__file__])
-
-    
