@@ -1,7 +1,6 @@
 import getpass
-from src.dao.utilisateur_dao import UtilisateurDao
-from src.business_object.utilisateur import Utilisateur
-import src.utils.mdp_utils as mdp_utils
+
+from src.service.utilisateur_service import UtilisateurService
 
 def inscription_view():
     """Fonction pour gérer l'inscription d'un utilisateur."""
@@ -9,16 +8,10 @@ def inscription_view():
     prenom = input("Entrez votre prénom : ")
     pseudo = input("Entrez votre pseudo : ")
     email = input("Entrez votre email : ")
-    mdp = mdp_utils.hasher_mot_de_passe(getpass.getpass("Entrez votre mot de passe : "))
+    mdp = getpass.getpass("Entrez votre mot de passe : ")
 
-    utilisateur = Utilisateur(nom, prenom, pseudo, email, mdp)
-
-    try:
-        if UtilisateurDao().add_utilisateur(utilisateur):
-            print("Inscription réussie !")
-            return utilisateur  # Retourne l'utilisateur inscrit
-        else:
-            print("L'inscription a échoué. Veuillez réessayer.")
-    except Exception as e:
-        print(f"Une erreur est survenue lors de l'inscription : {e}")
-        return None
+    utilisateur = UtilisateurService().inscription(nom, prenom, pseudo, email, mdp)
+    if utilisateur:
+        print(f"Inscription réussie ! Bienvenue sur la meilleure Mangathèque {pseudo}")
+    else:
+        print("L'inscription a échoué. Veuillez réessayer.")

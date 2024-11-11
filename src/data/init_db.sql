@@ -12,7 +12,7 @@ CREATE TABLE tp.utilisateur (
     prenom VARCHAR(100),
     pseudo VARCHAR(1000) UNIQUE,
     email VARCHAR(400),
-    mdp VARCHAR(10)
+    mdp VARCHAR(100)
 );
 
 --------------------------------------------------------------
