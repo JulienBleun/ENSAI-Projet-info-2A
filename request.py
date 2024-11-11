@@ -11,7 +11,7 @@ for i in range(len(donnees ["data"]["authors"])):
 
 
 
-def rechercher_manga_par_titre(self, titre):
+def rechercher_manga_par_titre(titre):
         url = f"https://api.jikan.moe/v4/manga?q={titre}"
         response = requests.get(url)
 

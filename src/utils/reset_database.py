@@ -47,7 +47,7 @@ class ResetDatabase(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    i = 120
+                    i = 1
                     can_continue = True
                     while (can_continue):
                         response = requests.get(BASE_URL + SEARCH_ENDPOINT, params={"page": i})
@@ -56,9 +56,10 @@ class ResetDatabase(metaclass=Singleton):
                             for manga in mangas:
                                 cursor.execute("SELECT * from tp.manga wHERE id_manga = %s", (manga['mal_id'],))
                                 if cursor.fetchone() is None:
+                                    auteur = manga['authors'][0]['name'] if manga['authors'] else None
                                     cursor.execute(
-                                        "INSERT INTO tp.manga (id_manga, titre, descript) VALUES (%s, %s, %s);",
-                                        (manga['mal_id'], manga['title'], manga['synopsis'])
+                                        "INSERT INTO tp.manga (id_manga, titre, descript, auteur) VALUES (%s, %s, %s, %s);",
+                                        (manga['mal_id'], manga['title'], manga['synopsis'], auteur)
                                     )
                             print(f'La page {i} a correctement été chargée')
                             i += 1
