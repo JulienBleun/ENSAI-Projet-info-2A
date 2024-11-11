@@ -74,7 +74,25 @@ def test_mettre_a_jour_physique_ok():
     assert result.titre == "Collection mise à jour"
     assert result.contenu[0].statut == "Abandonnée"
 
+def test_mettre_a_jour_physique_echec():
+    """Test de l'échec de la mise à jour d'une CollectionPhysique."""
 
+    # GIVEN
+    collection_modifiee = CollectionPhysique(
+        1, 100, "Titre mis à jour", "Description mise à jour", contenu=[
+            MangaPhysique(id_manga_physique=4, id_manga=103, id_collection_physique=103,
+                          dernier_tome_acquis=10, tomes_manquant=[6, 7], statut="Abandonnée")
+        ]
+    )
+    CollectionPhysiqueDAO().UpdatePhysique = MagicMock(return_value=False)
+
+    # WHEN
+    service = CollectionPhysiqueService()
+    resultat = service.mettre_a_jour_physique(collection_modifiee)
+
+    # THEN
+    assert resultat is None
+    
 def test_supprimer_physique_ok():
     """Suppression d'une CollectionPhysique réussie"""
 
@@ -92,7 +110,22 @@ def test_supprimer_physique_ok():
     # THEN
     assert result is True
 
+def test_supprimer_physique_echec():
+    """Test de l'échec de la suppression d'une CollectionPhysique."""
 
+    # GIVEN
+    collection_a_supprimer = CollectionPhysique(
+        1, 100, "Collection à supprimer", "Description à supprimer", contenu=[]
+    )
+    CollectionPhysiqueDAO().DeletePhysique = MagicMock(return_value=False)
+
+    # WHEN
+    service = CollectionPhysiqueService()
+    resultat = service.supprimer_physique(collection_a_supprimer)
+
+    # THEN
+    assert resultat is False
+    
 def test_consulter_physique_ok():
     """Consultation d'une CollectionPhysique réussie"""
 
@@ -115,6 +148,20 @@ def test_consulter_physique_ok():
     assert result is not None
     assert result.id_collection == id_collection
     assert result.contenu[0].dernier_tome_acquis == 15
+
+def test_consulter_physique_echec():
+    """Test de l'échec de la consultation d'une CollectionPhysique."""
+
+    # GIVEN
+    id_collection = 100
+    CollectionPhysiqueDAO().ReadPhysique = MagicMock(return_value=None)
+
+    # WHEN
+    service = CollectionPhysiqueService()
+    resultat = service.consulter_physique(id_collection)
+
+    # THEN
+    assert resultat is None
 
 if __name__ == "__main__":
     import pytest
