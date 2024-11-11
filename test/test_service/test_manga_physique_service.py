@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
-from service.manga_physique_service import MangaPhysiqueService
-from dao.manga_physique_dao import MangaPhysiqueDAO
-from business_object.manga_physique import MangaPhysique
+from src.service.manga_physique_service import MangaPhysiqueService
+from src.dao.manga_physique_dao import MangaPhysiqueDAO
+from src.business_object.manga_physique import MangaPhysique
 
 # Définition d'une liste d'exemples de mangas physiques
 liste_mangas_physiques = [

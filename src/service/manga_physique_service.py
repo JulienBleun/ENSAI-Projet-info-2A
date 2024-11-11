@@ -12,14 +12,14 @@ class MangaPhysiqueService:
     @log
     def créer_manga_physique(self, id_manga_physique, id_manga,
                              id_collection_physique, dernier_tome_acquis,
-                             tomes_manquants, statut) -> MangaPhysique:
+                             tomes_manquant, statut) -> MangaPhysique:
 
         nouveau_manga_physique = MangaPhysique(
                 id_manga_physique=id_manga_physique,
                 id_manga=id_manga,
                 id_collection_physique=id_collection_physique,
                 dernier_tome_acquis=dernier_tome_acquis,
-                tomes_manquants=tomes_manquants,
+                tomes_manquant=tomes_manquant,
                 statut=statut,
             )
 
