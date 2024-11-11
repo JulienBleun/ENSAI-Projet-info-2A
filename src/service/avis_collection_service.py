@@ -1,10 +1,10 @@
 #TODO Nothing normally
 
-from utils.log_decorator import log
+from src.utils.log_decorator import log
 
-from business_object.avis_collection import AvisCollection
+from src.business_object.avis_collection import AvisCollection
 
-from dao.avis_collection_dao import AvisCollectionDao
+from src.dao.avis_collection_dao import AvisCollectionDao
 
 
 class AvisCollectionService:

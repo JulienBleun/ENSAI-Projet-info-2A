@@ -11,14 +11,14 @@ class AvisMangaService:
     """Classe contenant les méthodes de service des avis de mangas"""
 
     @log
-    def rédiger_avis_manga(self, id_avis, id_utilisateur, id_manga, contenu,
+    def rédiger_avis_manga(self, id_avis, id_utilisateur, id_manga, commentaire,
                            note) -> AvisManga:
 
         nouvel_avis_manga = AvisManga(
                 id_avis=id_avis,
                 id_utilisateur=id_utilisateur,
                 id_manga=id_manga,
-                contenu=contenu,
+                commentaire=commentaire,
                 note=note,
             )
 

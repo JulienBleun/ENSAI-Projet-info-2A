@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
-from service.avis_collection_service import AvisCollectionService
-from dao.avis_collection_dao import AvisCollectionDao
-from business_object.avis_collection import AvisCollection
+from src.service.avis_collection_service import AvisCollectionService
+from src.dao.avis_collection_dao import AvisCollectionDao
+from src.business_object.avis_collection import AvisCollection
 
 
 avis_existant = AvisCollection(

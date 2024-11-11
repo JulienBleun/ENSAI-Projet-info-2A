@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
-from service.manga_service import MangaService
-from dao.manga_dao import MangaDao
-from business_object.manga import Manga
+from src.service.manga_service import MangaService
+from src.dao.manga_dao import MangaDao
+from src.business_object.manga import Manga
 
 
 liste_mangas = [

@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
-from service.avis_manga_service import AvisMangaService
-from dao.avis_manga_dao import AvisMangaDao
-from business_object.avis_manga import AvisManga
+from src.service.avis_manga_service import AvisMangaService
+from src.dao.avis_manga_dao import AvisMangaDao
+from src.business_object.avis_manga import AvisManga
 
 
 avis_existant = AvisManga(
