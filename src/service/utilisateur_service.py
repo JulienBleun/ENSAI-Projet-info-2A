@@ -1,30 +1,20 @@
-import tabulate
 from src.utils.log_decorator import log
+from src.utils.singleton import Singleton
 
 from src.business_object.utilisateur import Utilisateur
 from src.dao.utilisateur_dao import UtilisateurDao
 
-class UtilisateurService:
+class UtilisateurService(metaclass=Singleton):
     """Classe contenant les méthodes de service de l'utilisateur."""
 
     @log
-    def inscription(self, utilisateur):
-        nouveau_utilisateur = utilisateur(
-            id_utilisateur=utilisateur.id_utilisateur,
-            pseudo=utilisateur.pseudo,
-            email=utilisateur.email,
-            nom=utilisateur.nom,
-            mdp=utilisateur.mdp
+    def inscription(self, nom, prenom, pseudo, email, mdp):
+
+        nouveau_utilisateur = Utilisateur(
+            nom=nom,
+            prenom=prenom,
+            pseudo=pseudo,
+            email=email,
+            mdp=mdp
         )
-    return nouveau_utilisateur if UtilisateurDao().add_Utilisateur(nouveau_utilisateur) else None
-
-
-
-
-
-
-def supprimer(self, avis : AvisManga) -> bool:
-
-        # On supprime l'avis à partir de son id.
-
-        return AvisMangaDao().delete_avis_manga(avis)
+        return nouveau_utilisateur if UtilisateurDao().add_utilisateur(nouveau_utilisateur) else None
