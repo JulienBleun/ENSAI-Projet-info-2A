@@ -54,6 +54,45 @@ class MangaDao(metaclass=Singleton):
         return manga
 
     @log
+    def rechercher_manga_par_titre(self, titre) -> Manga:
+        """Trouver un manga grace à son id
+
+        Parameters
+        ----------
+        id_manga : int
+            numéro id du manga que l'on souhaite trouver
+
+        Returns
+        -------
+        manga : Manga
+            renvoie le manga que l'on cherche par titre
+        """
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT *                           "
+                        "  FROM tp.manga                      "
+                        " WHERE titre = %(titre)s;  ",
+                        {"titre": titre},
+                    )
+                    res = cursor.fetchone()
+        except Exception as e:
+            logging.info(e)
+            raise
+
+        manga = None
+        if res:
+            manga = Manga(
+                id_manga=res["id_manga"],
+                titre=res["titre"],
+                descript=res["descript"],
+                auteur=res["auteur"],
+                )
+
+        return manga
+
+    """@log
     def rechercher_manga_par_titre(self, titre):
         url = f"https://api.jikan.moe/v4/manga?q={titre}"
         response = requests.get(url)
@@ -75,4 +114,4 @@ class MangaDao(metaclass=Singleton):
             return None
 
 # Créer une instance de MangaDao pour être utilisée ailleurs
-manga_dao = MangaDao()
+manga_dao = MangaDao()"""

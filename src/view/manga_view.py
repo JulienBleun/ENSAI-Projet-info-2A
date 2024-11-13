@@ -19,8 +19,24 @@ def trouver_manga_par_id():
     except Exception as e:
         print(f"Une erreur est survenue lors de la recherche : {e}")
 
-def trouver_manga_par_titre(titre=None, utilisateur_id=None):
-    """Recherche et affiche un manga par son titre, avec possibilité de laisser un avis."""
+def trouver_manga_par_titre():
+
+    titre = input("Entrez le titre du manga que vous recherchez : ")
+
+    try:
+        manga = MangaService().consulter_manga_par_titre(titre)
+
+        if manga:
+            print(f"Manga trouvé : {manga.titre} a été écrit par"
+                  f" {manga.auteur} et porte l'id {manga.id_manga}."
+                  f"\n\n\nEn voici la description : {manga.descript}")
+
+    except Exception as e:
+        print(f"Une erreur est survenue lors de la recherche : {e}")
+
+"""
+def #trouver_manga_par_titre(titre=None, utilisateur_id=None):
+    Recherche et affiche un manga par son titre, avec possibilité de laisser un avis.
     if not titre:
         titre = input("Entrez le titre du manga que vous recherchez : ").strip()
 
@@ -64,7 +80,7 @@ def trouver_manga_par_titre(titre=None, utilisateur_id=None):
             print("Aucun manga trouvé avec ce titre.")
     except Exception as e:
         print(f"Une erreur est survenue lors de la recherche : {e}")
-
+"""
 
 def afficher_avis(manga_id):
     """Affiche les avis pour un manga donné."""
