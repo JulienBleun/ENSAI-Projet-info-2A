@@ -1,6 +1,23 @@
 from src.dao.manga_dao import MangaDao
 from src.dao.avis_manga_dao import AvisMangaDao  # Assure-toi d'utiliser la classe DAO appropriée
 from src.business_object.avis_manga import AvisManga  # Assure-toi d'utiliser le bon modèle
+from src.service.manga_service import MangaService
+
+def trouver_manga_par_id():
+
+    id_manga = input("Entrez l id du manga que vous recherchez : ")
+
+    try:
+        manga = MangaService().consulter_manga(id_manga)
+
+        if manga:
+
+            print(f"Manga trouvé : il s'agit de {manga.titre} écrit par"
+                  f" {manga.auteur}.\n\n\nEn voici la description"
+                  f" : {manga.descript}")
+
+    except Exception as e:
+        print(f"Une erreur est survenue lors de la recherche : {e}")
 
 def trouver_manga_par_titre(titre=None, utilisateur_id=None):
     """Recherche et affiche un manga par son titre, avec possibilité de laisser un avis."""
@@ -8,7 +25,7 @@ def trouver_manga_par_titre(titre=None, utilisateur_id=None):
         titre = input("Entrez le titre du manga que vous recherchez : ").strip()
 
     manga_dao = MangaDao()
-    
+
     try:
         manga = manga_dao.rechercher_manga_par_titre(titre)
         if manga:

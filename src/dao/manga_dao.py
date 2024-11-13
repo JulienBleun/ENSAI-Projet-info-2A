@@ -33,7 +33,7 @@ class MangaDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                           "
-                        "  FROM manga                      "
+                        "  FROM tp.manga                      "
                         " WHERE id_manga = %(id_manga)s;  ",
                         {"id_manga": id_manga},
                     )
@@ -46,8 +46,9 @@ class MangaDao(metaclass=Singleton):
         if res:
             manga = Manga(
                 id_manga=res["id_manga"],
-                titre=res["pseudo"],
-                auteur=res["age"],
+                titre=res["titre"],
+                descript=res["descript"],
+                auteur=res["auteur"],
                 )
 
         return manga

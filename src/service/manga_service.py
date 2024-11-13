@@ -12,4 +12,4 @@ class MangaService:
     @log
     def consulter_manga(self, id_manga) -> Manga:
 
-        return MangaDao().trouver_par_id(id_manga)
+        return MangaDao().rechercher_manga_par_id(id_manga)
