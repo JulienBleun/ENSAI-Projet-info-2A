@@ -19,30 +19,12 @@ class AbstractAvis(ABC):
     """
 
     def __init__(self,
-                 id_avis: int,
                  id_utilisateur: int,
                  commentaire: str,
-                 note: int):
+                 note: int,
+                 id_avis):
 
-        if not isinstance(id_avis, int):
-            raise TypeError(
-                "L'identifiant de l'avis doit être un entier"
-            )
 
-        if not isinstance(id_utilisateur, int):
-            raise TypeError(
-                "L'identifiant de l'utilisateur doit être un entier"
-            )
-
-        if not isinstance(commentaire, str):
-            raise TypeError(
-                "Le commentaire doit être une chaîne de caractères"
-            )
-
-        if not isinstance(note, int):
-            raise TypeError(
-                "La note doit être un entier "
-            )
 
         self.id_avis = id_avis
         self.id_utilisateur = id_utilisateur

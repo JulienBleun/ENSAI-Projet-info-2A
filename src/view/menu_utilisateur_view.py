@@ -18,7 +18,7 @@ def afficher_menu_utilisateur(utilisateur_id):
         choix = input("Choisissez une option : ")
 
         if choix == '1':
-            trouver_manga_par_titre()
+            trouver_manga_par_titre(utilisateur_id)
         elif choix == '2':
             creer_collection_coherente_view(utilisateur_id)
         elif choix == '3':
@@ -26,7 +26,7 @@ def afficher_menu_utilisateur(utilisateur_id):
         elif choix == '4':
             modifier_compte_view(utilisateur_id)
         elif choix == '6':
-            trouver_manga_par_id()
+            trouver_manga_par_id(utilisateur_id)
         elif choix == '5':
             print("Déconnexion réussie.")
             deconnexion_view()

@@ -1,4 +1,4 @@
-from src.business_object.abstract_avis import AbstractAvis  
+from src.business_object.abstract_avis import AbstractAvis
 
 
 class AvisManga(AbstractAvis):
@@ -16,12 +16,12 @@ class AvisManga(AbstractAvis):
     """
 
     def __init__(self,
-                 id_avis: int,
+                 id_manga: int,
+                 id_avis,
                  id_utilisateur: int,
                  commentaire: str,
                  note: int,
-                 id_manga: int):
+                 ):
 
-        super().__init__(id_avis, id_utilisateur, commentaire, note)
+        super().__init__(id_utilisateur, commentaire, note, id_avis) #Cet ordre précis est IMPORTANT pour écrire dans la base. NE PAS TOUCHER
         self.id_manga = id_manga
-       

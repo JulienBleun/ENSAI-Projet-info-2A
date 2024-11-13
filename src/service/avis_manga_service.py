@@ -1,23 +1,23 @@
 #TODO Nothing normally
 
 from tabulate import tabulate
-
+from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 from src.business_object.avis_manga import AvisManga
 from src.dao.avis_manga_dao import AvisMangaDao
 
 
-class AvisMangaService:
+class AvisMangaService(metaclass=Singleton):
     """Classe contenant les méthodes de service des avis de mangas"""
 
     @log
-    def rédiger_avis_manga(self, id_avis, id_utilisateur, id_manga, commentaire,
+    def rédiger_avis_manga(self, id_manga, id_utilisateur, commentaire,
                            note) -> AvisManga:
 
         nouvel_avis_manga = AvisManga(
-                id_avis=id_avis,
-                id_utilisateur=id_utilisateur,
+                id_avis=None,  # On ne rentre pas d'id avis comme PostGre s'en occupe
                 id_manga=id_manga,
+                id_utilisateur=id_utilisateur,
                 commentaire=commentaire,
                 note=note,
             )
