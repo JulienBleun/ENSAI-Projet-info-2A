@@ -12,9 +12,13 @@ def trouver_manga_par_id():
 
         if manga:
 
-            print(f"Manga trouvé : il s'agit de {manga.titre} écrit par"
-                  f" {manga.auteur}.\n\n\nEn voici la description"
+            print(f"\n\nManga trouvé : il s'agit de {manga.titre} écrit par"
+                  f" {manga.auteur}.\n\nEn voici la description"
                   f" : {manga.descript}")
+
+        else:
+            print("\n\nCe manga n'est malheureusement pas dans notre base "
+                  "de données. Réessayez.")
 
     except Exception as e:
         print(f"Une erreur est survenue lors de la recherche : {e}")
@@ -27,9 +31,13 @@ def trouver_manga_par_titre():
         manga = MangaService().consulter_manga_par_titre(titre)
 
         if manga:
-            print(f"Manga trouvé : {manga.titre} a été écrit par"
+            print(f"\n\nManga trouvé : {manga.titre} a été écrit par"
                   f" {manga.auteur} et porte l'id {manga.id_manga}."
-                  f"\n\n\nEn voici la description : {manga.descript}")
+                  f"\n\nEn voici la description : {manga.descript}")
+
+        else:
+            print("\n\nCe manga n'est malheureusement pas dans notre base "
+                  "de données. Réessayez.")
 
     except Exception as e:
         print(f"Une erreur est survenue lors de la recherche : {e}")
