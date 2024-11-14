@@ -145,7 +145,7 @@ class AvisMangaDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         "SELECT *                           "
-                        "  FROM avis_manga                      "
+                        "  FROM tp.avis_manga                      "
                         " WHERE id_avis = %(id_avis)s;  ",
                         {"id_avis": id_avis},
                     )
@@ -165,7 +165,7 @@ class AvisMangaDao(metaclass=Singleton):
                 )
         return avis
 
-    def recup_avis(self, id_utilisateur):
+    def recup_avis_from_id(self, id_utilisateur):
 
         try:
             with DBConnection().connection as connection:
@@ -175,6 +175,24 @@ class AvisMangaDao(metaclass=Singleton):
                         " JOIN tp.manga ON tp.avis_manga.id_manga=tp.manga.id_manga"
                         " WHERE id_utilisateur='%(id_utilisateur)s'",
                         {"id_utilisateur": id_utilisateur},
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res
+
+    def recup_avis_from_titre(self, titre):
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        " SELECT avis_manga.*, utilisateur.pseudo FROM tp.avis_manga"
+                        " JOIN tp.manga ON tp.avis_manga.id_manga = tp.manga.id_manga"
+                        " JOIN tp.utilisateur ON tp.avis_manga.id_utilisateur = tp.utilisateur.id_utilisateur"
+                        " WHERE titre=%(titre)s",
+                        {"titre": titre},
                     )
                     res = cursor.fetchall()
         except Exception as e:

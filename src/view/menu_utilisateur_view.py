@@ -2,7 +2,7 @@ from src.view.manga_view import trouver_manga_par_titre, trouver_manga_par_id
 from src.view.collection_view import creer_collection_coherente_view, creer_collection_physique_view
 from src.view.modifier_compte_view import modifier_compte_view
 from src.view.deconnexion_view import deconnexion_view
-from src.view.avis_view import modifier_avis_manga, supprimer_avis_manga
+from src.view.avis_view import modifier_avis_manga, supprimer_avis_manga, afficher_avis_manga
 
 
 def afficher_menu_utilisateur(utilisateur_id):
@@ -17,6 +17,7 @@ def afficher_menu_utilisateur(utilisateur_id):
         print("6. Créer une collection cohérente")
         print("7. Modifier un avis de manga")
         print("8. Supprimer un avis de manga")
+        print("9. Afficher les avis d'un manga")
 
         choix = input("Choisissez une option : ")
 
@@ -34,6 +35,8 @@ def afficher_menu_utilisateur(utilisateur_id):
             modifier_avis_manga(utilisateur_id)
         elif choix == '8':
             supprimer_avis_manga(utilisateur_id)
+        elif choix == '9':
+            afficher_avis_manga()
         elif choix == '5':
             print("Déconnexion réussie.")
             deconnexion_view()
