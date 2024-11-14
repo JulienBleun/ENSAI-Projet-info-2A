@@ -72,16 +72,15 @@ class AvisMangaDao(metaclass=Singleton):
         """
         res = None
 
-        #try:
-        with DBConnection().connection as connection:
+        try:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE avis_manga                                "
+                        "UPDATE tp.avis_manga                                "
                         "   SET id_utilisateur = %(id_utilisateur)s,      "
                         "       id_manga       = %(id_manga)s,            "
                         "       commentaire    = %(commentaire)s,             "
                         "       note           = %(note)s                 "
-                        " WHERE id_avis      = %(id_avis)s;           ",
                         " WHERE id_avis      = %(id_avis)s;           ",
                         {
                             "id_utilisateur": avis.id_utilisateur,
@@ -92,8 +91,8 @@ class AvisMangaDao(metaclass=Singleton):
                         },
                     )
                     res = cursor.rowcount
-        #except Exception as e:
-            #logging.info(e)
+        except Exception as e:
+            logging.info(e)
 
         return res == 1
 
@@ -112,18 +111,18 @@ class AvisMangaDao(metaclass=Singleton):
             True si la suppression a bien été effectuée
         """
 
-        #try:
-        with DBConnection().connection as connection:
+        try:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "DELETE FROM avis_manga                  "
+                        "DELETE FROM tp.avis_manga                  "
                         " WHERE id_avis=%(id_avis)s        ",
                         {"id_avis": avis.id_avis},
                     )
                     res = cursor.rowcount
-        #except Exception as e:
-            #logging.info(e)
-            #raise
+        except Exception as e:
+            logging.info(e)
+            raise
 
         return res > 0
 
@@ -165,3 +164,20 @@ class AvisMangaDao(metaclass=Singleton):
                 note=res["note"],
                 )
         return avis
+
+    def recup_avis(self, id_utilisateur):
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT avis_manga.*, titre FROM tp.avis_manga"
+                        " JOIN tp.manga ON tp.avis_manga.id_manga=tp.manga.id_manga"
+                        " WHERE id_utilisateur='%(id_utilisateur)s'",
+                        {"id_utilisateur": id_utilisateur},
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res
