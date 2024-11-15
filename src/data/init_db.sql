@@ -84,8 +84,8 @@ CREATE TABLE tp.collection_coherente (
 DROP TABLE IF EXISTS tp.association_manga_collection_coherente CASCADE;
 CREATE TABLE tp.association_manga_collection_coherente (
     id_manga INT REFERENCES tp.manga(id_manga),
-    id_collection_coherente INT REFERENCES tp.collection_coherente(id_collection),
-    PRIMARY KEY (id_manga, id_collection_coherente)
+    id_collection INT REFERENCES tp.collection_coherente(id_collection),
+    PRIMARY KEY (id_manga, id_collection)
 );
 
 --------------------------------------------------------------
