@@ -191,3 +191,54 @@ class UtilisateurDao(metaclass=Singleton):
             )
 
         return utilisateur
+    
+    @log
+    def update_utilisateur(self, utilisateur: Utilisateur) -> bool:
+        """
+        Met à jour les informations d'un utilisateur dans la base de données.
+
+        Paramètres :
+        ------------
+        utilisateur : Utilisateur
+            L'objet utilisateur contenant les informations mises à jour.
+
+        Retourne :
+        ----------
+        bool : Indique si la mise à jour a été effectuée avec succès.
+        """
+        updated = False
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        """
+                        UPDATE tp.utilisateur
+                        SET nom = %(nom)s,
+                            prenom = %(prenom)s,
+                            pseudo = %(pseudo)s,
+                            email = %(email)s,
+                            mdp = %(mdp)s
+                        WHERE id_utilisateur = %(id_utilisateur)s
+                        RETURNING id_utilisateur;
+                        """,
+                        {
+                            "nom": utilisateur.nom,
+                            "prenom": utilisateur.prenom,
+                            "pseudo": utilisateur.pseudo,
+                            "email": utilisateur.email,
+                            "mdp": utilisateur.mdp,
+                            "id_utilisateur": utilisateur.id_utilisateur,
+                        }
+                    )
+                    res = cursor.fetchone()
+
+            if res:
+                updated = True
+
+        except Exception as e:
+            logging.info(f"Erreur lors de la mise à jour de l'utilisateur : {e}")
+            raise
+
+        return updated
+
