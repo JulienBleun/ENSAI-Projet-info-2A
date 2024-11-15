@@ -1,7 +1,7 @@
 from src.business_object.abstract_collection import AbstractCollection
 from src.business_object.abstract_collection import AbstractCollection
 from src.business_object.manga import Manga
-from src.business_object.abstract_collection import AbstractCollection  
+from src.business_object.abstract_collection import AbstractCollection
 
 
 class CollectionCoherente(AbstractCollection):
@@ -29,10 +29,6 @@ class CollectionCoherente(AbstractCollection):
                  description,
                  contenu: list[Manga]):
 
-        if not isinstance(id_collection, int):
-            raise TypeError(
-                "L'identifiant de la collection doit être un entier"
-            )
 
         if not isinstance(id_utilisateur, int):
             raise TypeError(
@@ -47,10 +43,6 @@ class CollectionCoherente(AbstractCollection):
         if not isinstance(description, str):
             raise TypeError(
                 "La description doit être une chaîne de caractère"
-            )
-        if not all(isinstance(manga, Manga) for manga in contenu):
-            raise TypeError(
-                "Le contenu doit être une liste d'instances de la classe Manga"
             )
 
 
