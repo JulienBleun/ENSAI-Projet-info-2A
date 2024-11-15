@@ -7,9 +7,6 @@ from src.utils.log_decorator import log
 
 from src.dao.db_connection import DBConnection
 from src.dao.collection_coherente_dao import CollectionCoherenteDAO
-from src.dao.collection_physique_dao import CollectionPhysiqueDAO
-
-from src.business_object.manga import Manga
 from src.business_object.utilisateur import Utilisateur
 
 
@@ -131,12 +128,12 @@ class UtilisateurDao(metaclass=Singleton):
                     {"id_utilisateur": id}
                 )
                 res1 = cursor.fetchall()
-                for id_collection in res1 :
-                    collection_coherente = readCoherent (id_collection)
-                    suppression = deleteCoherent(collection_coherente)
-                    if not(suppression):
-                        collection_physique = readPhysique(id_collection)
-                        suppression = detePhysique(collection_physique)
+                for id_collection in res1:
+                    collection_coherente = CollectionCoherenteDAO().readCoherent(id_collection)
+                    suppression = CollectionCoherenteDAO().deleteCoherent(collection_coherente)
+                    if not (suppression):
+                        collection_physique = CollectionCoherenteDAO().readPhysique(id_collection)
+                        suppression = CollectionCoherenteDAO().detePhysique(collection_physique)
 
                 # 3. On supprime finalement le compte
 
@@ -191,7 +188,7 @@ class UtilisateurDao(metaclass=Singleton):
             )
 
         return utilisateur
-    
+
     @log
     def update_utilisateur(self, utilisateur: Utilisateur) -> bool:
         """
@@ -241,4 +238,3 @@ class UtilisateurDao(metaclass=Singleton):
             raise
 
         return updated
-
