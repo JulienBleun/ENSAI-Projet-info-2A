@@ -55,8 +55,6 @@ class CollectionCoherente(AbstractCollection):
 
 
 
-        super().__init__(id_collection, id_utilisateur)
+        super().__init__(id_collection, id_utilisateur, titre, description)
 
-        self.titre = titre
-        self.description = description
         self.contenu = contenu

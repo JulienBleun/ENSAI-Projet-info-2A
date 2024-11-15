@@ -16,7 +16,7 @@ class AbstractCollection(ABC):
 
     """
 
-    def __init__(self, id_collection: int, id_utilisateur: int):
+    def __init__(self, id_collection: int, id_utilisateur: int, titre: str, description: str):
 
         if not isinstance(id_collection, int):
             raise TypeError(
@@ -30,4 +30,6 @@ class AbstractCollection(ABC):
 
         self.id_collection = id_collection
         self.id_utilisateur = id_utilisateur
+        self.titre = titre 
+        self.description = description
 

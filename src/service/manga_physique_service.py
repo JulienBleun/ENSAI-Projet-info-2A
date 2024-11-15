@@ -10,7 +10,7 @@ class MangaPhysiqueService:
     """Classe contenant les méthodes de service des mangas physiques"""
 
     @log
-    def créer_manga_physique(self, id_manga_physique, id_manga,
+    def creer_manga_physique(self, id_manga_physique, id_manga,
                              id_collection_physique, dernier_tome_acquis,
                              tomes_manquant, statut) -> MangaPhysique:
 

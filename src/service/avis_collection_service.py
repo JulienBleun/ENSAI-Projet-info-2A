@@ -11,7 +11,7 @@ class AvisCollectionService:
     """Classe contenant les méthodes de service des avis de collections"""
 
     @log
-    def rédiger_avis_collection(self, id_avis, id_utilisateur, commentaire,
+    def rediger_avis_collection(self, id_avis, id_utilisateur, commentaire,
                                 note, id_collection) -> AvisCollection:
 
         nouvel_avis_collection = AvisCollection(
