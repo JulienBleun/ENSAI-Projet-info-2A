@@ -23,5 +23,5 @@ class AvisManga(AbstractAvis):
                  note: int,
                  ):
 
-        super().__init__(id_utilisateur, commentaire, note, id_avis) #Cet ordre précis est IMPORTANT pour écrire dans la base. NE PAS TOUCHER
+        super().__init__(id_utilisateur=id_utilisateur, commentaire=commentaire, note=note, id_avis=id_avis) #Cet ordre précis est IMPORTANT pour écrire dans la base. NE PAS TOUCHER
         self.id_manga = id_manga
