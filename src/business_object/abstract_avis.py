@@ -20,13 +20,13 @@ class AbstractAvis(ABC):
 
     def __init__(self,
                  id_utilisateur: int,
-                 commentaire: str,
-                 note: int,
-                 id_avis):
+                 commentaire,
+                 note,
+                 id_avis: int,
+                 ):
 
 
-
-        self.id_avis = id_avis
         self.id_utilisateur = id_utilisateur
         self.commentaire = commentaire
         self.note = note
+        self.id_avis = id_avis

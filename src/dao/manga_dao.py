@@ -50,7 +50,7 @@ class MangaDao(metaclass=Singleton):
                 descript=res["descript"],
                 auteur=res["auteur"],
                 )
-
+            
         return manga
 
     @log

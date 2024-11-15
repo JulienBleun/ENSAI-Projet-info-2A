@@ -15,7 +15,7 @@ def test_consulter_manga_existant():
 
     # GIVEN
     id_manga = 1
-    MangaDao().trouver_par_id = MagicMock(return_value=liste_mangas[0])
+    MangaDao().rechercher_manga_par_id = MagicMock(return_value=liste_mangas[0])
 
     # WHEN
     manga = MangaService().consulter_manga(id_manga)
@@ -31,7 +31,7 @@ def test_consulter_manga_inexistant():
 
     # GIVEN
     id_manga = 99
-    MangaDao().trouver_par_id = MagicMock(return_value=None)
+    MangaDao().rechercher_manga_par_id= MagicMock(return_value=None)
 
     # WHEN
     manga = MangaService().consulter_manga(id_manga)

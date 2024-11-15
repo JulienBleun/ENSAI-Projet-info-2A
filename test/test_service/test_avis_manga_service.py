@@ -24,17 +24,17 @@ def test_rediger_avis_succes():
     """Test de la création réussie d'un avis pour un manga."""
 
     # GIVEN
-    id_avis, id_utilisateur, id_manga, contenu, note = 1, 42, 101, "Très bon manga !", 9
+    id_utilisateur, id_manga, commentaire, note =   42, 101, "Très bon manga !", 9
     AvisMangaDao().create_avis_manga = MagicMock(return_value=True)
 
     # WHEN
     nouvel_avis = AvisMangaService().rédiger_avis_manga(
-        id_avis, id_utilisateur, id_manga, contenu, note
+        id_manga, id_utilisateur, commentaire, note
     )
 
     # THEN
     assert nouvel_avis is not None
-    assert nouvel_avis.id_avis == id_avis
+    
     assert nouvel_avis.id_manga == id_manga
     assert nouvel_avis.note == note
 
@@ -42,12 +42,12 @@ def test_rediger_avis_echec():
     """Test de l'échec de la création d'un avis pour un manga."""
 
     # GIVEN
-    id_avis, id_utilisateur, id_manga, contenu, note = 1, 42, 101, "Très bon manga !", 9
+    id_utilisateur, id_manga, commentaire, note = 42, 101, "Très bon manga !", 9
     AvisMangaDao().create_avis_manga = MagicMock(return_value=False)
 
     # WHEN
     nouvel_avis = AvisMangaService().rédiger_avis_manga(
-        id_avis, id_utilisateur, id_manga, contenu, note
+         id_manga, id_utilisateur, commentaire, note
     )
 
     # THEN

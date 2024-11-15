@@ -29,7 +29,7 @@ def test_rediger_avis_succes():
 
     # WHEN
     nouvel_avis = AvisCollectionService().rédiger_avis_collection(
-        id_avis, id_utilisateur, commentaire, note, id_collection
+        id_utilisateur, commentaire, note, id_avis, id_collection
     )
 
     # THEN
