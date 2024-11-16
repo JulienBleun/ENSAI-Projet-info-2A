@@ -37,9 +37,8 @@ Dans VSCode :
  - Exécutez les commandes suivantes
    
 ```
-pip install -r requirements.txt ```
+pip install -r requirements.txt 
 pip list
-
 ```
 
 ---
