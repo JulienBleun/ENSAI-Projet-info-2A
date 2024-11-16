@@ -63,6 +63,15 @@ Instructions :
   ```
 
 ---
+▶️ Lancer les tests unitaires
+
+Classes testées
+
+Les tests sont principalement effectués sur les services et les objets métiers
+Pour exécuter les tests unitaires, utilisez la commande suivante dans Git Bash : pytest -v
+- ou python -m pytest -v si pytest n'a pas été ajouté au PATH
+
+---
 
 ▶️ Lancer le programme
 
