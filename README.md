@@ -18,5 +18,22 @@ Exemple d'utilsation :
 - Python 3.10
 - Git
 - Une base de données PostgreSQL
-
   
+---
+
+▶️ Clonez le dépôt
+- Ouvrir Git Bash
+- Créez un dossier P:/Cours2A/UE3-Projet-info et positionnez-vous dedans
+mkdir -p /p/Cours2A/UE3-Projet-info && cd $_
+- Clonez ce dépôt
+git clone https://github.com/JulienBleun/ENSAI-Projet-info-2A.git
+
+---
+
+▶️ Installez les packages nécessaires
+Dans VSCode :
+
+ - Ouvrez un terminal Git Bash
+ - Exécutez les commandes suivantes
+   
+```pip install -r requirements.txt pip list```
