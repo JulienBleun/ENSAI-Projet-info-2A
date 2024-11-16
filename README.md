@@ -36,8 +36,11 @@ Dans VSCode :
  - Ouvrir un terminal Git Bash
  - Exécutez les commandes suivantes
    
-```pip install -r requirements.txt ```
-```pip list```
+```
+pip install -r requirements.txt ```
+pip list
+
+```
 
 ---
 
