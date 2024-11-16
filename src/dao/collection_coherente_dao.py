@@ -83,12 +83,13 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         updated : bool
             True si la mise à jour a réussi, False sinon
         """
+        res = None
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
                     """
-                    UPDATE collection_coherente
+                    UPDATE tp.collection_coherente
                     SET titre = %(titre)s, description = %(description)s
                     WHERE id_collection = %(id_collection)s;
                     """,
@@ -102,8 +103,8 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                 # Suppression des mangas existants pour cette collection dans la table d'association
                     cursor.execute(
                     """
-                    DELETE FROM Association_manga_collection_coherente
-                    WHERE id_collection_coherente = %(id_collection)s;
+                    DELETE FROM tp.association_manga_collection_coherente
+                    WHERE id_collection = %(id_collection)s;
                     """,
                     {"id_collection": collection.id_collection},
                 )
@@ -112,20 +113,20 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                     for manga in collection.contenu:
                         cursor.execute(
                         """
-                        INSERT INTO Association_manga_collection_coherente (id_manga, id_collection_coherente)
-                        VALUES (%(id_manga)s, %(id_collection_coherente)s);
+                        INSERT INTO tp.association_manga_collection_coherente (id_manga, id_collection)
+                        VALUES (%(id_manga)s, %(id_collection)s);
                         """,
                         {
                             "id_manga": manga.id_manga,
-                            "id_collection_coherente": collection.id_collection,
+                            "id_collection": collection.id_collection,
                         },
                         )
-                    updated = cursor.rowcount > 0  # rowcount > 0 indique si la mise à jour a affecté des lignes
+                    res = cursor.rowcount
+
         except Exception as e:
             logging.info(e)
-            updated = False
 
-        return updated
+        return res == 1
 
     @log
     def DeleteCoherent(self, collection: CollectionCoherente) -> bool:
@@ -246,4 +247,22 @@ class CollectionCoherenteDAO(metaclass=Singleton):
             logging.error(f"Erreur lors de la lecture de la collection cohérente : {e}")
             collection = None
 
+
         return collection
+
+    def recup_collec_coherente_from_id(self, id_utilisateur):
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT titre, description, tp.collection.id_collection FROM tp.collection"
+                        " JOIN tp.collection_coherente ON tp.collection.id_collection=tp.collection_coherente.id_collection"
+                        " WHERE id_utilisateur='%(id_utilisateur)s'",
+                        {"id_utilisateur": id_utilisateur},
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res
