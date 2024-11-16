@@ -26,14 +26,43 @@ Exemple d'utilsation :
 - Créez un dossier P:/Cours2A/UE3-Projet-info et positionnez-vous dedans
 mkdir -p /p/Cours2A/UE3-Projet-info && cd $_
 - Clonez ce dépôt
-git clone https://github.com/JulienBleun/ENSAI-Projet-info-2A.git
+git clone 
 
 ---
 
 ▶️ Installez les packages nécessaires
 Dans VSCode :
 
- - Ouvrez un terminal Git Bash
+ - Ouvrir un terminal Git Bash
  - Exécutez les commandes suivantes
    
-```pip install -r requirements.txt pip list```
+```pip install -r requirements.txt ```
+```pip list```
+
+---
+
+▶️ Variables d'environnement
+Pour connecter l'application Python à la base de données et au webservice requis, vous devez définir des variables d'environnement.
+Instructions :
+  1. À la racine du projet, créez un fichier nommé .env.
+  2. Ajoutez et complétez les éléments suivants dans ce fichier :
+
+  ```
+  WEBSERVICE_HOST=
+
+  POSTGRES_HOST=sgbd-eleves.domensai.ecole
+  POSTGRES_PORT=5432
+  POSTGRES_DATABASE=idxxxx
+  POSTGRES_USER=idxxxx
+  POSTGRES_PASSWORD=idxxxx
+  POSTGRES_SCHEMA=projet
+
+  ```
+
+---
+
+▶️ Lancer le programme
+
+Cette application propose une interface graphique très basique pour naviguer entre différents menus.
+
+- Dans Git Bash : ```python src/__main__.py```
