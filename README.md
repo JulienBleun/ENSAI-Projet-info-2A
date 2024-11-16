@@ -44,6 +44,7 @@ pip list
 ---
 
 ▶️ Variables d'environnement
+
 Pour connecter l'application Python à la base de données et au webservice requis, vous devez définir des variables d'environnement.
 Instructions :
   1. À la racine du projet, créez un fichier nommé .env.
