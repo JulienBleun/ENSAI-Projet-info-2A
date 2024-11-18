@@ -129,7 +129,7 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         return res == 1
 
     @log
-    def DeleteCoherent(self, collection: CollectionCoherente) -> bool:
+    def DeleteCoherent(self, id_collection) -> bool:
         """Suppression d'une collection cohérente de la base de données
 
         Parameters
@@ -148,31 +148,31 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                 # 1. Supprimer d'abord les associations avec les mangas dans la table d'association
                     cursor.execute(
                     """
-                    DELETE FROM Association_manga_collection_coherente
-                    WHERE id_collection_coherente = %(id)s;
+                    DELETE FROM tp.association_manga_collection_coherente
+                    WHERE id_collection = %(id_collection)s;
                     """,
-                    {"id": collection.id_collection},
+                    {"id_collection": id_collection},
                 )
 
                     # 2. Supprimer ensuite la collection cohérente
                     cursor.execute(
                         """
-                        DELETE FROM collection_coherente
-                        WHERE id_collection = %(id)s;
+                        DELETE FROM tp.collection_coherente
+                        WHERE id_collection = %(id_collection)s;
                         """,
-                        {"id": collection.id_collection},
+                        {"id_collection": id_collection},
                     )
                     # 3. Supprimer la collection associée
                     cursor.execute(
                         """
-                        DELETE FROM collection
-                        WHERE id_collection = %(id)s;
+                        DELETE FROM tp.collection
+                        WHERE id_collection = %(id_collection)s;
                         """,
-                        {"id": collection.id_collection},
+                        {"id_collection": id_collection},
                     )
-
+                    deleted = cursor.rowcount > 0
                     # Vérifier si la suppression de la collection a bien eu lieu
-            deleted = cursor.rowcount() > 0  # rowcount > 0 indique si une ligne a été supprimée
+              # rowcount > 0 indique si une ligne a été supprimée
 
         except Exception as e:
             logging.error(f"Erreur lors de la suppression de la collection cohérente : {e}")
