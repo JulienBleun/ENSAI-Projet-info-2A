@@ -42,6 +42,6 @@ class CollectionCoherenteService:
         return CollectionCoherenteDAO().DeleteCoherent(id_collection)
 
     @log
-    def consulter_coherent(self, id_collection) -> CollectionCoherente:
+    def consulter_coherent(self, titre_collection) -> CollectionCoherente:
 
-        return CollectionCoherenteDAO().ReadCoherent(id_collection)
+        return CollectionCoherenteDAO().ReadCoherent(titre_collection)

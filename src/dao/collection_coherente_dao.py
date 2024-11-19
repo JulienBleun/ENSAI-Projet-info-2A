@@ -6,6 +6,7 @@ from src.utils.log_decorator import log
 from src.dao.db_connection import DBConnection
 
 from src.business_object.collection_coherente import CollectionCoherente
+from src.business_object.manga import Manga
 
 
 
@@ -180,8 +181,8 @@ class CollectionCoherenteDAO(metaclass=Singleton):
 
         return deleted
 
-    #    @log
-    def ReadCoherent(self, id: int) -> CollectionCoherente:
+    @log
+    def ReadCoherent(self, titre: int) -> CollectionCoherente:
         """Lecture d'une collection cohérente à partir de son ID
 
         Parameters
@@ -201,52 +202,56 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     # 1. Récupérer les informations de la collection cohérente
                     cursor.execute(
-                        "SELECT * FROM collection_coherente WHERE id_collection = %(id)s;",
-                        {"id": id},
+                        "SELECT * FROM tp.collection_coherente WHERE titre = %(titre)s;",
+                        {"titre": titre},
                     )
                     res1 = cursor.fetchone()
 
                     # 2. Récupérer l'id de l'utilisateur
                     cursor.execute(
-                        "SELECT * FROM collection WHERE id_collection = %(id)s;",
-                        {"id": id},
+                        "SELECT * FROM tp.collection"
+                        " JOIN tp.collection_coherente ON tp.collection.id_collection=tp.collection_coherente.id_collection"
+                        " WHERE tp.collection_coherente.titre = %(titre)s;",
+                        {"titre": titre},
                     )
                     res2 = cursor.fetchone()
 
                     # 3. Récupérer les mangas associés via la table d'association
                     cursor.execute(
                         """
-                        SELECT m.id_manga, m.titre, m.description
-                        FROM Association_manga_collection_coherente AS amcc
-                        JOIN Manga AS m ON amcc.id_manga = m.id_manga
-                        WHERE amcc.id_collection_coherente = %(id)s;
+                        SELECT tp.manga.titre, tp.manga.id_manga, tp.manga.descript, tp.manga.auteur
+                        FROM tp.association_manga_collection_coherente
+                        JOIN tp.manga ON tp.association_manga_collection_coherente.id_manga = tp.manga.id_manga
+                        JOIN tp.collection_coherente ON tp.association_manga_collection_coherente.id_collection = tp.collection_coherente.id_collection
+                        WHERE tp.collection_coherente.titre = %(titre)s;
                         """,
-                        {"id": id},
+                        {"titre": titre},
                     )
                     mangas_res = cursor.fetchall()
 
                     # 4. Si la collection est trouvée, construire l'objet CollectionCoherente
-                    if res:
-                        mangas = [
-                            Manga(
+                    if mangas_res:
+                        contenu = []
+                        for manga in mangas_res:
+                            new_manga = Manga(
                                 id_manga=manga["id_manga"],
                                 titre=manga["titre"],
-                                description=manga["description"]
-                            ) for manga in mangas_res
-                        ]
+                                descript=manga["descript"],
+                                auteur=manga["auteur"]
+                                )
+                            contenu.append(new_manga)
 
                         collection = CollectionCoherente(
                             id_collection=res1["id_collection"],
                             id_utilisateur=res2["id_utilisateur"],
                             titre=res1["titre"],
                             description=res1["description"],
-                            contenu=mangas  # Liste d'objets Manga associés à la collection
+                            contenu=contenu  # Liste d'objets Manga associés à la collection
                         )
 
         except Exception as e:
             logging.error(f"Erreur lors de la lecture de la collection cohérente : {e}")
             collection = None
-
 
         return collection
 

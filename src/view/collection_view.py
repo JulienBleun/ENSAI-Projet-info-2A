@@ -76,6 +76,30 @@ def supprimer_collection_coherente_view(utilisateur_id):
         print("\n\nVous n'avez pas encore créé de collection cohérente")
 
 
+#def afficher_collection_coherente_par_titre_view(): #Constuire l'affichage de collections selon un titre de manga qui serait dans la collection
+ #   pass
+        #SELECT tp.manga.titre, tp.collection_coherente.titre, tp.collection_coherente.description FROM tp.association_manga_collection_coherente
+   # JOIN tp.collection_coherente ON tp.association_manga_collection_coherente.id_collection=tp.collection_coherente.id_collection
+    #JOIN tp.manga ON tp.association_manga_collection_coherente.id_manga=tp.manga.id_manga
+    #WHERE tp.manga.titre = 'One Piece'
+
+def afficher_collection_coherente_par_titre_view():
+    titre = input("Quel est le titre de la collection cohérente que vous cherchez ? : ")
+
+    collection = CollectionCoherenteService().consulter_coherent(titre)
+
+    if collection:
+        print(f"Collection trouvée ! La collection '{titre}' contient les mangas :")
+
+        for manga in collection.contenu:  # Itération directe sur les objets Manga
+            print(manga.titre)
+
+        print(f"Sa description est : '{collection.description}'")
+
+    else:
+        print(f"Aucune collection trouvée pour le titre '{titre}'.")
+
+
 def creer_collection_physique_view(utilisateur_id):
     titre = input(" Titre de la collection physique : ")
     dernier_tome_acquis = int(input(" Dernier tome acquis : "))
