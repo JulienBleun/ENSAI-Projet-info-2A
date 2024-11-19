@@ -31,6 +31,17 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                # Vérifier si le titre existe déjà
+                    cursor.execute(
+                        "SELECT 1 FROM tp.collection_coherente WHERE titre = %(titre)s;",
+                        {"titre": collection.titre},
+                    )
+
+                    if cursor.fetchall():
+                        logging.error(f"Une collection avec le titre '{collection.titre}' existe déjà."
+                                      " Réessayez avec un autre titre.")
+                        return False  # Empêche la création
+
                     cursor.execute(
                         "INSERT INTO tp.collection (id_utilisateur) VALUES "
                         "(%(id_utilisateur)s) RETURNING id_collection;",
@@ -88,6 +99,20 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                    cursor.execute(
+                        """
+                        SELECT 1
+                        FROM tp.collection_coherente
+                        WHERE titre = %(titre)s AND id_collection != %(id_collection)s;
+                        """,
+                        {"titre": collection.titre, "id_collection": collection.id_collection},
+                    )
+                    if cursor.fetchall():
+                        logging.error(
+                            f"Une collection avec le titre '{collection.titre}' existe déjà. "
+                            "Réessayez avec un autre titre."
+                        )
+                        return False
                     cursor.execute(
                     """
                     UPDATE tp.collection_coherente
