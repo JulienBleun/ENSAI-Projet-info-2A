@@ -296,3 +296,62 @@ class CollectionCoherenteDAO(metaclass=Singleton):
             logging.info(e)
             raise
         return res
+
+    def recup_id_collec_from_manga_titre(self, titre):
+        """
+        Renvoie les id de collections parmi lesquels le titre de manga est contenu
+
+        """
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        """
+                        SELECT tp.collection_coherente.id_collection FROM tp.association_manga_collection_coherente
+                        JOIN tp.collection_coherente ON tp.association_manga_collection_coherente.id_collection=tp.collection_coherente.id_collection
+                        JOIN tp.manga ON tp.association_manga_collection_coherente.id_manga=tp.manga.id_manga
+                        WHERE tp.manga.titre = %(titre)s;
+                        """,
+                        {"titre": titre},
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res
+
+    def recup_infos_from_collec_id(self, id_collection: int) -> CollectionCoherente:
+        """Lecture d'une collection cohérente à partir de son ID
+
+        Parameters
+        ----------
+        id : int
+            ID de la collection à lire
+
+        Returns
+        -------
+        collection : CollectionCoherente
+            L'objet CollectionCoherente correspondant
+        """
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    # 1. Récupérer les informations de la collection cohérente
+                    cursor.execute(
+                        """
+                        SELECT tp.manga.titre AS titre_manga, tp.utilisateur.pseudo, tp.collection_coherente.titre AS titre_collec, tp.collection_coherente.description FROM tp.collection
+                        JOIN tp.collection_coherente ON tp.collection.id_collection=tp.collection_coherente.id_collection
+                        JOIN tp.utilisateur ON tp.collection.id_utilisateur=tp.utilisateur.id_utilisateur
+                        JOIN tp.association_manga_collection_coherente ON tp.collection_coherente.id_collection=tp.association_manga_collection_coherente.id_collection
+                        JOIN tp.manga ON tp.association_manga_collection_coherente.id_manga=tp.manga.id_manga
+                        WHERE tp.collection_coherente.id_collection = %(id_collection)s;
+                        """,
+                        {"id_collection": id_collection},
+                    )
+                    res = cursor.fetchall()
+
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res

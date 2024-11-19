@@ -76,15 +76,33 @@ def supprimer_collection_coherente_view(utilisateur_id):
         print("\n\nVous n'avez pas encore créé de collection cohérente")
 
 
-#def afficher_collection_coherente_par_titre_view(): #Constuire l'affichage de collections selon un titre de manga qui serait dans la collection
- #   pass
-        #SELECT tp.manga.titre, tp.collection_coherente.titre, tp.collection_coherente.description FROM tp.association_manga_collection_coherente
-   # JOIN tp.collection_coherente ON tp.association_manga_collection_coherente.id_collection=tp.collection_coherente.id_collection
-    #JOIN tp.manga ON tp.association_manga_collection_coherente.id_manga=tp.manga.id_manga
-    #WHERE tp.manga.titre = 'One Piece'
+def afficher_collection_coherente_par_titre__manga_view():
+
+    titre = input("À partir de quel manga souhaitez-vous cherchez des collections ? ")
+
+    id_collections = CollectionCoherenteDAO().recup_id_collec_from_manga_titre(titre)
+
+    if id_collections:
+        print(f"Le manga {titre} est contenu dans les collections cohérentes suivantes :")
+
+        for i in range(0, len(id_collections)):
+            id = id_collections[i]['id_collection']
+            infos_collec = CollectionCoherenteDAO().recup_infos_from_collec_id(
+                id)
+
+            print(f"{i+1} : '{infos_collec[0]['titre_collec']}' créée par "
+                  f"{infos_collec[0]['pseudo']} avec la description "
+                  f"'{infos_collec[0]['description']}' et contient les mangas "
+                  f"suivants : ")
+
+            for u in range(0, len(infos_collec)) :
+                print(f" {infos_collec[u]['titre_manga']}")
+    else:
+        print("Aucune collection ne contient ce manga. Réssayez plus tard.")
+
 
 def afficher_collection_coherente_par_titre_view():
-    titre = input("Quel est le titre de la collection cohérente que vous cherchez ? : ")
+    titre = input("Quel est le titre de la collection cohérente que vous cherchez ? ")
 
     collection = CollectionCoherenteService().consulter_coherent(titre)
 

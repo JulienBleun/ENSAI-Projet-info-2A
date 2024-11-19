@@ -1,5 +1,5 @@
 from src.view.manga_view import trouver_manga_par_titre, trouver_manga_par_id
-from src.view.collection_view import creer_collection_coherente_view, creer_collection_physique_view, modifier_collection_coherente_view, supprimer_collection_coherente_view, afficher_collection_coherente_par_titre_view
+from src.view.collection_view import creer_collection_coherente_view, creer_collection_physique_view, modifier_collection_coherente_view, supprimer_collection_coherente_view, afficher_collection_coherente_par_titre_view, afficher_collection_coherente_par_titre__manga_view
 from src.view.modifier_compte_view import modifier_compte_view
 from src.view.deconnexion_view import deconnexion_view
 from src.view.avis_view import modifier_avis_manga, supprimer_avis_manga, afficher_avis_manga
@@ -22,6 +22,7 @@ def afficher_menu_utilisateur(utilisateur_id):
         print("9. Se déconnecter")
         print("10. Supprimer mon compte")
         print("13. Chercher une collection cohérente par titre")
+        print("14. Chercher des collections cohérentes par titre de manga")
 
 
 
@@ -56,5 +57,7 @@ def afficher_menu_utilisateur(utilisateur_id):
             supprimer_collection_coherente_view(utilisateur_id)
         elif choix == '13':
             afficher_collection_coherente_par_titre_view()
+        elif choix == '14':
+            afficher_collection_coherente_par_titre__manga_view()
         else:
             print("Choix invalide. Veuillez réessayer.")
