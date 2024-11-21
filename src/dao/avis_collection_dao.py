@@ -13,7 +13,7 @@ class AvisCollectionDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux avis des collections """
     """de la base de données"""
 
-    #log
+    @log
     def create_avis_collection(self, avis: AvisCollection) -> bool:
         """Création d'un avis sur une collection dans la base de données
 
@@ -27,15 +27,15 @@ class AvisCollectionDao(metaclass=Singleton):
             True si la création est un succès
             False sinon
         """
-        #try:
-        with DBConnection().connection as connection:
+        try:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO avis_collection(id_utilisateur, "
-                        "id_collection, contenu, note) VALUES                 "
+                        "INSERT INTO tp.avis_collection(id_utilisateur, "
+                        "id_collection, commentaire, note) VALUES                 "
                         "(%(id_utilisateur)s, %(id_collection)s, "
-                        " %(contenu)s, %(note)s)                         "
-                         "  RETURNING id_joueur;                  ",
+                        " %(commentaire)s, %(note)s)                         "
+                        " RETURNING id_avis;                  ",
                         {
                             "id_utilisateur": avis.id_utilisateur,
                             "commentaire": avis.commentaire,
@@ -44,8 +44,8 @@ class AvisCollectionDao(metaclass=Singleton):
                         },
                     )
                     res = cursor.fetchone()
-        # Exception as e:
-            #logging.info(e)
+        except Exception as e:
+            logging.info(e)
 
         created = False
         if res:

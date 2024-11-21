@@ -13,7 +13,7 @@ class MangaPhysiqueDAO(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux Joueurs de la base de """
     """données"""
 
-    #@log
+    @log
     def create_manga_physique(self, manga: MangaPhysique) -> bool:
         """Créer un manga sous la forme physique dans la base de données
 
@@ -32,17 +32,26 @@ class MangaPhysiqueDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO manga_physique(id_collection, "
-                        "id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES                 "
-                        "(%(id_manga_physique)s, %(id_collection)s, %(id_manga)s"
-                        " %(dernier_tome_acquis)s, %(tomes_manquants)s, "
-                        "%(statut)s)                         "
+                        "SELECT 1 FROM tp.manga WHERE tp.manga.titre = %(titre_manga)s;",
+                        {"titre_manga": manga.titre_manga},
+                    )
+                    exists = cursor.fetchone()
+
+                    if not exists:
+                        logging.info(f"Le manga '{manga.titre_manga}' n'est"
+                                     " pas recensé dans la base de données.")
+
+                        return False
+                    cursor.execute(
+                        "INSERT INTO tp.manga_physique(titre_manga, tomes_acquis,"
+                        " statut, id_utilisateur) VALUES                 "
+                        "(%(titre_manga)s, %(tomes_acquis)s, %(statut)s, "
+                        "%(id_utilisateur)s)                         "
                         "  RETURNING id_manga_physique;                          ",
                         {
-                            "id_collection": manga.id_collection_physique,
-                            "id_manga": manga.id_manga,
-                            "dernier_tome_acquis": manga.dernier_tome_acquis,
-                            "tomes_manquants": manga.tomes_manquant,
+                            "titre_manga": manga.titre_manga,
+                            "tomes_acquis": manga.tomes_acquis,
+                            "id_utilisateur": manga.id_utilisateur,
                             "statut": manga.statut
                         },
                     )
@@ -58,7 +67,7 @@ class MangaPhysiqueDAO(metaclass=Singleton):
 
         return created
 
-     #@log
+    @log
     def update_manga_physique(self, manga: MangaPhysique) -> bool:
         """Modifier un manga sous la forme physique dans la base de données
 
@@ -75,76 +84,32 @@ class MangaPhysiqueDAO(metaclass=Singleton):
         """
         res = None
 
-        #try:
-        with DBConnection().connection as connection:
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    "UPDATE manga_physique                                     "
-                    "   SET id_collection            = %(id_collection)s,      "
-                    "       id_manga                 = %(id_manga)s,           "
-                    "       dernier_tome_acquis      = %(dernier_tome_acquis)s,"
-                    "       tomes_manquants          = %(tomes_manquants)s     "
-                    "       statut                   = %(statut)s              "
-                    " WHERE id_manga_physique        = %(id_manga_physique)s;  ",
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        """
+                    UPDATE tp.manga_physique
+                    SET id_utilisateur = %(id_utilisateur)s, titre_manga = %(titre_manga)s,
+                    tomes_acquis = %(tomes_acquis)s, statut = %(statut)s
+                    WHERE id_manga_physique = %(id_manga_physique)s;
+                    """,
                     {
-                            "id_collection": manga.id_collection_physique,
-                            "id_manga": manga.id_manga,
-                            "dernier_tome_acquis": manga.dernier_tome_acquis,
-                            "tomes_manquants": manga.tomes_manquant,
-                            "statut": manga.statut,
-                            "id_manga_physique": manga.id_manga_physique,
+                        "id_manga_physique": manga.id_manga_physique,
+                        "id_utilisateur": manga.id_utilisateur,
+                        "titre_manga": manga.titre_manga,
+                        "tomes_acquis": manga.tomes_acquis,
+                        "statut": manga.statut,
                     },
-                )
-                res = cursor.rowcount
-        #except Exception as e:
-            #logging.info(e)
+                    )
+                    res = cursor.rowcount
+
+        except Exception as e:
+            logging.info(e)
 
         return res == 1
 
-
-
-    #@log
-
-    def read_manga_physique(self, id_manga) -> MangaPhysique:
-        """Trouver un manga physique grâce à son id
-
-        Parameters
-        ----------
-        id_manga : int
-            numéro id du manga physique que l'on souhaite trouver
-
-        Returns
-        -------
-        avis : MangaPhysique
-            renvoie le manga physique que l'on cherche par id
-        """
-        #try:
-        with DBConnection().connection as connection:
-                with connection.cursor() as cursor:
-                    cursor.execute(
-                        "SELECT *                           "
-                        "  FROM manga_physique                      "
-                        " WHERE id_manga_physique = %(id_manga_physique)s;  ",
-                        {"id_manga_physique": id_manga},
-                )
-        res = cursor.fetchone()
-        #except Exception as e:
-        #logging.info(e)
-            #raise
-
-        manga = None
-        if res:
-            manga = MangaPhysique(
-                id_manga_physique=res["id_manga_physique"],
-                id_collection=res["id_collection"],
-                id_manga=res["id_manga"],
-                dernier_tome_acquis=res["dernier_tome_acquis"],
-                tomes_manquants=res["tomes_manquants"],
-                statut=res["statut"]
-            )
-        return manga
-
-    def delete_manga_physique(self, manga_physique) -> bool:
+    def delete_manga_physique(self, id_supprime: int) -> bool:
         """
         Suppression d'un manga physique dans la base de données
 
@@ -162,9 +127,9 @@ class MangaPhysiqueDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "DELETE FROM manga_physique                 "
-                        " WHERE id_manga_physique=%(id_manga_physique)s      ",
-                        {"id_manga_physique": manga_physique.id_manga_physique},
+                        "DELETE FROM tp.manga_physique                   "
+                        " WHERE tp.manga_physique.id_manga_physique=%(id_manga_physique)s      ",
+                        {"id_manga_physique": id_supprime},
                     )
                     res = cursor.rowcount
         except Exception as e:
@@ -172,3 +137,19 @@ class MangaPhysiqueDAO(metaclass=Singleton):
             raise
 
         return res > 0
+
+    def recup_manga_physique_from_id(self, id_utilisateur):
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT * FROM tp.manga_physique"
+                        " WHERE id_utilisateur='%(id_utilisateur)s'",
+                        {"id_utilisateur": id_utilisateur},
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res

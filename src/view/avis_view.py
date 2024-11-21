@@ -1,6 +1,39 @@
 from src.dao.avis_manga_dao import AvisMangaDao
 from src.service.avis_manga_service import AvisMangaService
 from src.business_object.avis_manga import AvisManga
+from src.service.manga_service import MangaService
+
+
+def creer_avis_manga(utilisateur_id):
+
+    titre = input("Entrez le titre du manga dont vous souhaitez écrire un"
+                  " avis : ")
+
+    try:
+        manga = MangaService().consulter_manga_par_titre(titre)
+        if manga:
+            if utilisateur_id:
+                try:  # Vérifie que l'utilisateur est connecté
+                    commentaire = input("Entrez votre commentaire : ")
+                    note = input("Entrez votre note (de 0 à 10) : ")
+                    avis = AvisMangaService().rédiger_avis_manga(
+                                    id_utilisateur=utilisateur_id,
+                                    id_manga=int(manga.id_manga),
+                                    commentaire=commentaire,
+                                    note=int(note)
+                                )
+                    if avis:
+                        print("Votre avis a été ajouté avec succès !")
+                    else:
+                        print("Erreur lors de l'ajout de votre avis.")
+                except ValueError:
+                    print("Veuillez entrer une note valide (un nombre entier entre 0 et 10).")
+        else:
+            print("\n\nCe manga n'est malheureusement pas dans notre base "
+                  "de données. Réessayez.")
+
+    except Exception as e:
+        print(f"Une erreur est survenue lors de la recherche : {e}")
 
 
 def modifier_avis_manga(utilisateur_id):

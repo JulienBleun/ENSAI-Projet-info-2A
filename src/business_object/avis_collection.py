@@ -16,12 +16,12 @@ class AvisCollection(AbstractAvis):
     """
 
     def __init__(self,
-                 id_avis: int,
                  id_utilisateur: int,
-                 commentaire: str,
+                 commentaire: int,
                  note: int,
+                 id_avis: int,
                  id_collection: int):
 
-        super().__init__(id_avis, id_utilisateur, commentaire, note)
+        super().__init__(id_utilisateur, commentaire, note, id_avis)
         self.id_collection = id_collection
-        self.id_utilisateur = id_utilisateur
+
