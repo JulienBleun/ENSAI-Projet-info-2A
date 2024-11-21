@@ -102,3 +102,14 @@ CREATE TABLE tp.avis_manga (
     commentaire TEXT,
     note NUMERIC CHECK (note >= 0 AND note <= 10)
 );
+
+--------------------------------------------------------------
+-- Collection physique
+--------------------------------------------------------------
+
+DROP TABLE IF EXISTS tp.collection_physique CASCADE;
+
+CREATE TABLE tp.collection_physique(
+    id_collection_physique SERIAL PRIMARY KEY,
+    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur)
+);

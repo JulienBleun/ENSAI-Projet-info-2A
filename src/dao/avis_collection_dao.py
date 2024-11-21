@@ -27,9 +27,24 @@ class AvisCollectionDao(metaclass=Singleton):
             True si la création est un succès
             False sinon
         """
+        res = None
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                    # Vérifier si le titre existe déjà
+                    cursor.execute(
+                        "SELECT 1 FROM tp.avis_collection WHERE id_utilisateur = %(id_utilisateur)s;",
+                        " AND id_collection = %(id_collection)s",
+                        {"id_avis": avis.id_avis,
+                         "id_utilisateur": avis.id_utilisateur},
+                    )
+
+                    result = cursor.fetchone()  # On récupère une ligne de résultat
+                    if result:
+                        logging.error("Vous avez déjà avec un avis sur cette"
+                                      " collection. Réessayez avec un autre titre.")
+                        created = False  # Empêche la création
+
                     cursor.execute(
                         "INSERT INTO tp.avis_collection(id_utilisateur, "
                         "id_collection, commentaire, note) VALUES                 "
@@ -70,32 +85,30 @@ class AvisCollectionDao(metaclass=Singleton):
         """
         res = None
 
-        #try:
-        with DBConnection().connection as connection:
+        try:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "UPDATE avis_collection                           "
+                        "UPDATE tp.avis_collection                           "
                         "   SET id_utilisateur = %(id_utilisateur)s,      "
-                        "       id_manga       = %(id_manga)s,            "
                         "       commentaire    = %(commentaire)s,             "
                         "       note           = %(note)s                 "
                         " WHERE id_avis      = %(id_avis)s;           ",
                         {
                             "id_utilisateur": avis.id_utilisateur,
-                            "id_manga": avis.id_manga,
-                            "contenu": avis.contenu,
+                            "commentaire": avis.commentaire,
                             "note": avis.note,
                             "id_avis": avis.id_avis,
                         },
                     )
                     res = cursor.rowcount
-        #except Exception as e:
-            #logging.info(e)
+        except Exception as e:
+            logging.info(e)
 
         return res == 1
 
     #@log
-    def delete_avis_collection(self, avis: AvisCollection) -> bool:
+    def delete_avis_collection(self, id_avis: AvisCollection) -> bool:
         """Supprimer un avis de collection dans la base de données
 
         Parameters
@@ -109,18 +122,18 @@ class AvisCollectionDao(metaclass=Singleton):
             True si la suppression a bien été effectuée
         """
 
-        #try:
-        with DBConnection().connection as connection:
+        try:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "DELETE FROM avis_collection                  "
+                        "DELETE FROM tp.avis_collection                  "
                         " WHERE id_avis=%(id_avis)s        ",
-                        {"id_avis": avis.id_avis},
-                    )
+                        {"id_avis": id_avis},
+                        )
                     res = cursor.rowcount
-        #except Exception as e:
-            #logging.info(e)
-            #raise
+        except Exception as e:
+            logging.info(e)
+            raise
 
         return res > 0
 
@@ -162,3 +175,20 @@ class AvisCollectionDao(metaclass=Singleton):
                 note=res["note"],
                 )
         return avis
+
+    def recup_avis_collec_from_id(self, id_utilisateur):
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT id_avis, id_utilisateur, tp.avis_collection.id_collection, tp.collection_coherente.titre, commentaire, note FROM tp.avis_collection"
+                        " JOIN tp.collection_coherente ON tp.collection_coherente.id_collection=tp.avis_collection.id_collection"
+                        " WHERE id_utilisateur='%(id_utilisateur)s'",
+                        {"id_utilisateur": id_utilisateur},
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res

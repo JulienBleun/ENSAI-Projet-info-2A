@@ -26,21 +26,26 @@ class AvisCollectionService:
                ).create_avis_collection(nouvel_avis_collection) else None
 
     @log
-    def mettre_a_jour(self, avis_modifié: AvisCollection) -> AvisCollection:
+    def mettre_a_jour(self, id_avis, id_utilisateur, commentaire, note,
+                      id_collection) -> AvisCollection:
 
-        # avis_modifié doit être une instance d'AvisCollection. On accède aux
-        # informations de l'avis associé à son id, puis on les modifie
-        # avec les nouvelles infos.
+        avis_modif = AvisCollection(
+                id_utilisateur=id_utilisateur,
+                commentaire=commentaire,
+                note=note,
+                id_avis=id_avis,
+                id_collection=id_collection
+            )
 
-        return avis_modifié if AvisCollectionDao().update_avis_collection(
-               avis_modifié) else None
+        return avis_modif if AvisCollectionDao().update_avis_collection(
+               avis_modif) else None
 
     @log
-    def supprimer(self, avis: AvisCollection) -> bool:
+    def supprimer(self, id_avis: int) -> bool:
 
         # On supprime l'avis à partir de son id.
 
-        return AvisCollectionDao().delete_avis_collection(avis)
+        return AvisCollectionDao().delete_avis_collection(id_avis)
 
     @log
     def consulter_avis(self, id_avis) -> AvisCollection:

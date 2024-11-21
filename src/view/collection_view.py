@@ -19,6 +19,7 @@ def creer_collection_coherente_view(utilisateur_id):
     else:
         print("Erreur lors de la création de la collection.")
 
+
 def modifier_collection_coherente_view(utilisateur_id):
 
     collection = CollectionCoherenteDAO().recup_collec_coherente_from_id(utilisateur_id)

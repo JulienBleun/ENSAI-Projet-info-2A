@@ -15,3 +15,4 @@ def inscription_view():
         print(f"Inscription réussie ! Bienvenue sur la meilleure Mangathèque {pseudo}")
     else:
         print("L'inscription a échoué. Veuillez réessayer.")
+
