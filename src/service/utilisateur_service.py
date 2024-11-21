@@ -67,14 +67,37 @@ class UtilisateurService(metaclass=Singleton):
             return False, "Le mot de passe doit comporter au moins 8 caractères."
         return True, "OK"
 
-        def desinscription(self, id):
-            if UtilisateurDao().delete_utilisateur(id) :
-                return True
-            else :
-                return False
+    def desinscription(self, id):
+        if UtilisateurDao().delete_utilisateur(id) :
+            return True
+        else :
+            return False
 
-        def se_connecter(self, pseudo, md):
-            UtilisateurDao().connexion(pseudo, mdp)
+    def se_connecter(self, pseudo: str, mdp: str):
+        """
+        Service pour connecter un utilisateur.
+
+        Parameters
+        ----------
+        pseudo : str
+            Pseudo de l'utilisateur.
+        mdp : str
+            Mot de passe de l'utilisateur.
+
+        Returns
+        -------
+        Utilisateur :
+            L'utilisateur connecté si succès.
+        dict :
+            Message d'erreur si échec.
+        """
+        try:
+            utilisateur = UtilisateurDao().connexion(pseudo, mdp)
+            if utilisateur:
+                return utilisateur
+            else:
+                return None
+
 """
         def consulter_profil(self, id):
 

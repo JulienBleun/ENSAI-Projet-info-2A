@@ -9,7 +9,8 @@ def connexion_view():
     mdp = getpass.getpass("Entrez votre mot de passe : ")
 
     try:
-        utilisateur = UtilisateurService().se_connecter(pseudo, mdp)
+        u = UtilisateurService()
+        utilisateur = u.se_connecter(pseudo, mdp)
         if utilisateur is not None:
             print(f"\n\nConnexion réussie ! Heureux de vous revoir {utilisateur.pseudo}")
             return utilisateur  # Retourne l'utilisateur connecté
