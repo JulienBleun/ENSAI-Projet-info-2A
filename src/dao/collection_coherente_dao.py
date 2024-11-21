@@ -13,7 +13,7 @@ class CollectionCoherenteDAO(metaclass=Singleton):
     """Classe DAO pour gérer les collections cohérentes dans la base de données"""
 
 #    @log
-    def CreateCoherente(self, collection: CollectionCoherente) -> bool:
+    def create_coherente(self, collection: CollectionCoherente) -> bool:
         """Création d'une nouvelle collection cohérente dans la base de données
 
     Parameters
@@ -76,7 +76,7 @@ class CollectionCoherenteDAO(metaclass=Singleton):
 
 
 #    @log
-    def UpdateCoherent(self, collection: CollectionCoherente) -> bool:
+    def update_coherent(self, collection: CollectionCoherente) -> bool:
         """Mise à jour d'une collection cohérente existante
 
         Parameters
@@ -134,7 +134,7 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         return updated
 
 #    @log
-def DeleteCoherent(self, collection: CollectionCoherente) -> bool:
+    def delete_coherent(self, collection: CollectionCoherente) -> bool:
     """Suppression d'une collection cohérente de la base de données
 
     Parameters
@@ -186,7 +186,7 @@ def DeleteCoherent(self, collection: CollectionCoherente) -> bool:
     return deleted
 
 #    @log
-def ReadCoherent(self, id: int) -> CollectionCoherente:
+def read_coherent(self, id: int) -> CollectionCoherente:
     """Lecture d'une collection cohérente à partir de son ID
 
     Parameters
