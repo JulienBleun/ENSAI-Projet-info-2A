@@ -22,20 +22,23 @@ class UtilisateurService(metaclass=Singleton):
         if not valide:
             raise ValueError(f"Inscription échouée : {message}")
 
-        # Hachage du mot de passe et génération du sel
+         # Hachage du mot de passe et génération du sel
         mot_de_passe_hashe, sel = hasher_mot_de_passe(mdp)
 
-        # Création de l'objet Utilisateur
+        # Conversion du sel en hexadécimal pour stockage dans la base de données
+        sel_hex = sel.hex()
+
+        # Création de l'utilisateur
         nouveau_utilisateur = Utilisateur(
             nom=nom,
             prenom=prenom,
             pseudo=pseudo,
             email=email,
             mdp=mot_de_passe_hashe,  # Mot de passe haché
-            sel=sel.hex()  # Convertir le sel en hexadécimal
+            sel=sel_hex  # Sel en format hexadécimal
         )
-        
-        # Ajouter l'utilisateur à la base de données
+
+        # Ajout de l'utilisateur dans la base de données
         if UtilisateurDao().add_utilisateur(nouveau_utilisateur):
             return nouveau_utilisateur
         else:
