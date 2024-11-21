@@ -30,6 +30,26 @@ git clone https://github.com/JulienBleun/ENSAI-Projet-info-2A.git
 
 ---
 
+▶️ Ouvrez le dépôt avec VSCode
+- Ouvrir Visual Studio Code
+- File > Ope Folder
+- Cliquer une seule fois sur Cours2A-UE3-Projet-info et cliquez sur Sélectionner un dossier
+⚠️ Si le dossier parent dans l'explorer VSCode (à gauche) n'est pas Cours2A-UE3-Projet-info, l'application ne fonctionnera pas
+
+Fichiers de configuration
+
+Ce dépôt contient de nombreux fichiers de configuration pour paramétrer les différents outils utilisés.
+
+| Fichier                  | Description                                         |
+|--------------------------|-----------------------------------------------------|
+| `.env`                   | Définir les variables d'environnement               |
+| `.gitignore`             | Liste des fichiers et répertoires à ignorer lors des opérations Git |
+| `requirements.txt`       | Liste des dépendances Python requises pour le projet |
+
+
+---
+
+
 ▶️ Installez les packages nécessaires
 Dans VSCode :
 
@@ -58,7 +78,7 @@ Instructions :
   POSTGRES_DATABASE=idxxxx
   POSTGRES_USER=idxxxx
   POSTGRES_PASSWORD=idxxxx
-  POSTGRES_SCHEMA=projet
+  POSTGRES_SCHEMA=tp
 
   ```
 

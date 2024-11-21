@@ -159,7 +159,7 @@ class UtilisateurDao(metaclass=Singleton):
         return deleted
 
     @log
-    def se_connecter(self, pseudo, mdp) -> Utilisateur:
+    def se_connecter(self, pseudo: str, mdp: str) -> Utilisateur:
         """Se connecter grâce à son pseudo et son mot de passe.
 
         Parameters
@@ -171,36 +171,36 @@ class UtilisateurDao(metaclass=Singleton):
 
         Returns
         -------
-        Utilisateur : L'utilisateur connecté ou None si échoue.
+        Utilisateur : L'utilisateur connecté ou None si échec.
         """
-        res = None
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT * FROM tp.utilisateur WHERE pseudo = %(pseudo)s AND mdp = %(mdp)s;",
-                        {"pseudo": pseudo, "mdp": mdp},
+                        "SELECT * FROM tp.utilisateur WHERE pseudo = %(pseudo)s;",
+                        {"pseudo": pseudo},
                     )
                     res = cursor.fetchone()
         except Exception as e:
-            logging.info(e)
-
-        utilisateur = None
+            logging.info(f"Erreur lors de la connexion : {e}")
+            return None
 
         if res:
             mdp_hashe = res["mdp"]
-            sel = bytes.fromhex(res["sel"])  # Convertir le sel en bytes
+            sel = bytes.fromhex(res["sel"])  # Convertir le sel hexadécimal en bytes
             if verifier_mot_de_passe(mdp, mdp_hashe, sel):
-                utilisateur = Utilisateur(
-                    id_utilisateur=res["id_utilisateur"],  # Assuming you have an ID field in the DB
+                return Utilisateur(
+                    id_utilisateur=res["id_utilisateur"],
                     nom=res["nom"],
                     prenom=res["prenom"],
                     pseudo=res["pseudo"],
                     email=res["email"],
-                    mdp=res["mdp"]
+                    mdp=mdp_hashe,
+                    sel=sel
                 )
 
-        return utilisateur
+        return None
+
 
     @log
     def update_utilisateur(self, utilisateur: Utilisateur) -> bool:

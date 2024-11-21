@@ -28,3 +28,4 @@ class TestAvisCollection(unittest.TestCase):
         self.assertEqual(avis.commentaire, expected_commentaire)
         self.assertEqual(avis.note, expected_note)
         self.assertEqual(avis.id_collection, expected_id_collection)
+
