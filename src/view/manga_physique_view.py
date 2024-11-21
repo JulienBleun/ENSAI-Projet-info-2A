@@ -77,13 +77,13 @@ def modifier_manga_physique_view(utilisateur_id):
                 print('Votre manga physique bien été modifié.')
 
 
-def afficher_manga_physique_view(utilisateur_id):
+def afficher_collection_physique_view(utilisateur_id):
 
     manga = MangaPhysiqueDAO().recup_manga_physique_from_id(utilisateur_id)
     # On récupère tous les mangas physiques de l'utilisateur connecté
     if manga:
-        print("Voici vos mangas physiques : ")
         print('0 : Retour au menu principal')
+        print("Voici votre collection de mangas physiques : ")
         for i in range(0, len(manga)):
             print(f'{i+1} : ' + manga[i]['titre_manga'])
         numero_manga = int(input('Quel manga physique souhaitez-vous afficher ? '))

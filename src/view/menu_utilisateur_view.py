@@ -4,8 +4,8 @@ from src.view.modifier_compte_view import modifier_compte_view
 from src.view.deconnexion_view import deconnexion_view
 from src.view.avis_view import modifier_avis_manga, supprimer_avis_manga, afficher_avis_manga, creer_avis_manga
 from src.view.suppression_view import suppression_view
-from src.view.manga_physique_view import ajouter_manga_physique_view, modifier_manga_physique_view, afficher_manga_physique_view, supprimer_manga_physique_view
-from src.view.avis_collection_view import creer_avis_collection
+from src.view.manga_physique_view import ajouter_manga_physique_view, modifier_manga_physique_view, afficher_collection_physique_view, supprimer_manga_physique_view
+from src.view.avis_collection_view import creer_avis_collection, modifier_avis_collection, supprimer_avis_collection
 
 
 def afficher_menu_utilisateur(utilisateur_id):
@@ -27,20 +27,20 @@ def afficher_menu_utilisateur(utilisateur_id):
             print("2. Chercher un manga par id")
             print("3 : Ajouter un manga sous forme physique")
             print("4 : Modifier un de mes manga sous forme physique")
-            print("5 : Afficher mes manga sous forme physique")
+            print("5 : Afficher ma collection physique")
             print("6 : Supprimer un de mes manga sous forme physique")
             choix1 = input("Choisissez une option : ")
             if choix1 == '1':
                 trouver_manga_par_titre(utilisateur_id)
             elif choix1 == '2':
                 trouver_manga_par_id(utilisateur_id)
-            elif choix == '3':
+            elif choix1 == '3':
                 ajouter_manga_physique_view(utilisateur_id)
-            elif choix == '4':
+            elif choix1 == '4':
                 modifier_manga_physique_view(utilisateur_id)
-            elif choix == '5':
-                afficher_manga_physique_view(utilisateur_id)
-            elif choix == '6':
+            elif choix1 == '5':
+                afficher_collection_physique_view(utilisateur_id)
+            elif choix1 == '6':
                 supprimer_manga_physique_view(utilisateur_id)
             else:
                 print("Choix invalide. Veuillez réessayer.")
@@ -50,8 +50,11 @@ def afficher_menu_utilisateur(utilisateur_id):
             print("2. Modifier un avis de manga")
             print("3. Supprimer un de mes avis de manga")
             print("3. Afficher tous les avis d'un certain manga")
-            print("4. ")
+            print("4. Afficher tous mes avis de manga")
             print("5. Ajouter un avis de collection cohérente")
+            print("6. Modifier un avis de collection cohérente")
+            print("7. Supprimer un avis de collection cohérente")
+            print("8. Afficher tous mes avis de collection cohérente")
             choix2 = input("Choisissez une option : ")
             if choix2 == '1':
                 creer_avis_manga(utilisateur_id)
@@ -63,8 +66,10 @@ def afficher_menu_utilisateur(utilisateur_id):
                 afficher_avis_manga()
             elif choix2 == '4':
                 print("Ca marche pas encore")
-            elif choix2 == '5':
-                creer_avis_collection(utilisateur_id)
+            elif choix2 == '6':
+                modifier_avis_collection(utilisateur_id)
+            elif choix2 == '7':
+                supprimer_avis_collection(utilisateur_id)
             else:
                 print("Choix invalide. Veuillez réessayer.")
 
@@ -99,7 +104,7 @@ def afficher_menu_utilisateur(utilisateur_id):
             choix5 = input("Choisissez une option : ")
             if choix5 == '1':
                 modifier_compte_view(utilisateur_id)
-            elif choix == '2':
+            elif choix5 == '2':
                 suppression_view(utilisateur_id)
             else:
                 print("Choix invalide. Veuillez réessayer.")

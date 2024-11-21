@@ -45,8 +45,6 @@ class CollectionCoherente(AbstractCollection):
                 "La description doit être une chaîne de caractère"
             )
 
-
-
         super().__init__(id_collection, id_utilisateur)
 
         self.titre = titre

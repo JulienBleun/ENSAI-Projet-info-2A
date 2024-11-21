@@ -35,27 +35,13 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "INSERT INTO collection (id_collection, id_utilisateur) VALUES "
+                        "INSERT INTO tp.collection (id_collection, id_utilisateur) VALUES "
                         "(%(id_collection)s, %(id_utilisateur)s)",
                         {
                             "id_collection": collection.id_collection,
                             "id_utilisateur": collection.id_utilisateur,
                         },
                     )
-                    for c in collection.contenu:
-                        cursor.execute(
-                            "INSERT INTO manga_physique (id_manga_physique, id_collection, id_manga, dernier_tome_acquis, tomes_manquants, statut) VALUES "
-                            "(%(id_manga_physique)s, %(id_collection)s, %(id_manga)s, %(dernier_tome_acquis)s, %(tomes_manquants)s, %(statut)s)",
-                            {
-                                "id_manga_physique": c.id_manga_physique, # Problème résolu
-                                "id_collection": c.id_collection_physique,
-                                "id_manga": c.id_manga,
-                                "dernier_tome_acquis": c.dernier_tome_acquis,
-                                "tomes_manquants": c.tomes_manquant,
-                                "statut": c.statut
-                            }
-                        )
-                    res = cursor.fetchone()
 
         except Exception as e:
             logging.info(e)

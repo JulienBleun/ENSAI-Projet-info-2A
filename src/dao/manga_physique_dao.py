@@ -153,3 +153,19 @@ class MangaPhysiqueDAO(metaclass=Singleton):
             logging.info(e)
             raise
         return res
+
+    def recup_manga_physique_from_titre(self, titre_manga):
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT * FROM tp.manga_physique"
+                        " WHERE titre_manga=%(titre_manga)s",
+                        {"titre_manga": titre_manga},
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res

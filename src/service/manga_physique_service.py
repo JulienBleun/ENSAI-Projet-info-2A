@@ -41,5 +41,5 @@ class MangaPhysiqueService:
                manga_physique_modif) else None
 
     @log
-    def consulter_manga_physique(self, id_manga_physique) -> MangaPhysique:
-        return MangaPhysiqueDAO().read_manga_physique(id_manga_physique)
+    def consulter_manga_physique(self, titre) -> MangaPhysique:
+        return MangaPhysiqueDAO().recup_manga_physique_from_titre(titre)
