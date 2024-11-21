@@ -5,6 +5,7 @@ from src.utils.mdp_utils import hasher_mot_de_passe  # Assurez-vous que cette fo
 from src.business_object.utilisateur import Utilisateur
 from src.dao.utilisateur_dao import UtilisateurDao
 
+
 class UtilisateurService(metaclass=Singleton):
     """Classe contenant les méthodes de service de l'utilisateur."""
 
@@ -68,36 +69,17 @@ class UtilisateurService(metaclass=Singleton):
         return True, "OK"
 
     def desinscription(self, id):
-        if UtilisateurDao().delete_utilisateur(id) :
+        if UtilisateurDao().delete_utilisateur(id):
             return True
-        else :
+        else:
             return False
 
     def se_connecter(self, pseudo: str, mdp: str):
-        """
-        Service pour connecter un utilisateur.
-
-        Parameters
-        ----------
-        pseudo : str
-            Pseudo de l'utilisateur.
-        mdp : str
-            Mot de passe de l'utilisateur.
-
-        Returns
-        -------
-        Utilisateur :
-            L'utilisateur connecté si succès.
-        dict :
-            Message d'erreur si échec.
-        """
-        try:
-            utilisateur = UtilisateurDao().connexion(pseudo, mdp)
-            if utilisateur:
-                return utilisateur
-            else:
-                return None
-
+        utilisateur = UtilisateurDao().connexion(pseudo, mdp)
+        if utilisateur:
+            return utilisateur
+        else:
+            return None
 """
         def consulter_profil(self, id):
 
