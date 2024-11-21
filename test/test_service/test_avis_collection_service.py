@@ -24,17 +24,16 @@ def test_rediger_avis_succes():
     """Test de la création réussie d'un avis pour une collection."""
 
     # GIVEN
-    id_avis, id_utilisateur, commentaire, note, id_collection = 1, 42, "Très bonne collection !", 8, 201
+    id_utilisateur, commentaire, note, id_collection = 42, "Très bonne collection !", 8, 201
     AvisCollectionDao().create_avis_collection = MagicMock(return_value=True)
 
     # WHEN
-    nouvel_avis = AvisCollectionService().rédiger_avis_collection(
-        id_utilisateur, commentaire, note, id_avis, id_collection
+    nouvel_avis = AvisCollectionService().rediger_avis_collection(
+        id_utilisateur, commentaire, note, id_collection
     )
 
     # THEN
     assert nouvel_avis is not None
-    assert nouvel_avis.id_avis == id_avis
     assert nouvel_avis.id_collection == id_collection
     assert nouvel_avis.note == note
 
@@ -42,12 +41,12 @@ def test_rediger_avis_echec():
     """Test de l'échec de la création d'un avis pour une collection."""
 
     # GIVEN
-    id_avis, id_utilisateur, commentaire, note, id_collection = 1, 42, "Très bonne collection !", 8, 201
+    id_utilisateur, commentaire, note, id_collection = 42, "Très bonne collection !", 8, 201
     AvisCollectionDao().create_avis_collection = MagicMock(return_value=False)
 
     # WHEN
-    nouvel_avis = AvisCollectionService().rédiger_avis_collection(
-        id_avis, id_utilisateur, commentaire, note, id_collection
+    nouvel_avis = AvisCollectionService().rediger_avis_collection(
+        id_utilisateur, commentaire, note, id_collection
     )
 
     # THEN
@@ -60,7 +59,11 @@ def test_mettre_a_jour_avis_succes():
     AvisCollectionDao().update_avis_collection = MagicMock(return_value=True)
 
     # WHEN
-    avis_mis_a_jour = AvisCollectionService().mettre_a_jour(avis_modifié)
+    avis_mis_a_jour = AvisCollectionService().mettre_a_jour(id_avis=1,
+    id_utilisateur=42,
+    commentaire="Collection exceptionnelle avec de superbes séries.",
+    note=9,
+    id_collection=201)
 
     # THEN
     assert avis_mis_a_jour is not None
@@ -74,7 +77,11 @@ def test_mettre_a_jour_avis_echec():
     AvisCollectionDao().update_avis_collection = MagicMock(return_value=False)
 
     # WHEN
-    avis_mis_a_jour = AvisCollectionService().mettre_a_jour(avis_modifié)
+    avis_mis_a_jour = AvisCollectionService().mettre_a_jour(id_avis=1,
+    id_utilisateur=42,
+    commentaire="Collection exceptionnelle avec de superbes séries.",
+    note=9,
+    id_collection=201)
 
     # THEN
     assert avis_mis_a_jour is None
@@ -111,7 +118,7 @@ def test_consulter_avis_existant():
     AvisCollectionDao().read_avis = MagicMock(return_value=avis_existant)
 
     # WHEN
-    avis = AvisCollectionService().consulter(id_avis)
+    avis = AvisCollectionService().consulter_avis(id_avis)
 
     # THEN
     assert avis is not None
@@ -126,7 +133,7 @@ def test_consulter_avis_inexistant():
     AvisCollectionDao().read_avis = MagicMock(return_value=None)
 
     # WHEN
-    avis = AvisCollectionService().consulter(id_avis)
+    avis = AvisCollectionService().consulter_avis(id_avis)
 
     # THEN
     assert avis is None

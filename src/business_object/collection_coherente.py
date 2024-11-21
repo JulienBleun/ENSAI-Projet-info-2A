@@ -45,7 +45,8 @@ class CollectionCoherente(AbstractCollection):
                 "La description doit être une chaîne de caractère"
             )
 
-
+        if not all(isinstance(m, Manga) for m in contenu):
+            raise TypeError("Tous les éléments de contenu doivent être des instances de la classe Manga")
 
         super().__init__(id_collection, id_utilisateur)
 

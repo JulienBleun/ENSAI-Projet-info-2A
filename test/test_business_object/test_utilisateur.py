@@ -14,7 +14,7 @@ class TestUtilisateur(unittest.TestCase):
         expected_mot_de_passe = "password123"
 
         # WHEN
-        user = utilisateur(
+        user = Utilisateur(
             id=expected_id,
             prenom=expected_prenom,
             nom = expected_nom,

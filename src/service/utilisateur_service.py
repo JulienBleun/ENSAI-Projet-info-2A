@@ -98,9 +98,10 @@ class UtilisateurService(metaclass=Singleton):
             else:
                 return None
 
-"""
-        def consulter_profil(self, id):
 
-        def mettre_a_jour(self, utilisateur):
+"""
+    def consulter_profil(self, id):
+
+    def mettre_a_jour(self, utilisateur):
 
 """
