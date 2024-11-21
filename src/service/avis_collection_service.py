@@ -43,5 +43,5 @@ class AvisCollectionService:
         return AvisCollectionDao().delete_avis_collection(avis)
 
     @log
-    def consulter(self, id_avis) -> AvisCollection:
+    def consulter_avis(self, id_avis) -> AvisCollection:
         return AvisCollectionDao().read_avis(id_avis)
