@@ -8,6 +8,7 @@ from src.utils.log_decorator import log
 from src.dao.db_connection import DBConnection
 from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 from src.business_object.utilisateur import Utilisateur
+from src.dao.collection_physique_dao import CollectionPhysiqueDAO
 
 from src.utils.mdp_utils import hasher_mot_de_passe
 from src.utils.mdp_utils import verifier_mot_de_passe
@@ -138,11 +139,11 @@ class UtilisateurDao(metaclass=Singleton):
                 )
                 res1 = cursor.fetchall()
                 for id_collection in res1:
-                    collection_coherente = CollectionCoherenteDAO().readCoherent(id_collection)
-                    suppression = CollectionCoherenteDAO().deleteCoherent(collection_coherente)
+                    collection_coherente = CollectionCoherenteDAO().read_coherente(id_collection)
+                    suppression = CollectionCoherenteDAO().delete_coherente(collection_coherente)
                     if not (suppression):
-                        collection_physique = CollectionCoherenteDAO().readPhysique(id_collection)
-                        suppression = CollectionCoherenteDAO().detePhysique(collection_physique)
+                        collection_physique = CollectionCoherenteDAO().read_physique(id_collection)
+                        suppression = CollectionCoherenteDAO().delete_physique(collection_physique)
 
                 # 3. On supprime finalement le compte
 
