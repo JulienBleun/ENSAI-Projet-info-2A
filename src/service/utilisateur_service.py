@@ -75,8 +75,9 @@ class UtilisateurService(metaclass=Singleton):
 
         def se_connecter(self, pseudo, md):
             UtilisateurDao().connexion(pseudo, mdp)
-
+"""
         def consulter_profil(self, id):
 
         def mettre_a_jour(self, utilisateur):
-            
+
+"""
