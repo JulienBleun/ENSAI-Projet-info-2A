@@ -26,7 +26,7 @@ Exemple d'utilsation :
 - Créez un dossier P:/Cours2A/UE3-Projet-info et positionnez-vous dedans
 mkdir -p /p/Cours2A/UE3-Projet-info && cd $_
 - Clonez ce dépôt
-git clone 
+git clone https://github.com/JulienBleun/ENSAI-Projet-info-2A.git
 
 ---
 
