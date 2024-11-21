@@ -1,7 +1,7 @@
 # Importer les fonctions
 
 # from  xxx import deconnexion
-
+import sys
 from src.view.inscription_view import inscription_view
 from src.view.connexion_view import connexion_view
 
@@ -22,6 +22,6 @@ def afficher_menu_principal():
                 return utilisateur
         elif choix == '3':
             print("Merci d'avoir utilisé l'application. Au revoir!")
-            break  # Quitte l'application
+            sys.exit()
         else:
             print("Choix invalide. Veuillez réessayer.")
