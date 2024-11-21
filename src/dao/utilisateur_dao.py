@@ -159,7 +159,7 @@ class UtilisateurDao(metaclass=Singleton):
         return deleted
 
     @log
-    def se_connecter(self, pseudo: str, mdp: str) -> Utilisateur:
+    def connexion(self, pseudo: str, mdp: str) -> Utilisateur:
         """Se connecter grâce à son pseudo et son mot de passe.
 
         Parameters

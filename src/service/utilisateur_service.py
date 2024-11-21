@@ -66,14 +66,17 @@ class UtilisateurService(metaclass=Singleton):
         if len(mdp) < 8:
             return False, "Le mot de passe doit comporter au moins 8 caractères."
         return True, "OK"
-"""
-        def desinscription(self, utilisateur):
 
-        def connexion(self, pseudo, md):
+        def desinscription(self, id):
+            if UtilisateurDao().delete_utilisateur(id) :
+                return True
+            else :
+                return False
 
-        def deconnexion(self, pseudo):
+        def se_connecter(self, pseudo, md):
+            UtilisateurDao().connexion(pseudo, mdp)
 
         def consulter_profil(self, id):
 
         def mettre_a_jour(self, utilisateur):
-"""
+            

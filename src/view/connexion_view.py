@@ -1,6 +1,6 @@
 import getpass
 
-from src.dao.utilisateur_dao import UtilisateurDao
+from src.service.utilisateur_service import UtilisateurService
 
 
 def connexion_view():
@@ -9,7 +9,7 @@ def connexion_view():
     mdp = getpass.getpass("Entrez votre mot de passe : ")
 
     try:
-        utilisateur = UtilisateurDao().se_connecter(pseudo, mdp)
+        utilisateur = UtilisateurService().se_connecter(pseudo, mdp)
         if utilisateur is not None:
             print(f"\n\nConnexion réussie ! Heureux de vous revoir {utilisateur.pseudo}")
             return utilisateur  # Retourne l'utilisateur connecté
