@@ -16,5 +16,5 @@ def hasher_mot_de_passe(mot_de_passe):
 # Fonction pour vérifier un mot de passe en comparant avec mot de passe haché et sel
 def verifier_mot_de_passe(mot_de_passe, mot_de_passe_hashe, sel):
     mot_de_passe_bytes = mot_de_passe.encode('utf-8')
-    hash_obj = hashlib.sha256(sel + mot_de_passe_bytes)
+    hash_obj = hashlib.sha256(sel + mot_de_passe_bytes)  # Assurez-vous que l'ordre est le même
     return hash_obj.hexdigest() == mot_de_passe_hashe
