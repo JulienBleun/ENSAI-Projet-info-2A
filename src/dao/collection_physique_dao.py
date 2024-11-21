@@ -16,7 +16,7 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
     """Classe DAO pour gérer les collections physiques dans la base de données"""
 
 #    @log
-    def CreatePhysique(self, collection: CollectionPhysique) -> bool:
+    def create_physique(self, collection: CollectionPhysique) -> bool:
         """Création d'une nouvelle collection physique dans la base de données
 
         Parameters
@@ -67,7 +67,7 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
         return created
 
     #    @log
-    def DeletePhysique(self, collection : CollectionPhysique) -> bool:
+    def delete_physique(self, collection : CollectionPhysique) -> bool:
         """Suppression d'une collection physique de la base de données
 
         Parameters
@@ -105,7 +105,7 @@ class CollectionPhysiqueDAO(metaclass=Singleton):
         return deleted
 
 #    @log
-    def ReadPhysique(self, id : int) -> CollectionPhysique:
+    def read_physique(self, id : int) -> CollectionPhysique:
         """Lecture d'une collection physique à partir de son ID
 
         Parameters

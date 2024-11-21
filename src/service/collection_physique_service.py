@@ -22,7 +22,7 @@ class CollectionPhysiqueService:
             contenu=contenu
         )
 
-        return nouvelle_collection if CollectionPhysiqueDAO().CreatePhysique(
+        return nouvelle_collection if CollectionPhysiqueDAO().create_physique(
                nouvelle_collection) else None
 
     @log
@@ -33,15 +33,15 @@ class CollectionPhysiqueService:
         # On accède aux informations de la collection associée à son id, puis
         # on les modifie avec les nouvelles infos
 
-        return collection_modifiée if CollectionPhysiqueDAO().UpdatePhysique(
+        return collection_modifiée if CollectionPhysiqueDAO().update_physique(
                collection_modifiée) else None
 
     @log
     def supprimer_physique(self, collection: CollectionPhysique) -> bool:
 
-        return CollectionPhysiqueDAO().DeletePhysique(collection)
+        return CollectionPhysiqueDAO().delete_physique(collection)
 
     @log
     def consulter_physique(self, id_collection) -> CollectionPhysique:
 
-        return CollectionPhysiqueDAO().ReadPhysique(id_collection)
+        return CollectionPhysiqueDAO().read_physique(id_collection)

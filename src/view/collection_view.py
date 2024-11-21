@@ -14,7 +14,7 @@ def creer_collection_coherente_view(utilisateur_id):
         manga = MangaService().consulter_manga_par_titre(nom)
         contenu.append(manga)
     collection = CollectionCoherente(id_collection=None, id_utilisateur=utilisateur_id, titre=titre, description=description, contenu=contenu)
-    if CollectionCoherenteDAO().CreateCoherente(collection):
+    if CollectionCoherenteDAO().create_coherente(collection):
         print("Collection cohérente créée avec succès.")
     else:
         print("Erreur lors de la création de la collection.")
@@ -123,7 +123,7 @@ def creer_collection_physique_view(utilisateur_id):
     dernier_tome_acquis = int(input(" Dernier tome acquis : "))
     status = input(" Statut de la série ('reading' ou 'dropped') : ")
 
-    if CollectionPhysiqueDAO().CreatePhysique(titre, dernier_tome_acquis, status, utilisateur_id):
+    if CollectionPhysiqueDAO().create_physique(titre, dernier_tome_acquis, status, utilisateur_id):
         print(" Collection physique créée avec succès.")
     else:
         print(" Erreur lors de la création de la collection.")
