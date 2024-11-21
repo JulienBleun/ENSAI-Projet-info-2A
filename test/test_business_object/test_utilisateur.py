@@ -30,3 +30,6 @@ class TestUtilisateur(unittest.TestCase):
         self.assertEqual(user.pseudo, expected_pseudo)
         self.assertEqual(user.email, expected_email)
         self.assertEqual(user.mot_de_passe, expected_mot_de_passe)
+
+if __name__ == '__main__':
+    unittest.main()

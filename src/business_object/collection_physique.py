@@ -29,13 +29,23 @@ class CollectionPhysique(AbstractCollection):
                  contenu: list[MangaPhysique]):
 
         if not isinstance(id_utilisateur, int):
-            raise ValueError(
+            raise TypeError(
                 "L'identifiant de l'utilisateur doit être un entier"
             )
 
         if not isinstance(id_collection, int):
-            raise ValueError(
+            raise TypeError(
                 "L'identifiant de la collection doit être un entier"
+            )
+
+        if not isinstance(titre, str):
+            raise TypeError(
+                "Le titre de la collection doit être une chaîne de caractère"
+            )
+        
+        if not isinstance(description, str):
+            raise TypeError(
+                "Le description de la collection doit être une chaîne de caractère"
             )
 
         if not all(isinstance(manga, MangaPhysique) for manga in contenu):
