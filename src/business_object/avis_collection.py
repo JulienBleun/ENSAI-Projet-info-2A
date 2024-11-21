@@ -22,6 +22,9 @@ class AvisCollection(AbstractAvis):
                  id_avis: int,
                  id_collection: int):
 
+        if not insinstance(id_collection, int):
+            raise TypeError("L'identifiant utilisateur doit être un entier")
+        
         super().__init__(id_utilisateur, commentaire, note, id_avis)
         self.id_collection = id_collection
 

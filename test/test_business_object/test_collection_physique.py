@@ -8,10 +8,10 @@ from src.dao.manga_physique_dao import MangaPhysiqueDAO
 from src.dao.avis_collection_dao import AvisCollectionDao
 
 contenu = [
-    MangaPhysique(id_manga_physique=1, id_manga=100, id_collection_physique=101,
-                    dernier_tome_acquis=12, tomes_manquant=[1, 3], statut="En cours"),
-    MangaPhysique(id_manga_physique=2, id_manga=101, id_collection_physique=101,
-                    dernier_tome_acquis=20, tomes_manquant=[], statut="Complétée")
+    MangaPhysique(id_manga_physique=1, id_utilisateur=101, titre_manga="Naruto",
+                     tomes_acquis=[1, 3], statut="En cours"),
+    MangaPhysique(id_manga_physique=2, id_utilisateur=101, titre_manga="Dragon Ball",
+                     tomes_acquis=[1, 2], statut="En cours")
     ]
 class TestCollectionPhysique(unittest.TestCase):  # Inherit from unittest.TestCase
     def test_creation_collection_physique(self):

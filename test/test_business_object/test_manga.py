@@ -20,3 +20,6 @@ class TestManga(unittest.TestCase):
         self.assertEqual(manga.titre, expected_titre)
         self.assertEqual(manga.auteur, expected_auteur)
         self.assertEqual(manga.id_manga, expected_id_manga)
+
+if __name__ == '__main__':
+    unittest.main()
