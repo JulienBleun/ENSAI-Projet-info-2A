@@ -27,3 +27,6 @@ class TestAvisManga(unittest.TestCase):
         self.assertEqual(avis.commentaire, expected_commentaire)
         self.assertEqual(avis.note, expected_note)
         self.assertEqual(avis.id_manga, expected_id_manga)  # Changé de id_collection à id_manga
+
+if __name__ == "__main__":
+    unittest.main()

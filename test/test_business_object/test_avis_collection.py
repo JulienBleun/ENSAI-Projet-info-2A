@@ -29,3 +29,5 @@ class TestAvisCollection(unittest.TestCase):
         self.assertEqual(avis.note, expected_note)
         self.assertEqual(avis.id_collection, expected_id_collection)
 
+if __name__ == "__main__":
+    unittest.main()

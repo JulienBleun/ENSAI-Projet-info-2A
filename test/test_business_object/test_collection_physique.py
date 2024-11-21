@@ -7,7 +7,12 @@ from src.dao.collection_physique_dao import CollectionPhysiqueDAO
 from src.dao.manga_physique_dao import MangaPhysiqueDAO
 from src.dao.avis_collection_dao import AvisCollectionDao
 
-
+contenu = [
+    MangaPhysique(id_manga_physique=1, id_manga=100, id_collection_physique=101,
+                    dernier_tome_acquis=12, tomes_manquant=[1, 3], statut="En cours"),
+    MangaPhysique(id_manga_physique=2, id_manga=101, id_collection_physique=101,
+                    dernier_tome_acquis=20, tomes_manquant=[], statut="Complétée")
+    ]
 class TestCollectionPhysique(unittest.TestCase):  # Inherit from unittest.TestCase
     def test_creation_collection_physique(self):
         # GIVEN
@@ -15,7 +20,7 @@ class TestCollectionPhysique(unittest.TestCase):  # Inherit from unittest.TestCa
         expected_id_collection = 250
         expected_titre = "One Piece"
         expected_description = "Un manga incroyable !"
-        expected_contenu = "un long manga "
+        expected_contenu = contenu
 
         # WHEN
         collection_physique = CollectionPhysique(  # Use the correct class name
@@ -45,7 +50,7 @@ class TestCollectionPhysique(unittest.TestCase):  # Inherit from unittest.TestCa
                 id_collection = 250,  # Use id_collection
                 titre = "One Piece",
                 description = "Un manga incroyable !",
-                contenu = "un long manga ",
+                contenu = contenu,
             )
 
     def test_creation_collection_physique_id_collection(self):
@@ -60,7 +65,7 @@ class TestCollectionPhysique(unittest.TestCase):  # Inherit from unittest.TestCa
                 id_collection = invalid_id_collection,  # Use id_collection
                 titre = "One Piece",
                 description = "Un manga incroyable !",
-                contenu = "un long manga ",
+                contenu = contenu,
             )
 
     def test_creation_collection_physique_titre(self):
@@ -74,7 +79,7 @@ class TestCollectionPhysique(unittest.TestCase):  # Inherit from unittest.TestCa
                 id_collection = 545,  # Use id_collection
                 titre = invalid_titre,
                 description = "Un manga incroyable !",
-                contenu = "un long manga ",
+                contenu = contenu,
             )
 
     def test_creation_collection_physique_description(self):
@@ -88,7 +93,7 @@ class TestCollectionPhysique(unittest.TestCase):  # Inherit from unittest.TestCa
                 id_collection = 545,  # Use id_collection
                 titre = "abc",
                 description = invalid_description,
-                contenu = "un long manga ",
+                contenu = contenu,
             )
 
     def test_creation_collection_physique_contenu(self):  # Add self argument
