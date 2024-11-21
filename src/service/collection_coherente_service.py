@@ -23,7 +23,7 @@ class CollectionCoherenteService:
         )
 
         return nouvelle_collection if CollectionCoherenteDAO(
-               ).CreateCoherente(nouvelle_collection) else None
+               ).create_coherente(nouvelle_collection) else None
 
     @log
     def mettre_a_jour_coherent(self, collection_modifiee: CollectionCoherente
@@ -34,14 +34,14 @@ class CollectionCoherenteService:
         # on les modifie avec les nouvelles infos
 
         return collection_modifiee if CollectionCoherenteDAO(
-               ).UpdateCoherent(collection_modifiee) else None
+               ).update_coherente(collection_modifiee) else None
 
     @log
     def supprimer_coherent(self, id_collection) -> bool:
 
-        return CollectionCoherenteDAO().DeleteCoherent(id_collection)
+        return CollectionCoherenteDAO().delete_coherente(id_collection)
 
     @log
     def consulter_coherent(self, titre_collection) -> CollectionCoherente:
 
-        return CollectionCoherenteDAO().ReadCoherent(titre_collection)
+        return CollectionCoherenteDAO().read_coherente(titre_collection)
