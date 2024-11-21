@@ -5,7 +5,7 @@ from src.view.deconnexion_view import deconnexion_view
 from src.view.avis_view import modifier_avis_manga, supprimer_avis_manga, afficher_avis_manga, creer_avis_manga
 from src.view.suppression_view import suppression_view
 from src.view.manga_physique_view import ajouter_manga_physique_view, modifier_manga_physique_view, afficher_manga_physique_view, supprimer_manga_physique_view
-
+from src.view.avis_collection_view import creer_avis_collection
 
 
 def afficher_menu_utilisateur(utilisateur_id):
@@ -51,7 +51,7 @@ def afficher_menu_utilisateur(utilisateur_id):
             print("3. Supprimer un de mes avis de manga")
             print("3. Afficher tous les avis d'un certain manga")
             print("4. ")
-            print("5. ")
+            print("5. Ajouter un avis de collection cohérente")
             choix2 = input("Choisissez une option : ")
             if choix2 == '1':
                 creer_avis_manga(utilisateur_id)
@@ -64,7 +64,7 @@ def afficher_menu_utilisateur(utilisateur_id):
             elif choix2 == '4':
                 print("Ca marche pas encore")
             elif choix2 == '5':
-                print("Ca marche pas encore")
+                creer_avis_collection(utilisateur_id)
             else:
                 print("Choix invalide. Veuillez réessayer.")
 
