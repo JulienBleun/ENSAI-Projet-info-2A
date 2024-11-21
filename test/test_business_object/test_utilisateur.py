@@ -1,5 +1,5 @@
 import unittest
-from src.business_object.utilisateur import utilisateur
+from src.business_object.utilisateur import Utilisateur
 
 
 class TestUtilisateur(unittest.TestCase):
