@@ -9,6 +9,12 @@ from src.dao.db_connection import DBConnection
 from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 from src.business_object.utilisateur import Utilisateur
 
+from src.utils.mdp_utils import hasher_mot_de_passe
+from src.utils.mdp_utils import verifier_mot_de_passe
+
+
+
+
 
 
 class UtilisateurDao(metaclass=Singleton):
@@ -21,17 +27,20 @@ class UtilisateurDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                    mot_de_passe_hashe, sel = hasher_mot_de_passe(utilisateur.mdp)
                     cursor.execute(
-                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp)"
-                        "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s)"
-                        "RETURNING id_utilisateur;",
-                        {
-                            "nom": utilisateur.nom,
-                            "prenom": utilisateur.prenom,
-                            "pseudo": utilisateur.pseudo,
-                            "email": utilisateur.email,
-                            "mdp": utilisateur.mdp,
-                        },)
+                    "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp, sel)"
+                    "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s, %(sel)s)"
+                    "RETURNING id_utilisateur;",
+                    {
+                        "nom": utilisateur.nom,
+                        "prenom": utilisateur.prenom,
+                        "pseudo": utilisateur.pseudo,
+                        "email": utilisateur.email,
+                        "mdp": mot_de_passe_hashe,
+                        "sel": sel.hex(),  # Stockez le sel en hexadécimal pour compatibilité SQL
+                    },
+                )
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
@@ -178,14 +187,17 @@ class UtilisateurDao(metaclass=Singleton):
         utilisateur = None
 
         if res:
-            utilisateur = Utilisateur(
-                id_utilisateur=res["id_utilisateur"],  # Assuming you have an ID field in the DB
-                nom=res["nom"],
-                prenom=res["prenom"],
-                pseudo=res["pseudo"],
-                email=res["email"],
-                mdp=res["mdp"]
-            )
+            mdp_hashe = res["mdp"]
+            sel = bytes.fromhex(res["sel"])  # Convertir le sel en bytes
+            if verifier_mot_de_passe(mdp, mdp_hashe, sel):
+                utilisateur = Utilisateur(
+                    id_utilisateur=res["id_utilisateur"],  # Assuming you have an ID field in the DB
+                    nom=res["nom"],
+                    prenom=res["prenom"],
+                    pseudo=res["pseudo"],
+                    email=res["email"],
+                    mdp=res["mdp"]
+                )
 
         return utilisateur
 
