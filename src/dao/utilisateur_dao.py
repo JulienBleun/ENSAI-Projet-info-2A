@@ -113,18 +113,18 @@ class UtilisateurDao(metaclass=Singleton):
             with connection.cursor() as cursor:
                 # 1. On supprime ses avis
                 cursor.execute(
-                    "DELETE FROM avis_collection WHERE id_utilisateur = %(id_utilisateur)s;",
+                    "DELETE FROM tp.avis_collection WHERE id_utilisateur = %(id_utilisateur)s;",
                     {"id_utilisateur": id}
                 )
                 cursor.execute(
-                    "DELETE FROM avis_manga WHERE id_utilisateur = %(id_utilisateur)s;",
+                    "DELETE FROM tp.avis_manga WHERE id_utilisateur = %(id_utilisateur)s;",
                     {"id_utilisateur": id}
                 )
 
                 # 2. On supprime ses collections en utilisant les fonctionnalités des classes DAO appropriées
 
                 cursor.execute(
-                    "SELECT id_collection FROM collection WHERE id_utilisateur = %(id_utilisateur)s;",
+                    "SELECT id_collection FROM tp.collection WHERE id_utilisateur = %(id_utilisateur)s;",
                     {"id_utilisateur": id}
                 )
                 res1 = cursor.fetchall()

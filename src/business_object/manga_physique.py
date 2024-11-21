@@ -25,17 +25,15 @@ class MangaPhysique():
     """
     def __init__(
         self,
-        id_manga_physique: int,
-        id_manga: int,
-        id_collection_physique: int,
-        dernier_tome_acquis: int,
-        tomes_manquant: list[int],
-        statut: str
+        id_manga_physique,
+        titre_manga: int,
+        tomes_acquis: list[int],
+        statut: str,
+        id_utilisateur: int
                 ):
 
         self.id_manga_physique = id_manga_physique
-        self.id_manga = id_manga
-        self.id_collection_physique = id_collection_physique
-        self.dernier_tome_acquis = dernier_tome_acquis
-        self.tomes_manquant = tomes_manquant
+        self.titre_manga = titre_manga
+        self.tomes_acquis = tomes_acquis
         self.statut = statut
+        self.id_utilisateur = id_utilisateur

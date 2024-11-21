@@ -33,7 +33,7 @@ CREATE TABLE tp.collection (
 DROP TABLE IF EXISTS tp.manga CASCADE;
 CREATE TABLE tp.manga (
     id_manga INTEGER PRIMARY KEY,
-    titre VARCHAR(400),
+    titre VARCHAR(400) UNIQUE,
     descript TEXT,
     auteur VARCHAR(400)
 );
@@ -45,10 +45,10 @@ CREATE TABLE tp.manga (
 DROP TABLE IF EXISTS tp.manga_physique CASCADE;
 CREATE TABLE tp.manga_physique (
     id_manga_physique SERIAL PRIMARY KEY,
-    id_collection INT REFERENCES tp.collection(id_collection),
-    id_manga INT REFERENCES tp.manga(id_manga),
-    dernier_tome_acquis INT,
-    tomes_manquants TEXT,
+    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur),
+    titre_manga VARCHAR(400),
+    FOREIGN KEY (titre_manga) REFERENCES tp.manga(titre),
+    tomes_acquis TEXT,
     statut VARCHAR(100)
 );
 
