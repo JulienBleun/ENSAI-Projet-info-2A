@@ -1,6 +1,7 @@
 from src.business_object.manga_physique import MangaPhysique
 from src.service.manga_physique_service import MangaPhysiqueService
 from src.dao.manga_physique_dao import MangaPhysiqueDAO
+from src.dao.utilisateur_dao import UtilisateurDao
 
 
 def ajouter_manga_physique_view(utilisateur_id):
@@ -120,3 +121,29 @@ def supprimer_manga_physique_view(utilisateur_id):
 
             if manga_supprime:
                 print('Votre manga physique bien été supprimé.')
+
+
+def afficher_collection_physique_autre_utilisateur():
+
+    pseudo = input("De quel pseudo souhaitez-vous voir les avis de manga ? ")
+    id_autre_utilisateur = UtilisateurDao().read_profil(pseudo)
+    id_recherche = int(id_autre_utilisateur['id_utilisateur'])
+    manga = MangaPhysiqueDAO().recup_manga_physique_from_id(id_recherche)
+    # On récupère tous les mangas physiques de l'utilisateur cherché
+    if manga:
+        print(f"Voici la collection de mangas physiques de {pseudo}: ")
+        for i in range(0, len(manga)):
+            print(f'{i+1} : ' + manga[i]['titre_manga'])
+        numero_manga = int(input('Quel manga physique souhaitez-vous afficher ? '))
+        if numero_manga == 0:
+            return
+        else:
+            manga_choisi = manga[numero_manga-1]
+
+            print(f"Voici les différents tomes du manga {manga_choisi['titre_manga']}"
+                  f" que {pseudo} possédait aux dernières nouvelles :")
+
+            tomes_acquis_str = manga_choisi['tomes_acquis']
+            tomes_acquis = [int(x) for x in tomes_acquis_str.strip("{}").split(",")]
+            for tome in tomes_acquis:
+                print(f"Tome {tome}")

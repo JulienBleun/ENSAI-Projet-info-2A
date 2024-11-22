@@ -2,6 +2,7 @@ from src.dao.avis_manga_dao import AvisMangaDao
 from src.service.avis_manga_service import AvisMangaService
 from src.business_object.avis_manga import AvisManga
 from src.service.manga_service import MangaService
+from src.dao.utilisateur_dao import UtilisateurDao
 
 
 def creer_avis_manga(utilisateur_id):
@@ -112,3 +113,31 @@ def afficher_avis_manga():
     else:
         print("\n\nInformation indisponible : aucun de nos utilisateurs n'a "
               "encore rédigé un avis sur ce manga.")
+
+
+def afficher_avis_manga_utilisateur(utilisateur_id):
+
+    avis = AvisMangaDao().recup_avis_from_id(utilisateur_id)
+
+    if avis:
+        print('Voici vos différents avis de mangas : ')
+        for i in range(0, len(avis)):
+            print(f"{i+1} : {avis[i]['titre']} : Vous avez mis la note de"
+                  f" {avis[i]['note']} sur 10 avec le commentaire "
+                  f"{avis[i]['commentaire']}")
+
+
+def afficher_avis_manga_autre_utilisateur():
+
+    pseudo = input("De quel pseudo souhaitez-vous voir les avis de manga ? ")
+    id_autre_utilisateur = UtilisateurDao().read_profil(pseudo)
+    id_recherche = int(id_autre_utilisateur['id_utilisateur'])
+
+    avis = AvisMangaDao().recup_avis_from_id(id_recherche)
+
+    if avis:
+        print(f"Voici les différents avis de mangas de {pseudo} ")
+        for i in range(0, len(avis)):
+            print(f"{i+1} : {avis[i]['titre']} : {pseudo} a mis la note de"
+                  f" {avis[i]['note']} sur 10 avec le commentaire "
+                  f"{avis[i]['commentaire']}")

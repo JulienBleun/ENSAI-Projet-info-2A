@@ -1,4 +1,4 @@
-import getpass
+import maskpass
 
 from src.dao.utilisateur_dao import UtilisateurDao
 
@@ -6,7 +6,7 @@ from src.dao.utilisateur_dao import UtilisateurDao
 def connexion_view():
     """Fonction pour gérer la connexion d'un utilisateur."""
     pseudo = input("Entrez votre pseudo : ")
-    mdp = getpass.getpass("Entrez votre mot de passe : ")
+    mdp = maskpass.askpass(prompt="Entrez votre mot de passe : ")
 
     try:
         utilisateur = UtilisateurDao().se_connecter(pseudo, mdp)

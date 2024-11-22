@@ -1,6 +1,8 @@
 from src.service.collection_coherente_service import CollectionCoherenteService
 from src.service.avis_collection_service import AvisCollectionService
 from src.dao.avis_collection_dao import AvisCollectionDao
+from src.dao.collection_coherente_dao import CollectionCoherenteDAO
+from src.dao.utilisateur_dao import UtilisateurDao
 
 
 
@@ -13,9 +15,10 @@ def creer_avis_collection(utilisateur_id):
         if collection:
             try:
                 id_collection = collection.id_collection
+                print(id_collection)
                 commentaire = input("Entrez votre commentaire : ")
                 note = input("Entrez votre note (de 0 à 10) : ")
-                collec = AvisCollectionService().mettre_a_jour(
+                collec = AvisCollectionService().rediger_avis_collection(
                                     id_utilisateur=utilisateur_id,
                                     commentaire=commentaire,
                                     note=int(note),
@@ -51,7 +54,6 @@ def modifier_avis_collection(utilisateur_id):
             avis_choisi = avis[numero_avis-1]
             commentaire = input('Quel est votre nouveau commentaire ? ')
             note = int(input('Quelle est votre nouvelle note ? '))
-            print(avis_choisi['id_collection'])
             avis_a_modifier = AvisCollectionService().mettre_a_jour(
                 id_utilisateur=utilisateur_id,
                 id_avis=avis_choisi['id_avis'],
@@ -79,3 +81,53 @@ def supprimer_avis_collection(utilisateur_id):
             avis_suppr = AvisCollectionService().supprimer(avis_choisi['id_avis'])
             if avis_suppr:
                 print('Votre avis a bien été supprimé')
+
+
+def afficher_tous_les_avis_par_titre_collec():
+
+    titre = input("De quelle collection cohérente voulez-vous voir les avis ?")
+    id_collection = CollectionCoherenteDAO().recup_id_collec_from_titre(
+                    titre)
+    id = id_collection['id_collection']
+    print(id)
+    avis_collection = AvisCollectionDao().recup_avis_collec_from_id_collec(id)
+    if avis_collection:
+        somme = 0
+        print(f"La collection {titre} possède les avis suivants :")
+        for i in range(0, len(avis_collection)):
+            print(f"Avis {i+1} : {avis_collection[i]['pseudo']} a noté cette"
+                  f" collection {avis_collection[i]['note']} sur 10 et a "
+                  f"mis le commentaire '{avis_collection[i]['commentaire']}' ")
+            somme += int(avis_collection[i]['note'])
+        moyenne = somme/len(avis_collection)
+        print(f"\n\n Nos utilisateurs ont en moyenne mis la note de {moyenne} "
+              "à cette collection")
+
+
+def afficher_tous_mes_avis_collec(utilisateur_id):
+
+    avis = AvisCollectionDao().recup_avis_collec_from_id(utilisateur_id)
+
+    if avis:
+        print('Voici tous vos différents avis de collections cohérentes :')
+        for i in range(0, len(avis)):
+            print(f"Avis {i+1} : Vous avez noté la collection cohérente "
+                  f"'{avis[i]['titre']}' {avis[i]['note']} sur 10 et "
+                  f"vous avez mis le commentaire '{avis[i]['commentaire']}'")
+
+
+def afficher_avis_collection_autre_utilisateur():
+
+    pseudo = input("De quel pseudo souhaitez-vous voir les avis de collections"
+                   " cohérentes ? ")
+    id_autre_utilisateur = UtilisateurDao().read_profil(pseudo)
+    id_recherche = int(id_autre_utilisateur['id_utilisateur'])
+
+    avis = AvisCollectionDao().recup_avis_collec_from_id(id_recherche)
+    if avis:
+        print(f"\n Voici les différents avis de collections cohérentes de "
+              f"{pseudo} ")
+        for i in range(0, len(avis)):
+            print(f"{i+1} : {avis[i]['titre']} : {pseudo} a mis la note de"
+                  f" {avis[i]['note']} sur 10 avec le commentaire "
+                  f"'{avis[i]['commentaire']}'")

@@ -171,6 +171,14 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                    cursor.execute(
+                    """
+                    DELETE FROM tp.avis_collection
+                    WHERE id_collection = %(id_collection)s;
+                    """,
+                    {"id_collection": id_collection},
+                )
+
                 # 1. Supprimer d'abord les associations avec les mangas dans la table d'association
                     cursor.execute(
                     """
@@ -351,6 +359,28 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                     )
                     res = cursor.fetchall()
 
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res
+
+    def recup_id_collec_from_titre(self, titre: str) -> CollectionCoherente:
+        """
+        Permet de récupérer l'id d'une collecton cohérente à partir de
+        son titre.
+        """
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    # 1. Récupérer les informations de la collection cohérente
+                    cursor.execute(
+                        """
+                        SELECT * from tp.collection_coherente
+                        WHERE tp.collection_coherente.titre = %(titre)s;
+                        """,
+                        {"titre": titre},
+                    )
+                    res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
             raise
