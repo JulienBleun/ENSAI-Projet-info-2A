@@ -8,7 +8,7 @@ from src.utils.singleton import Singleton
 
 class DBConnection(metaclass=Singleton):
     """
-    Technical class to open only one connection to the DB.
+    Classe technique pour ouvrir une seule connexion à la BDD.
     """
 
     def __init__(self):

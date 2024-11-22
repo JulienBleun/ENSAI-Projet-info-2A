@@ -4,22 +4,33 @@ from src.utils.log_decorator import log
 from src.dao.db_connection import DBConnection
 from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 from src.business_object.utilisateur import Utilisateur
-from src.dao.collection_physique_dao import CollectionPhysiqueDAO
 from src.utils.mdp_utils import hasher_mot_de_passe
 from src.utils.mdp_utils import verifier_mot_de_passe
 
 
 class UtilisateurDao(metaclass=Singleton):
-
-    """Classe DAO pour ............... dans la base de données"""
+    """Classe contenant les méthodes pour accéder aux utilisateurs de la
+    base de données"""
 
     @log
     def add_utilisateur(self, utilisateur: Utilisateur):
+        """
+        Ajouter un utilisateur dans la base de données.
+
+        Parameters :
+        ------------
+        utilisateur: Utilisateur
+            Instance de utilisateur à écrire en base.
+
+        Returns :
+        ----------
+        created : bool
+            Indique si la création a été effectuée avec succès.
+        """
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     mot_de_passe_hashe, sel = hasher_mot_de_passe(utilisateur.mdp)
-                    print(mot_de_passe_hashe, sel)
                     cursor.execute(
                         "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp, sel)"
                         "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s, %(sel)s)"
@@ -48,14 +59,17 @@ class UtilisateurDao(metaclass=Singleton):
         """
         Permet d'obtenir l'id d'un utilisateur à partir de son pseudo.
 
-        Paramètres :
+        Parameters :
         ------------
         pseudo : str
             pseudo de l'utilisateur dont on souhaite obtenir l'id.
 
-        Retourne :
+        Returns :
         ----------
-        dict : Un dictionnaire contenant les informations du profil utilisateur si trouvé, sinon None.
+        dict : Dict
+            Un dictionnaire contenant l'id de l'utilisateur correspondant
+            au pseudo en paramètre.
+
         """
 
         try:
@@ -88,17 +102,18 @@ class UtilisateurDao(metaclass=Singleton):
 
     def delete_utilisateur(self, id_utilisateur: int) -> bool:
         """
-        Supprime un utilisateur de la base de données en fonction de
-        l'identifiant.
+        Supprime un utilisateur de la base de données à partir de son
+        identifiant.
 
-        Paramètres :
+        Parameters :
         ------------
-        id : int
+        id_utilisateur : int
             L'identifiant unique de l'utilisateur à supprimer.
 
-        Retourne :
+        Returns :
         ----------
-        bool : Indique si la suppression a été effectuée avec succès.
+        deleted : bool
+            Indique si la suppression a été effectuée avec succès.
         """
         deleted = False
 
@@ -117,12 +132,14 @@ class UtilisateurDao(metaclass=Singleton):
 
     def se_connecter(self, pseudo: str, mdp: str) -> Utilisateur:
         """Se connecter grâce à son pseudo et son mot de passe.
+
         Parameters
         ----------
         pseudo : str
             Pseudo de l'utilisateur.
         mdp : str
             Mot de passe de l'utilisateur.
+
         Returns
         -------
         Utilisateur : L'utilisateur connecté ou None si échec.
@@ -160,14 +177,21 @@ class UtilisateurDao(metaclass=Singleton):
         """
         Met à jour les informations d'un utilisateur dans la base de données.
 
-        Paramètres :
+        Parameters :
         ------------
-        utilisateur : Utilisateur
-            L'objet utilisateur contenant les informations mises à jour.
+        id_utilisateur : int
+            ID de l'utilisateur à modifier.
 
-        Retourne :
+        nouveau_pseudo : str
+            Nouveau pseudo souhaité par l'utilisateur.
+
+        nouveau_mdp : str
+            Nouveau mot de passe souhaité par l'utilisateur.
+
+        Returns :
         ----------
-        bool : Indique si la mise à jour a été effectuée avec succès.
+        updated : bool
+            Indique si la mise à jour a été effectuée avec succès.
         """
         updated = False
 

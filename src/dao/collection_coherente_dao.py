@@ -17,14 +17,14 @@ class CollectionCoherenteDAO(metaclass=Singleton):
     def create_coherente(self, collection: CollectionCoherente) -> bool: #Assigner utilisateur_id à collection.id_utilisateur
         """Création d'une nouvelle collection cohérente dans la base de données
 
-    Parameters
-    ----------
-    collection : CollectionCoherente
-        Objet représentant la collection cohérente
+        Parameters
+        ----------
+        collection : CollectionCoherente
+            Objet représentant la collection cohérente
 
-    Returns
-    -------
-    created : bool
+        Returns
+        -------
+        created : bool
         True si la création a réussi, False sinon
         """
         created = False
@@ -88,7 +88,8 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         Parameters
         ----------
         collection : Collection_coherente
-            Objet représentant la collection cohérente avec les nouvelles valeurs
+            Objet représentant la collection cohérente avec les nouvelles
+            valeurs à mettre à jour.
 
         Returns
         -------
@@ -160,8 +161,8 @@ class CollectionCoherenteDAO(metaclass=Singleton):
 
         Parameters
         ----------
-        id : int
-            ID de la collection à supprimer
+        id_collection : int
+            id de la collection cohérente à supprimer
 
         Returns
         -------
@@ -216,17 +217,17 @@ class CollectionCoherenteDAO(metaclass=Singleton):
 
     @log
     def read_coherente(self, titre: int) -> CollectionCoherente:
-        """Lecture d'une collection cohérente à partir de son ID
+        """Lecture d'une collection cohérente à partir de son titre
 
         Parameters
         ----------
-        id : int
-            ID de la collection à lire
+        titre : str
+            Titre de la collection à lire
 
         Returns
         -------
         collection : CollectionCoherente
-            L'objet CollectionCoherente correspondant
+            L'objet CollectionCoherente correspondant au titre en paramètre
         """
         collection = None
 
@@ -289,7 +290,20 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         return collection
 
     def recup_collec_coherente_from_id(self, id_utilisateur):
+        """Récupérer les collections cohérentes à partir de l'id d'un
+        utilisateur.
 
+        Parameters
+        ----------
+        id_utilisateur : str
+            id de l'utilisateur dont on veut voir les collections cohérentes.
+
+        Returns
+        -------
+        res : List
+           Liste de dictionnaires contenant les informations sur les collections
+           cohérentes associées à l'utilisateur.
+        """
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -307,8 +321,20 @@ class CollectionCoherenteDAO(metaclass=Singleton):
 
     def recup_id_collec_from_manga_titre(self, titre):
         """
-        Renvoie les id de collections parmi lesquels le titre de manga est contenu
+        Renvoie les id de collections parmi lesquels le titre d'un manga
+        passé en paramètre est contenu.
 
+        Parameters
+        ----------
+        titre : str
+            Titre du manga dont on veut voir les collections cohérentes le
+            contenant.
+
+        Returns
+        -------
+        res : List
+           Liste de dictionnaires contenant les informations sur les collections
+           cohérentes contenant le titre de manga passé en paramètre.
         """
         try:
             with DBConnection().connection as connection:
@@ -328,18 +354,19 @@ class CollectionCoherenteDAO(metaclass=Singleton):
             raise
         return res
 
-    def recup_infos_from_collec_id(self, id_collection: int) -> CollectionCoherente:
+    def recup_infos_from_collec_id(self, id_collection: int):
         """Lecture d'une collection cohérente à partir de son ID
 
         Parameters
         ----------
-        id : int
+        id_collection : int
             ID de la collection à lire
 
         Returns
         -------
-        collection : CollectionCoherente
-            L'objet CollectionCoherente correspondant
+        res : List
+           Liste de dictionnaires contenant les informations sur la collection
+           cohérente correspondant à l'id passé en paramètre.
         """
 
         try:
@@ -368,6 +395,17 @@ class CollectionCoherenteDAO(metaclass=Singleton):
         """
         Permet de récupérer l'id d'une collecton cohérente à partir de
         son titre.
+
+        Parameters
+        ----------
+        titre : str
+            Titre de la collection à lire
+
+        Returns
+        -------
+        res : List
+           Liste de dictionnaires contenant les informations sur la collection
+           cohérente correspondant au titre passé en paramètre.
         """
         try:
             with DBConnection().connection as connection:

@@ -1,4 +1,3 @@
-import requests
 import logging
 
 from src.utils.singleton import Singleton
@@ -10,8 +9,8 @@ from src.business_object.manga_physique import MangaPhysique
 
 
 class MangaPhysiqueDAO(metaclass=Singleton):
-    """Classe contenant les méthodes pour accéder aux Joueurs de la base de """
-    """données"""
+    """Classe contenant les méthodes pour accéder aux mangas physiques de la
+    base de données"""
 
     @log
     def create_manga_physique(self, manga: MangaPhysique) -> bool:
@@ -20,7 +19,7 @@ class MangaPhysiqueDAO(metaclass=Singleton):
         Parameters
         ----------
         manga : MangaPhysique
-            numéro id du manga que l'on souhaite trouver
+            Instance de MangaPhysique que l'on souhaite écrire en base.
 
         Returns
         -------
@@ -74,7 +73,7 @@ class MangaPhysiqueDAO(metaclass=Singleton):
         Parameters
         ----------
         manga : MangaPhysique
-            numéro id du manga que l'on souhaite trouver
+            Manga physique existant en base que l'on souhaite modifier.
 
         Returns
         -------
@@ -115,12 +114,13 @@ class MangaPhysiqueDAO(metaclass=Singleton):
 
         Parameters
         ----------
-        manga_physique : MangaPhysique
-            manga physique à supprimer de la base de données
+        id_supprime : int
+            ID du manga physique à supprimer de la base de données
 
         Returns
         -------
             True si le manga physique a bien été supprimé
+            False sinon
         """
 
         try:
@@ -139,7 +139,21 @@ class MangaPhysiqueDAO(metaclass=Singleton):
         return res > 0
 
     def recup_manga_physique_from_id(self, id_utilisateur):
+        """
+        Récupérer tous les mangas physiques d'un utilisateur à partir de son
+        id.
 
+        Parameters
+        ----------
+        id_utilisateur : int
+            ID de l'utilisateur dont on veut voir les mangas physiques.
+
+        Returns
+        -------
+        res : List
+            Liste de dictionnaires contenant les informations sur les mangas
+            physiques de l'utilisateur.
+        """
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -155,7 +169,21 @@ class MangaPhysiqueDAO(metaclass=Singleton):
         return res
 
     def recup_manga_physique_from_titre(self, titre_manga):
+        """
+        Récupérer toutes les mangas physiques correspondant à un certain titre
+        de manga.
 
+        Parameters
+        ----------
+        titre_manga : str
+            Titre du manga à partir duquel on veut voir les mangas physiques.
+
+        Returns
+        -------
+        res : List
+            Liste de dictionnaires contenant les informations sur les mangas
+            physiques correspondant au titre en paramètre.
+        """
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:

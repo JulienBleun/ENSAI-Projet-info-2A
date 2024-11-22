@@ -1,6 +1,10 @@
 class MangaPhysique():
     """
-    Classe pour modéliser un manga physique.
+    Classe pour modéliser un manga physique. Un manga physique est un manga
+    possédé dans la vraie vie par un utilisateur, avec un certain nombre de
+    tomes acquis par ce dernier. Pour cela chaque manga physique possède un
+    attribut 'id_utilisateur'. On rajoute également l'attribut 'statut' qui
+    donne plus d'informations sur le manga physique en question.
 
     Parameters :
     ------------
@@ -8,16 +12,14 @@ class MangaPhysique():
     id_manga_physique : int
         Identifiant unique associé au manga physique.
 
-    id_collection_physique : int
-        Identifiant de la classe manga physique à laquelle le manga physique
-        appartient.
+    titre_manga : str
+        Titre du manga associé au manga physique.
 
     dernier_tome_acquis  : int
         Numéro du dernier tome acquis.
 
-    tomes_manquant : list[int]
-        Liste des numéros des tomes manquants par rapport au dernier tome
-        acquis de la série.
+    tomes_acquis : list[int]
+        Liste des numéros des tomes acquis par l'utilisateur.
 
     statut : str
         Indique le status de la série, c'est-à-dire si je continue d'acheter

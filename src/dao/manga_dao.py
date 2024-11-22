@@ -1,5 +1,3 @@
-# A voir si ça marche c'est un copié collé de la template ...
-import requests
 import logging
 
 from src.utils.singleton import Singleton
@@ -21,7 +19,7 @@ class MangaDao(metaclass=Singleton):
         Parameters
         ----------
         id_manga : int
-            numéro id du manga que l'on souhaite trouver
+            Numéro id du manga que l'on souhaite trouver
 
         Returns
         -------
@@ -50,22 +48,22 @@ class MangaDao(metaclass=Singleton):
                 descript=res["descript"],
                 auteur=res["auteur"],
                 )
-            
+
         return manga
 
     @log
     def rechercher_manga_par_titre(self, titre) -> Manga:
-        """Trouver un manga grace à son id
+        """Trouver un manga grace à son titre
 
         Parameters
         ----------
-        id_manga : int
-            numéro id du manga que l'on souhaite trouver
+        titre : str
+            Titre du manga que l'on souhaite trouver
 
         Returns
         -------
         manga : Manga
-            renvoie le manga que l'on cherche par titre
+            Renvoie le manga que l'on cherche par titre
         """
         try:
             with DBConnection().connection as connection:
@@ -91,27 +89,3 @@ class MangaDao(metaclass=Singleton):
                 )
 
         return manga
-
-    """@log
-    def rechercher_manga_par_titre(self, titre):
-        url = f"https://api.jikan.moe/v4/manga?q={titre}"
-        response = requests.get(url)
-
-        if response.status_code == 200:
-            resultats = response.json()['data']
-            print(resultats)
-            if not resultats:
-                print("Aucun manga trouvé.")
-                return None  # Pas de mangas trouvés
-
-            # Affichage des mangas trouvés
-            for index, manga in enumerate(resultats):
-                print(f"{index + 1}. Titre: {manga['title']}, ID: {manga['mal_id']}")
-
-            return resultats  # Retourner les résultats pour un usage ultérieur
-        else:
-            print("Erreur lors de la recherche.")
-            return None
-
-# Créer une instance de MangaDao pour être utilisée ailleurs
-manga_dao = MangaDao()"""

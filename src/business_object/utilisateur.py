@@ -2,8 +2,9 @@
 
 class Utilisateur:
     """
-    Classe représentant un utilisateur.
-    Paramètres :
+    Classe représentant un utilisateur de l'application
+
+    Parameters :
     ------------
     id_utilisateur : int
         L'identifiant unique associé à l'utilisateur.
@@ -16,9 +17,9 @@ class Utilisateur:
     email : str
         L'email de l'utilisateur.
     mdp : str
-        Le mot de passe haché de l'utilisateur.
+        Le mot de passe de l'utilisateur.
     sel : str
-        Le sel utilisé pour le hachage du mot de passe.
+        Le sel utilisé pour le hachage du mot de passe lors de l'inscription.
     """
     def __init__(self, nom: str, prenom: str, pseudo: str, email: str, mdp: str, sel: str, id_utilisateur=None):
         self.id_utilisateur = id_utilisateur

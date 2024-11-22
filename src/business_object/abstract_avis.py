@@ -3,9 +3,9 @@ from abc import ABC
 
 class AbstractAvis(ABC):
     """
-    Classe abstraite représentant un avis .
+    Classe abstraite représentant un avis.
 
-    Parametres :
+    Parameters :
     -----------
     id_avis : int
         Identifiant de l'avis.
@@ -14,23 +14,24 @@ class AbstractAvis(ABC):
     commentaire : str
         Le texte du commentaire laissé par l'utilisateur.
     note : int
-        La note attribuée à l'avis
+        La note attribuée à l'objet sur lequel porte l'avis.
 
     """
 
     def __init__(self,
-             id_utilisateur: int,
-             commentaire: str,
-             note: int,
-             id_avis: int):
+                 id_utilisateur: int,
+                 commentaire: str,
+                 note: int,
+                 id_avis: int):
 
         if not isinstance(id_utilisateur, int):
-            raise TypeError("L'identifiant de l'utilisateur doit être un entier.")
+            raise TypeError("L'identifiant de l'utilisateur doit être un"
+                            "entier.")
         if not isinstance(commentaire, str):
-            raise TypeError("Le commentaire doit être une chaîne de caractères.")
+            raise TypeError("Le commentaire doit être une chaîne de "
+                            "caractères.")
         if not isinstance(note, int):
             raise TypeError("La note doit être un entier.")
-
 
         self.id_utilisateur = id_utilisateur
         self.commentaire = commentaire

@@ -12,9 +12,28 @@ class UtilisateurService(metaclass=Singleton):
     def inscription(self, nom, prenom, pseudo, email, mdp):
         """
         Inscrit un nouvel utilisateur en vérifiant les conditions d'inscription.
-        Retourne :
+
+        Parameters :
+        ------------
+        nom : str
+            Nom de l'utilisateur
+
+        prenom : str
+           Prénom de l'utilisateur
+
+        pseudo : str
+            Pseudo de l'utilisateur
+
+        email : str
+           Email de l'utilisateur
+
+        mdp : str
+            Mot de passe de l'utilisateur
+
+        Returns :
         ----------
-        Utilisateur : l'utilisateur créé si l'inscription réussit, sinon None.
+        utilisateur : Utilisateur
+            Instance d'utilisateur créée si l'inscription a réussi sinon None
         """
         # Vérification des conditions
         valide, message = self.verifier_conditions_inscription(nom, prenom, pseudo, email, mdp)
@@ -44,7 +63,7 @@ class UtilisateurService(metaclass=Singleton):
         """
         Vérifie les conditions pour les informations d'inscription.
 
-        Retourne :
+        Returns :
         ----------
         tuple : (bool, str)
             - bool : True si toutes les conditions sont respectées, sinon False.
@@ -74,9 +93,3 @@ class UtilisateurService(metaclass=Singleton):
             return utilisateur
         else:
             return None
-"""
-    def consulter_profil(self, id):
-
-    def mettre_a_jour(self, utilisateur):
-
-"""

@@ -6,9 +6,11 @@ from src.business_object.abstract_collection import AbstractCollection
 
 class CollectionCoherente(AbstractCollection):
     """
-    Classe pour modéliser une collection cohérente.
+    Classe pour modéliser une collection cohérente. Cette classe hérite de
+    'AbstractCollection' et récupère donc ses attributs. Elle possède également
+    des attributs supplémentaires.
 
-    Attributs supllémentaires :
+    Attributs suplémentaires :
     ---------------------------
 
     titre : str
@@ -18,8 +20,8 @@ class CollectionCoherente(AbstractCollection):
         Description de la collection.
 
     contenu : list[Manga]
-        Contenu de la collection sous forme d'une liste d'instance de
-        la classe Manga
+        Contenu de la collection sous forme d'une liste d'instances de
+        la classe Manga.
 
     """
     def __init__(self,
@@ -28,7 +30,6 @@ class CollectionCoherente(AbstractCollection):
                  titre,
                  description,
                  contenu: list[Manga]):
-
 
         if not isinstance(id_utilisateur, int):
             raise TypeError(
@@ -46,7 +47,8 @@ class CollectionCoherente(AbstractCollection):
             )
 
         if not all(isinstance(m, Manga) for m in contenu):
-            raise TypeError("Tous les éléments de contenu doivent être des instances de la classe Manga")
+            raise TypeError("Tous les éléments de contenu doivent être des "
+                            "instances de la classe Manga")
 
         super().__init__(id_collection, id_utilisateur)
 

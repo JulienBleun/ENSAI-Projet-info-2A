@@ -1,4 +1,3 @@
-### TODO rien normalement c'est bon insh
 import logging
 
 from src.utils.singleton import Singleton
@@ -16,13 +15,14 @@ class AvisMangaDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux avis des mangas de la """
     """base de données"""
 
-    #log
+    @log
     def create_avis_manga(self, avis: AvisManga) -> bool:
         """Création d'un avis sur un manga dans la base de données
 
         Parameters
         ----------
         avis : AvisManga
+            Instance AvisManga à écrire en base de données.
 
         Returns
         -------
@@ -56,13 +56,14 @@ class AvisMangaDao(metaclass=Singleton):
 
         return created
 
-    #@log
+    @log
     def update_avis_manga(self, avis: AvisManga) -> bool:
         """Modifier un avis de manga dans la base de données
 
         Parameters
         ----------
         avis : AvisManga
+            Avis à modifier.
 
         Returns
         -------
@@ -96,14 +97,14 @@ class AvisMangaDao(metaclass=Singleton):
 
         return res == 1
 
-    #@log
+    @log
     def delete_avis_manga(self, avis: AvisManga) -> bool:
         """Supprimer un avis de manga dans la base de données
 
         Parameters
         ----------
         avis : AvisManga
-            avis à supprimer de la base de données
+            Avis à supprimer de la base de données
 
         Returns
         -------
@@ -126,19 +127,19 @@ class AvisMangaDao(metaclass=Singleton):
 
         return res > 0
 
-    #@log
+    @log
     def read_avis_manga(self, id_avis) -> AvisManga:
         """Trouver un avis de manga grâce à son id
 
         Parameters
         ----------
         id_avis : int
-            numéro id de l'avis que l'on souhaite trouver
+            Numéro id de l'avis que l'on souhaite trouver
 
         Returns
         -------
         avis : AvisManga
-            renvoie l'avis que l'on cherche par id
+            Renvoie l'avis que l'on cherche par id
         """
         try:
             with DBConnection().connection as connection:
@@ -166,7 +167,19 @@ class AvisMangaDao(metaclass=Singleton):
         return avis
 
     def recup_avis_from_id(self, id_utilisateur):
+        """Récupérer tous les avis de manga associés à l'id de l'utilisateur.
 
+        Parameters
+        ----------
+        id_utilisateur : int
+            Numéro id de l'utilisateur dont on souhaite voir les avis de manga
+
+        Returns
+        -------
+        res : List
+            Renvoie une liste de dictionnaires contenant les informations sur
+            les avis de mangas de l'utilisateur.
+        """
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -183,7 +196,20 @@ class AvisMangaDao(metaclass=Singleton):
         return res
 
     def recup_avis_from_titre(self, titre):
+        """Récupérer tous les avis de manga en cherchant directement le titre
+        du manga.
 
+        Parameters
+        ----------
+        titre : str
+            Titre du manga dont on souhaite voir les avis.
+
+        Returns
+        -------
+        res : List
+            Renvoie une liste de dictionnaires contenant les informations sur
+            les avis de mangas correspondant au titre en paramètre.
+        """
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:

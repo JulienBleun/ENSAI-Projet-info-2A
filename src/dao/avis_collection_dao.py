@@ -1,4 +1,3 @@
-### TODO rien normalement c'est bon insh
 import logging
 
 from src.utils.singleton import Singleton
@@ -11,7 +10,7 @@ from src.business_object.avis_collection import AvisCollection
 
 class AvisCollectionDao(metaclass=Singleton):
     """Classe contenant les méthodes pour accéder aux avis des collections """
-    """de la base de données"""
+    """cohérentes de la base de données."""
 
     @log
     def create_avis_collection(self, avis: AvisCollection) -> bool:
@@ -20,6 +19,7 @@ class AvisCollectionDao(metaclass=Singleton):
         Parameters
         ----------
         avis : AvisCollection
+            L'avis de collection à écrire en base de données.
 
         Returns
         -------
@@ -31,7 +31,7 @@ class AvisCollectionDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    # Vérifier si l'utilisateur a déjà un avis sur cette collection
+                    # On vérifie si l'utilisateur a déjà un avis sur cette collection
                     cursor.execute(
                         """
                         SELECT 1
@@ -50,7 +50,7 @@ class AvisCollectionDao(metaclass=Singleton):
                         )
                         return False  # Pas besoin de continuer si un avis existe déjà
 
-                    # Insérer un nouvel avis et récupérer son ID
+                    # Sinon insérer un nouvel avis
 
                     cursor.execute(
                         "INSERT INTO tp.avis_collection(id_utilisateur, "
@@ -76,13 +76,17 @@ class AvisCollectionDao(metaclass=Singleton):
 
         return created
 
-    #@log
+    @log
     def update_avis_collection(self, avis: AvisCollection) -> bool:
-        """Modifier un avis de collection dans la base de données
+        """Modifier un avis de collection cohérente qui existe dans la base
+        de données.
 
         Parameters
         ----------
         avis : AvisCollection
+            L'avis qui doit en remplacer un autre dans la base de données.
+            On accède à l'avis à modifier grâce à id_avis et ensuite on modifie
+            les informations.
 
         Returns
         -------
@@ -114,19 +118,22 @@ class AvisCollectionDao(metaclass=Singleton):
 
         return res == 1
 
-    #@log
+    @log
     def delete_avis_collection(self, id_avis: AvisCollection) -> bool:
-        """Supprimer un avis de collection dans la base de données
+        """Supprimer un avis de collection cohérente dans la base de données.
+        L'utilisateur connecté ne peut suppprimer que les avis qu'il a lui
+        même écrit, et qui donc lui appartiennent.
 
         Parameters
         ----------
         avis : AvisCollection
-            avis à supprimer de la base de données
+            Avis à supprimer de la base de données.
 
         Returns
         -------
         created : bool
             True si la suppression a bien été effectuée
+            False sinon
         """
 
         try:
@@ -144,33 +151,33 @@ class AvisCollectionDao(metaclass=Singleton):
 
         return res > 0
 
-    #@log
+    @log
     def read_avis(self, id_avis) -> AvisCollection:
         """Trouver un avis grâce à son id
 
         Parameters
         ----------
         id_avis : int
-            numéro id de l'avis que l'on souhaite trouver
+            Numéro de l'id de l'avis que l'on souhaite trouver.
 
         Returns
         -------
-        avis : AvisManga
-            renvoie l'avis que l'on cherche par id
+        avis : AvisCollection
+            Renvoie l'avis correspondant à l'id en paramètre.
         """
-        #try:
-        with DBConnection().connection as connection:
+        try:
+            with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT *                           "
-                        "  FROM avis_collection                     "
-                        " WHERE id_avis = %(id_avis)s;  ",
-                        {"id_avis": id_avis},
+                            "SELECT *                           "
+                            "  FROM avis_collection                     "
+                            " WHERE id_avis = %(id_avis)s;  ",
+                            {"id_avis": id_avis},
                     )
                     res = cursor.fetchone()
-        #except Exception as e:
-        #logging.info(e)
-            #raise
+        except Exception as e:
+            logging.info(e)
+            raise
 
         avis = None
         if res:
@@ -184,7 +191,21 @@ class AvisCollectionDao(metaclass=Singleton):
         return avis
 
     def recup_avis_collec_from_id(self, id_utilisateur):
+        """Méthode permettant de récupérer tous les attributs des avis écrits
+        par un certain utilisateur. Pour cela on utilise l'id de l'utilisateur.
 
+        Parameters
+        ----------
+        id_utilisateur : int
+            id de l'utilisateur dont on souhaite voir les avis.
+
+        Returns
+        -------
+        res : List
+            Renvoie la liste des dictionnaires contenant les éléments
+            constitutifs des avis de collection de l'utilisateur.
+
+        """
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
@@ -201,7 +222,22 @@ class AvisCollectionDao(metaclass=Singleton):
         return res
 
     def recup_avis_collec_from_id_collec(self, id_collection):
+        """Méthode permettant de récupérer tous les attributs des avis portant
+        sur une certaine collection. Pour cela on utilise l'id de la collection
+        dont on souhaite voir les avis.
 
+        Parameters
+        ----------
+        id_collection : int
+            id de la collection dont on souhaite voir les avis.
+
+        Returns
+        -------
+        res : List
+            Renvoie la liste des dictionnaires contenant les éléments
+            constitutifs des avis de la collection.
+
+        """
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:

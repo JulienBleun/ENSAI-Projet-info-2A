@@ -6,13 +6,16 @@ class Manga():
     ----------
 
     id_manga : int
-        identifiant unique associé au manga.
+        Identifiant unique associé au manga.
 
     titre : str
         Titre du manga.
 
-    auteur : str
+    descript : str
         Description du manga.
+
+    auteur : str
+        Auteur du manga.
     """
     def __init__(
             self,

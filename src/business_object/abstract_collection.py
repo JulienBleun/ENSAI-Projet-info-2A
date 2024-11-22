@@ -5,11 +5,11 @@ class AbstractCollection(ABC):
     """
     Classe abstraite représentant une collection.
 
-    Parametres :
+    Parameters :
     ------------
 
     id_collection : int
-        Identifiant unique associé à la collection?
+        Identifiant unique associé à la collection.
 
     id_utilisateur : int
         Identifiant de l'utilisateur à qui appartient la collection.

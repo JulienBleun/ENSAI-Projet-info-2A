@@ -25,6 +25,6 @@ class AvisManga(AbstractAvis):
 
         if not isinstance(id_manga, int):
             raise TypeError("L'identifiant manga doit être un entier")
-            
-        super().__init__(id_utilisateur, commentaire, note, id_avis) #Cet ordre précis est IMPORTANT pour écrire dans la base. NE PAS TOUCHER
+
+        super().__init__(id_utilisateur, commentaire, note, id_avis)
         self.id_manga = id_manga
