@@ -1,14 +1,14 @@
 # ENSAI-Projet-info-2A-Application de gestion de mangas
 
-Cette application de gestion de mangas permet aux utilisateurs de créer, gérer et partager leurs collections de mangas à la fois virtuelle et physiques. Elle offre des fonctionnalités de recherche de mangas, de création et consultation d'avis et de créations de collections de mangas.
+Cette application de gestion de mangas permet aux utilisateurs de créer, gérer et partager leurs collections de mangas cohérentes et physiques. Elle offre des fonctionnalités de recherche de mangas, de création et consultation d'avis et de créations de collections de mangas.
 
-Exemple d'utilsation : 
+Exemple d'utilsation :
 
-1 Créer une collection cohérente : L'utilisateur peut créer une collection en luid donnant un titre et une description personnalisée et regroupant tous les titres de mangas souhaités.
+1 Créer une collection cohérente : L'utilisateur peut créer une collection en lui donnant un titre et une description personnalisée et regroupant tous les titres de mangas souhaités.
 
-2 Créer une collection physique : L'utilisateur peut créer une collection de mangas qu'il possède physiquement, en précisant le titre de chaque série, son statut actuel (terminée ou en cours), s'il continue d'acheter des tomes, ainsi que les tomes manquants dans la série.
+2 Créer une collection physique : L'utilisateur peut créer une collection de mangas qu'il possède physiquement, en précisant le titre de chaque série, son statut actuel (notamment s'il lit toujours la série), ainsi que les tomes qu'il possède.
 
-3 Recherche de mangas : Il est possible de rechercher des informations détaillées sur un manga comme par exemple l'auteur sa description ou ses avis.
+3 Recherche de mangas : Il est possible d'obtenir des informations détaillées sur un manga comme par exemple l'auteur, sa description ou ses avis donnés par les utilisateurs de l'application.
 
 4 Gestion des avis : L'application permet aux utilisateurs de publier, mettre à jour, supprimer et consulter les avis sur des mangas ou des collections, y compris ceux partagés par d'autres utilisateurs.
 
@@ -18,7 +18,7 @@ Exemple d'utilsation :
 - Python 3.10
 - Git
 - Une base de données PostgreSQL
-  
+
 ---
 
 ▶️ Clonez le dépôt
@@ -55,9 +55,9 @@ Dans VSCode :
 
  - Ouvrir un terminal Git Bash
  - Exécutez les commandes suivantes
-   
+
 ```
-pip install -r requirements.txt 
+pip install -r requirements.txt
 pip list
 ```
 
@@ -95,6 +95,6 @@ Pour exécuter les tests unitaires, utilisez la commande suivante dans Git Bash 
 
 ▶️ Lancer le programme
 
-Cette application propose une interface graphique très basique pour naviguer entre différents menus.
+Cette application propose une interface basique à l'aide du terminal pour naviguer entre différents menus.
 
 - Dans Git Bash : ```python src/__main__.py```
