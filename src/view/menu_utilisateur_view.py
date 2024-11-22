@@ -1,11 +1,11 @@
-from src.view.manga_view import trouver_manga_par_titre, trouver_manga_par_id
-from src.view.collection_coherente_view import creer_collection_coherente_view, modifier_collection_coherente_view, supprimer_collection_coherente_view, afficher_collection_coherente_par_titre_view, afficher_collection_coherente_par_titre__manga_view, afficher_toutes_les_collections_coherentes, afficher_collections_autre_utilisateur
+from src.view.manga_view import MangaView
+from src.view.collection_coherente_view import CollectionCoherenteView
 from src.view.modifier_compte_view import modifier_compte_view
 from src.view.deconnexion_view import deconnexion_view
-from src.view.avis_view import modifier_avis_manga, supprimer_avis_manga, afficher_avis_manga, creer_avis_manga, afficher_avis_manga_utilisateur, afficher_avis_manga_autre_utilisateur
+from src.view.avis_view import AvisView
 from src.view.suppression_view import suppression_view
-from src.view.manga_physique_view import ajouter_manga_physique_view, modifier_manga_physique_view, afficher_collection_physique_view, supprimer_manga_physique_view, afficher_collection_physique_autre_utilisateur
-from src.view.avis_collection_view import creer_avis_collection, modifier_avis_collection, supprimer_avis_collection, afficher_tous_les_avis_par_titre_collec, afficher_tous_mes_avis_collec, afficher_avis_collection_autre_utilisateur
+from src.view.manga_physique_view import MangaPhysiqueView
+from src.view.avis_collection_view import AvisCollectionView
 
 
 def afficher_menu_utilisateur(utilisateur_id):
@@ -30,15 +30,17 @@ def afficher_menu_utilisateur(utilisateur_id):
             print("5 : Supprimer un de mes manga sous forme physique")
             choix1 = input("Choisissez une option : ")
             if choix1 == '1':
-                trouver_manga_par_titre(utilisateur_id)
+                MangaView().trouver_manga_par_titre(utilisateur_id)
             elif choix1 == '2':
-                trouver_manga_par_id(utilisateur_id)
+                MangaView().trouver_manga_par_id(utilisateur_id)
             elif choix1 == '3':
-                ajouter_manga_physique_view(utilisateur_id)
+                MangaPhysiqueView().ajouter_manga_physique_view(utilisateur_id)
             elif choix1 == '4':
-                modifier_manga_physique_view(utilisateur_id)
+                MangaPhysiqueView().modifier_manga_physique_view(
+                    utilisateur_id)
             elif choix1 == '5':
-                supprimer_manga_physique_view(utilisateur_id)
+                MangaPhysiqueView().supprimer_manga_physique_view(
+                    utilisateur_id)
             else:
                 print("Choix invalide. Veuillez réessayer.")
 
@@ -51,29 +53,31 @@ def afficher_menu_utilisateur(utilisateur_id):
             print("6. Ajouter un avis de collection cohérente")
             print("7. Modifier un avis de collection cohérente")
             print("8. Supprimer un avis de collection cohérente")
-            print("9. Afficher tous les avis d'une certaine collection cohérente")
+            print("9. Afficher tous les avis d'une certaine collection "
+                  "cohérente")
             print("10. Afficher tous mes avis de collection cohérente")
             choix2 = input("Choisissez une option : ")
             if choix2 == '1':
-                creer_avis_manga(utilisateur_id)
+                AvisView().creer_avis_manga(utilisateur_id)
             elif choix2 == '2':
-                modifier_avis_manga(utilisateur_id)
+                AvisView().modifier_avis_manga(utilisateur_id)
             elif choix2 == '3':
-                supprimer_avis_manga(utilisateur_id)
+                AvisView().supprimer_avis_manga(utilisateur_id)
             elif choix2 == '4':
-                afficher_avis_manga()
+                AvisView().afficher_avis_manga()
             elif choix2 == '5':
-                afficher_avis_manga_utilisateur(utilisateur_id)
+                AvisView().afficher_avis_manga_utilisateur(utilisateur_id)
             elif choix2 == '6':
-                creer_avis_collection(utilisateur_id)
+                AvisCollectionView().creer_avis_collection(utilisateur_id)
             elif choix2 == '7':
-                modifier_avis_collection(utilisateur_id)
+                AvisCollectionView().modifier_avis_collection(utilisateur_id)
             elif choix2 == '8':
-                supprimer_avis_collection(utilisateur_id)
+                AvisCollectionView().supprimer_avis_collection(utilisateur_id)
             elif choix2 == '9':
-                afficher_tous_les_avis_par_titre_collec()
+                AvisCollectionView().afficher_tous_les_avis_par_titre_collec()
             elif choix2 == '10':
-                afficher_tous_mes_avis_collec(utilisateur_id)
+                AvisCollectionView().afficher_tous_mes_avis_collec(
+                    utilisateur_id)
             else:
                 print("Choix invalide. Veuillez réessayer.")
 
@@ -89,19 +93,26 @@ def afficher_menu_utilisateur(utilisateur_id):
 
             choix3 = input("Choisissez une option : ")
             if choix3 == '1':
-                creer_collection_coherente_view(utilisateur_id)
+                CollectionCoherenteView().creer_collection_coherente_view(
+                    utilisateur_id)
             elif choix3 == '2':
-                modifier_collection_coherente_view(utilisateur_id)
+                CollectionCoherenteView().modifier_collection_coherente_view(
+                    utilisateur_id)
             elif choix3 == '3':
-                supprimer_collection_coherente_view(utilisateur_id)
+                CollectionCoherenteView(
+                ).supprimer_collection_coherente_view(utilisateur_id)
             elif choix3 == '4':
-                afficher_collection_coherente_par_titre__manga_view()
+                CollectionCoherenteView(
+                ).afficher_collection_coherente_par_titre__manga_view()
             elif choix3 == '5':
-                afficher_collection_coherente_par_titre_view()
+                CollectionCoherenteView(
+                ).afficher_collection_coherente_par_titre_view()
             elif choix3 == '6':
-                afficher_toutes_les_collections_coherentes(utilisateur_id)
+                CollectionCoherenteView(
+                ).afficher_toutes_les_collections_coherentes(utilisateur_id)
             elif choix3 == '7':
-                afficher_collection_physique_view(utilisateur_id)
+                MangaPhysiqueView().afficher_collection_physique_view(
+                    utilisateur_id)
             else:
                 print("Choix invalide. Veuillez réessayer.")
 
@@ -112,13 +123,16 @@ def afficher_menu_utilisateur(utilisateur_id):
             print("4. Afficher la collection physique d'un utilisateur")
             choix4 = input("Choisissez une option : ")
             if choix4 == '1':
-                afficher_avis_manga_autre_utilisateur()
+                AvisView().afficher_avis_manga_autre_utilisateur()
             elif choix4 == '2':
-                afficher_avis_collection_autre_utilisateur()
+                AvisCollectionView(
+                ).afficher_avis_collection_autre_utilisateur()
             elif choix4 == '3':
-                afficher_collections_autre_utilisateur()
+                CollectionCoherenteView(
+                ).afficher_collections_autre_utilisateur()
             elif choix4 == '4':
-                afficher_collection_physique_autre_utilisateur()
+                MangaPhysiqueView(
+                ).afficher_collection_physique_autre_utilisateur()
             else:
                 print("Choix invalide. Veuillez réessayer.")
 

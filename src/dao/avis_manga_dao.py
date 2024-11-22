@@ -33,6 +33,19 @@ class AvisMangaDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
+                    # On vérifie si l'utilisateur a déjà un avis sur cette collection
+                    cursor.execute(
+                        """
+                        SELECT 1
+                        FROM tp.avis_manga
+                        WHERE id_utilisateur = %(id_utilisateur)s
+                        AND id_manga = %(id_manga)s;
+                        """,
+                        {"id_utilisateur": avis.id_utilisateur, "id_manga": avis.id_manga},
+                    )
+                    result = cursor.fetchone()
+                    if result:
+                        return False  # Pas besoin de continuer si un avis existe déjà
                     cursor.execute(
                         "INSERT INTO tp.avis_manga (id_utilisateur, id_manga, commentaire, note)"
                         "VALUES (%(id_utilisateur)s, %(id_manga)s, %(commentaire)s, %(note)s)                         "

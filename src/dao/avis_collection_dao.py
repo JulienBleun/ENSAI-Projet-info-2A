@@ -44,10 +44,6 @@ class AvisCollectionDao(metaclass=Singleton):
 
                     result = cursor.fetchone()
                     if result:
-                        logging.error(
-                            "Vous avez déjà un avis sur cette collection. "
-                            "Réessayez avec un autre titre."
-                        )
                         return False  # Pas besoin de continuer si un avis existe déjà
 
                     # Sinon insérer un nouvel avis

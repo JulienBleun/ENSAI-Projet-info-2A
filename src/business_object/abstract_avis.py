@@ -30,8 +30,6 @@ class AbstractAvis(ABC):
         if not isinstance(commentaire, str):
             raise TypeError("Le commentaire doit être une chaîne de "
                             "caractères.")
-        if not isinstance(note, int):
-            raise TypeError("La note doit être un entier.")
 
         self.id_utilisateur = id_utilisateur
         self.commentaire = commentaire

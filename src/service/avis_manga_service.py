@@ -28,10 +28,6 @@ class AvisMangaService(metaclass=Singleton):
     @log
     def mettre_a_jour(self, avis_modifié: AvisManga) -> AvisManga:
 
-        # avis_modifié doit être une instance d'AvisManga. On accède aux
-        # informations de l'avis associé à son id, puis on les modifie avec
-        # les nouvelles infos.
-
         return avis_modifié if AvisMangaDao().update_avis_manga(
                avis_modifié) else None
 
