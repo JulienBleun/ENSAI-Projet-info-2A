@@ -69,7 +69,7 @@ class UtilisateurService(metaclass=Singleton):
             return False
 
     def se_connecter(self, pseudo: str, mdp: str):
-        utilisateur = UtilisateurDao().connexion(pseudo, mdp)
+        utilisateur = UtilisateurDao().se_connecter(pseudo, mdp)
         if utilisateur:
             return utilisateur
         else:
