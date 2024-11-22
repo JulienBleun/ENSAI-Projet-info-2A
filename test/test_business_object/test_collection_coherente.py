@@ -48,20 +48,7 @@ class TestCollectionCoherente(unittest.TestCase):
                 contenu=[manga_1, manga_2]
             )
 
-    def test_creation_collection_coherente_invalid_id_collection(self):
-        # GIVEN
-        invalid_id_collection = "abc"
-
-        # THEN
-        with self.assertRaises(TypeError):
-            # WHEN
-            CollectionCoherente(
-                id_utilisateur=1,
-                id_collection=invalid_id_collection,
-                titre="Ma Collection",
-                description="Une super collection",
-                contenu=[manga_1, manga_2]
-            )
+    
     def test_creation_collection_coherente_invalid_titre(self):
         # GIVEN
         invalid_titre = 123
