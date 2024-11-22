@@ -86,7 +86,7 @@ class UtilisateurDao(metaclass=Singleton):
             print(f"Erreur lors de la lecture du profil : {e}")
             return None
 
-    def delete_utilisateur(self, id: int) -> bool:
+    def delete_utilisateur(self, id_utilisateur: int) -> bool:
         """
         Supprime un utilisateur de la base de données en fonction de
         l'identifiant.
@@ -104,35 +104,9 @@ class UtilisateurDao(metaclass=Singleton):
 
         with DBConnection().connection as connection:
             with connection.cursor() as cursor:
-                # 1. On supprime ses avis
                 cursor.execute(
-                    "DELETE FROM tp.avis_collection WHERE id_utilisateur = %(id_utilisateur)s;",
-                    {"id_utilisateur": id}
-                )
-                cursor.execute(
-                    "DELETE FROM tp.avis_manga WHERE id_utilisateur = %(id_utilisateur)s;",
-                    {"id_utilisateur": id}
-                )
-
-                # 2. On supprime ses collections en utilisant les fonctionnalités des classes DAO appropriées
-
-                cursor.execute(
-                    "SELECT id_collection FROM tp.collection WHERE id_utilisateur = %(id_utilisateur)s;",
-                    {"id_utilisateur": id}
-                )
-                res1 = cursor.fetchall()
-                for id_collection in res1:
-                    collection_coherente = CollectionCoherenteDAO().read_coherente(id_collection)
-                    suppression = CollectionCoherenteDAO().delete_coherente(collection_coherente)
-                    if not (suppression):
-                        collection_physique = CollectionCoherenteDAO().read_physique(id_collection)
-                        suppression = CollectionCoherenteDAO().delete_physique(collection_physique)
-
-                # 3. On supprime finalement le compte
-
-                cursor.execute(
-                    "DELETE FROM utilisateurs WHERE id = %(id)s RETURNING id;",
-                    {"id": id}
+                    "DELETE FROM tp.utilisateur WHERE id_utilisateur = %(id_utilisateur)s RETURNING id_utilisateur;",
+                    {"id_utilisateur": id_utilisateur}
                 )
                 res = cursor.fetchone()
 
@@ -180,9 +154,9 @@ class UtilisateurDao(metaclass=Singleton):
                 )
         return None
 
-
     @log
-    def update_utilisateur(self, utilisateur: Utilisateur) -> bool:
+    def update_utilisateur(self, id_utilisateur, nouveau_pseudo,
+                           nouveau_mdp) -> bool:
         """
         Met à jour les informations d'un utilisateur dans la base de données.
 
@@ -198,26 +172,21 @@ class UtilisateurDao(metaclass=Singleton):
         updated = False
 
         try:
+            mot_de_passe_hashe = hasher_mot_de_passe(nouveau_mdp)
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
                         UPDATE tp.utilisateur
-                        SET nom = %(nom)s,
-                            prenom = %(prenom)s,
-                            pseudo = %(pseudo)s,
-                            email = %(email)s,
+                        SET pseudo = %(pseudo)s,
                             mdp = %(mdp)s
                         WHERE id_utilisateur = %(id_utilisateur)s
                         RETURNING id_utilisateur;
                         """,
                         {
-                            "nom": utilisateur.nom,
-                            "prenom": utilisateur.prenom,
-                            "pseudo": utilisateur.pseudo,
-                            "email": utilisateur.email,
-                            "mdp": utilisateur.mdp,
-                            "id_utilisateur": utilisateur.id_utilisateur,
+                            "pseudo": nouveau_pseudo,
+                            "mdp": mot_de_passe_hashe,
+                            "id_utilisateur": id_utilisateur,
                         }
                     )
                     res = cursor.fetchone()

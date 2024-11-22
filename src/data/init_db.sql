@@ -12,8 +12,8 @@ CREATE TABLE tp.utilisateur (
     prenom VARCHAR(100),
     pseudo VARCHAR(1000) UNIQUE,
     email VARCHAR(400),
-    mdp VARCHAR(100),
-    sel VARCHAR(100)
+    mdp VARCHAR(1000),
+    sel VARCHAR(1000)
 );
 
 
@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS tp.collection CASCADE;
 
 CREATE TABLE tp.collection (
     id_collection SERIAL PRIMARY KEY,
-    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur)
+    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur) ON DELETE CASCADE
 );
 
 --------------------------------------------------------------
@@ -47,7 +47,7 @@ CREATE TABLE tp.manga (
 DROP TABLE IF EXISTS tp.manga_physique CASCADE;
 CREATE TABLE tp.manga_physique (
     id_manga_physique SERIAL PRIMARY KEY,
-    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur),
+    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur) ON DELETE CASCADE,
     titre_manga VARCHAR(400),
     FOREIGN KEY (titre_manga) REFERENCES tp.manga(titre),
     tomes_acquis TEXT,
@@ -62,7 +62,7 @@ DROP TABLE IF EXISTS tp.avis_collection CASCADE;
 CREATE TABLE tp.avis_collection (
     id_avis SERIAL PRIMARY KEY,
     id_collection INT REFERENCES tp.collection(id_collection),
-    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur),
+    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur) ON DELETE CASCADE,
     commentaire TEXT,
     note NUMERIC CHECK (note >= 0 AND note <= 10)
 );
@@ -74,7 +74,7 @@ CREATE TABLE tp.avis_collection (
 DROP TABLE IF EXISTS tp.collection_coherente CASCADE;
 
 CREATE TABLE tp.collection_coherente (
-    id_collection INT PRIMARY KEY REFERENCES tp.collection(id_collection),
+    id_collection INT PRIMARY KEY REFERENCES tp.collection(id_collection) ON DELETE CASCADE,
     titre VARCHAR(400),
     description TEXT
 );
@@ -86,7 +86,7 @@ CREATE TABLE tp.collection_coherente (
 DROP TABLE IF EXISTS tp.association_manga_collection_coherente CASCADE;
 CREATE TABLE tp.association_manga_collection_coherente (
     id_manga INT REFERENCES tp.manga(id_manga),
-    id_collection INT REFERENCES tp.collection_coherente(id_collection),
+    id_collection INT REFERENCES tp.collection_coherente(id_collection) ON DELETE CASCADE,
     PRIMARY KEY (id_manga, id_collection)
 );
 
@@ -98,18 +98,7 @@ DROP TABLE IF EXISTS tp.avis_manga CASCADE;
 CREATE TABLE tp.avis_manga (
     id_avis SERIAL PRIMARY KEY,
     id_manga INT REFERENCES tp.manga(id_manga),
-    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur),
+    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur) ON DELETE CASCADE,
     commentaire TEXT,
     note NUMERIC CHECK (note >= 0 AND note <= 10)
-);
-
---------------------------------------------------------------
--- Collection physique
---------------------------------------------------------------
-
-DROP TABLE IF EXISTS tp.collection_physique CASCADE;
-
-CREATE TABLE tp.collection_physique(
-    id_collection_physique SERIAL PRIMARY KEY,
-    id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur)
 );

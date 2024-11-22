@@ -119,7 +119,8 @@ def afficher_menu_utilisateur(utilisateur_id):
                 afficher_collections_autre_utilisateur()
             elif choix4 == '4':
                 afficher_collection_physique_autre_utilisateur()
-
+            else:
+                print("Choix invalide. Veuillez réessayer.")
 
         elif choix == '5':
             print("1. Modifier mon compte")

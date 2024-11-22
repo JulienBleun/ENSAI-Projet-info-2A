@@ -62,8 +62,8 @@ class UtilisateurService(metaclass=Singleton):
             return False, "Le mot de passe doit comporter au moins 8 caractères."
         return True, "OK"
 
-    def desinscription(self, id):
-        if UtilisateurDao().delete_utilisateur(id):
+    def suppression(self, id_utilisateur):
+        if UtilisateurDao().delete_utilisateur(id_utilisateur):
             return True
         else:
             return False
