@@ -5,42 +5,59 @@ from src.business_object.manga_physique import MangaPhysique
 
 # Définition d'une liste d'exemples de mangas physiques
 liste_mangas_physiques = [
-    MangaPhysique(id_manga_physique=1, id_manga=101, id_collection_physique=201, dernier_tome_acquis=10, tomes_manquant=[2, 5], statut="En cours"),
-    MangaPhysique(id_manga_physique=2, id_manga=102, id_collection_physique=202, dernier_tome_acquis=5, tomes_manquant=[], statut="Terminé"),
-    MangaPhysique(id_manga_physique=3, id_manga=103, id_collection_physique=203, dernier_tome_acquis=8, tomes_manquant=[6, 7], statut="En pause")
+    MangaPhysique(
+        id_manga_physique=1,
+        titre_manga="One Piece",
+        tomes_acquis=[1, 2, 3, 4],
+        statut="En cours",
+        id_utilisateur=101
+    ),
+    MangaPhysique(
+        id_manga_physique=2,
+        titre_manga="Naruto",
+        tomes_acquis=[],
+        statut="Terminé",
+        id_utilisateur=102
+    ),
+    MangaPhysique(
+        id_manga_physique=3,
+        titre_manga="Bleach",
+        tomes_acquis=[1, 2],
+        statut="En pause",
+        id_utilisateur=103
+    )
 ]
 
 def test_creer_manga_physique_reussi():
     """Test de la création d'un manga physique réussie."""
 
     # GIVEN
-    id_manga_physique, id_manga, id_collection_physique = 4, 104, 204
-    dernier_tome_acquis, tomes_manquant, statut = 1, [], "En cours"
-    MangaPhysiqueDAO().UpdateCoherent = MagicMock(return_value=True)
+    titre_manga = "Attack on Titan"
+    tomes_acquis, statut, id_utilisateur = [1, 2], "En cours", 104
+    MangaPhysiqueDAO().create_manga_physique = MagicMock(return_value=True)
 
     # WHEN
-    manga = MangaPhysiqueService().créer_manga_physique(
-        id_manga_physique, id_manga, id_collection_physique,
-        dernier_tome_acquis, tomes_manquant, statut
+    manga = MangaPhysiqueService().creer_manga_physique(
+        titre_manga, tomes_acquis, statut, id_utilisateur
     )
 
     # THEN
     assert manga is not None
-    assert manga.id_manga_physique == id_manga_physique
+    assert manga.titre_manga == titre_manga
+    assert manga.tomes_acquis == tomes_acquis
     assert manga.statut == statut
 
 def test_creer_manga_physique_echec():
     """Test de l'échec de la création d'un manga physique."""
 
     # GIVEN
-    id_manga_physique, id_manga, id_collection_physique = 5, 105, 205
-    dernier_tome_acquis, tomes_manquant, statut = 2, [1], "En pause"
-    MangaPhysiqueDAO().UpdateCoherent = MagicMock(return_value=False)
+    titre_manga =  "Demon Slayer"
+    tomes_acquis, statut, id_utilisateur = [1], "En pause", 105
+    MangaPhysiqueDAO().create_manga_physique = MagicMock(return_value=False)
 
     # WHEN
-    manga = MangaPhysiqueService().créer_manga_physique(
-        id_manga_physique, id_manga, id_collection_physique,
-        dernier_tome_acquis, tomes_manquant, statut
+    manga = MangaPhysiqueService().creer_manga_physique(
+        titre_manga, tomes_acquis, statut, id_utilisateur
     )
 
     # THEN
@@ -52,31 +69,44 @@ def test_mettre_a_jour_reussi():
     # GIVEN
     manga_existant = liste_mangas_physiques[0]
     manga_modifie = MangaPhysique(
-        id_manga_physique=1, id_manga=101, id_collection_physique=201,
-        dernier_tome_acquis=11, tomes_manquant=[], statut="En cours"
+        id_manga_physique=1,
+        titre_manga="One Piece",
+        tomes_acquis=[1, 2, 3, 4, 5],
+        statut="En cours",
+        id_utilisateur=101
     )
     MangaPhysiqueDAO().update_manga_physique = MagicMock(return_value=True)
 
     # WHEN
-    res = MangaPhysiqueService().mettre_a_jour(manga_modifie)
+    res = MangaPhysiqueService().mettre_a_jour(id_manga_physique=1,
+        titre_manga="One Piece",
+        tomes_acquis=[1, 2, 3, 4, 5],
+        statut="En cours",
+        id_utilisateur=101)
 
     # THEN
     assert res is not None
-    assert res.dernier_tome_acquis == 11
-    assert res.tomes_manquant == []
+    assert res.tomes_acquis == [1, 2, 3, 4, 5]
 
 def test_mettre_a_jour_echec():
     """Test de l'échec de la mise à jour d'un manga physique."""
 
     # GIVEN
     manga_modifie = MangaPhysique(
-        id_manga_physique=2, id_manga=102, id_collection_physique=202,
-        dernier_tome_acquis=6, tomes_manquant=[3], statut="En pause"
+        id_manga_physique=2,
+        titre_manga="Naruto",
+        tomes_acquis=[1],
+        statut="En pause",
+        id_utilisateur=102
     )
     MangaPhysiqueDAO().update_manga_physique = MagicMock(return_value=False)
 
     # WHEN
-    res = MangaPhysiqueService().mettre_a_jour(manga_modifie)
+    res = MangaPhysiqueService().mettre_a_jour(id_manga_physique=1,
+        titre_manga="One Piece",
+        tomes_acquis=[1, 2, 3, 4, 5],
+        statut="En cours",
+        id_utilisateur=101)
 
     # THEN
     assert res is None
@@ -85,26 +115,26 @@ def test_consulter_manga_physique_existant():
     """Test de consultation d'un manga physique existant."""
 
     # GIVEN
-    id_manga_physique = 1
-    MangaPhysiqueDAO().read_manga_physique = MagicMock(return_value=liste_mangas_physiques[0])
+    titre = "One Piece"
+    MangaPhysiqueDAO().recup_manga_physique_from_titre = MagicMock(return_value=liste_mangas_physiques[0])
 
     # WHEN
-    manga = MangaPhysiqueService().consulter_manga_physique(id_manga_physique)
+    manga = MangaPhysiqueService().consulter_manga_physique(titre)
 
     # THEN
     assert manga is not None
     assert manga.id_manga_physique == 1
-    assert manga.statut == "En cours"
+    assert manga.titre_manga == "One Piece"
 
 def test_consulter_manga_physique_inexistant():
     """Test de consultation d'un manga physique inexistant."""
 
     # GIVEN
-    id_manga_physique = 99
-    MangaPhysiqueDAO().read_manga_physique = MagicMock(return_value=None)
+    titre = "One Piece 2"
+    MangaPhysiqueDAO().recup_manga_physique_from_titre = MagicMock(return_value=None)
 
     # WHEN
-    manga = MangaPhysiqueService().consulter_manga_physique(id_manga_physique)
+    manga = MangaPhysiqueService().consulter_manga_physique(titre)
 
     # THEN
     assert manga is None

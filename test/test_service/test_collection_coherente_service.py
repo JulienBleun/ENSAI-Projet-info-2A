@@ -22,7 +22,7 @@ def test_creer_coherent_succes():
     """Test de la création réussie d'une collection cohérente."""
 
     # GIVEN
-    CollectionCoherenteDAO().CreateCoherente = MagicMock(return_value=True)
+    CollectionCoherenteDAO().create_coherente = MagicMock(return_value=True)
 
     # WHEN
     nouvelle_collection = CollectionCoherenteService().creer_coherent(
@@ -30,7 +30,8 @@ def test_creer_coherent_succes():
         id_utilisateur=1,
         titre="Collection Exemple",
         description="Description de la collection exemple",
-        contenu=contenu_exemple
+        contenu=[Manga(id_manga=1, titre="Manga A", auteur="Auteur A", descript="Description A"),
+        Manga(id_manga=2, titre="Manga B", auteur="Auteur B", descript="Description B")]
     )
 
     # THEN
@@ -42,7 +43,7 @@ def test_creer_coherent_echec():
     """Test de l'échec de la création d'une collection cohérente."""
 
     # GIVEN
-    CollectionCoherenteDAO().CreateCoherente = MagicMock(return_value=False)
+    CollectionCoherenteDAO().create_coherente = MagicMock(return_value=False)
 
     # WHEN
     nouvelle_collection = CollectionCoherenteService().creer_coherent(
@@ -60,7 +61,7 @@ def test_mettre_a_jour_coherent_succes():
     """Test de la mise à jour réussie d'une collection cohérente."""
 
     # GIVEN
-    CollectionCoherenteDAO().UpdateCoherent = MagicMock(return_value=True)
+    CollectionCoherenteDAO().update_coherente = MagicMock(return_value=True)
 
     # WHEN
     collection_modifiee = CollectionCoherenteService().mettre_a_jour_coherent(collection_exemple)
@@ -73,7 +74,7 @@ def test_mettre_a_jour_coherent_echec():
     """Test de l'échec de la mise à jour d'une collection cohérente."""
 
     # GIVEN
-    CollectionCoherenteDAO().UpdateCoherent = MagicMock(return_value=False)
+    CollectionCoherenteDAO().update_coherente = MagicMock(return_value=False)
 
     # WHEN
     collection_modifiee = CollectionCoherenteService().mettre_a_jour_coherent(collection_exemple)
@@ -85,7 +86,7 @@ def test_supprimer_coherent_succes():
     """Test de la suppression réussie d'une collection cohérente."""
 
     # GIVEN
-    CollectionCoherenteDAO().DeleteCoherent = MagicMock(return_value=True)
+    CollectionCoherenteDAO().delete_coherente = MagicMock(return_value=True)
 
     # WHEN
     resultat = CollectionCoherenteService().supprimer_coherent(100)
@@ -97,7 +98,7 @@ def test_supprimer_coherent_echec():
     """Test de l'échec de la suppression d'une collection cohérente."""
 
     # GIVEN
-    CollectionCoherenteDAO().DeleteCoherent = MagicMock(return_value=False)
+    CollectionCoherenteDAO().delete_coherente = MagicMock(return_value=False)
 
     # WHEN
     resultat = CollectionCoherenteService().supprimer_coherent(100)
@@ -109,7 +110,7 @@ def test_consulter_coherent_existant():
     """Test de la consultation d'une collection cohérente existante."""
 
     # GIVEN
-    CollectionCoherenteDAO().ReadCoherent = MagicMock(return_value=collection_exemple)
+    CollectionCoherenteDAO().read_coherente = MagicMock(return_value=collection_exemple)
 
     # WHEN
     collection = CollectionCoherenteService().consulter_coherent(100)
@@ -123,7 +124,7 @@ def test_consulter_coherent_inexistant():
     """Test de la consultation d'une collection cohérente inexistante."""
 
     # GIVEN
-    CollectionCoherenteDAO().ReadCoherent = MagicMock(return_value=None)
+    CollectionCoherenteDAO().read_coherente = MagicMock(return_value=None)
 
     # WHEN
     collection = CollectionCoherenteService().consulter_coherent(999)
