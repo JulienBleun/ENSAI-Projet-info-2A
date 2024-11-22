@@ -30,7 +30,8 @@ def test_creer_coherent_succes():
         id_utilisateur=1,
         titre="Collection Exemple",
         description="Description de la collection exemple",
-        contenu=contenu_exemple
+        contenu=[Manga(id_manga=1, titre="Manga A", auteur="Auteur A", descript="Description A"),
+        Manga(id_manga=2, titre="Manga B", auteur="Auteur B", descript="Description B")]
     )
 
     # THEN
