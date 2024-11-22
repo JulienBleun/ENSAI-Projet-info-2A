@@ -1,5 +1,5 @@
 from src.dao.collection_coherente_dao import CollectionCoherenteDAO
-from src.dao.collection_physique_dao import CollectionPhysiqueDAO
+from src.dao.utilisateur_dao import UtilisateurDao
 from src.business_object.collection_coherente import CollectionCoherente
 from src.service.collection_coherente_service import CollectionCoherenteService
 from src.service.manga_service import MangaService
@@ -119,12 +119,42 @@ def afficher_collection_coherente_par_titre_view():
         print(f"Aucune collection trouvée pour le titre '{titre}'.")
 
 
-def creer_collection_physique_view(utilisateur_id):
-    titre = input(" Titre de la collection physique : ")
-    dernier_tome_acquis = int(input(" Dernier tome acquis : "))
-    status = input(" Statut de la série ('reading' ou 'dropped') : ")
+def afficher_toutes_les_collections_coherentes(utilisateur_id):
 
-    if CollectionPhysiqueDAO().create_physique(titre, dernier_tome_acquis, status, utilisateur_id):
-        print(" Collection physique créée avec succès.")
-    else:
-        print(" Erreur lors de la création de la collection.")
+    collection = CollectionCoherenteDAO().recup_collec_coherente_from_id(utilisateur_id)
+
+    if collection:
+        print("Voici vos différentes collections cohérentes :")
+        for i in range(0, len(collection)):
+            id = collection[i]['id_collection']
+            infos_collec = CollectionCoherenteDAO().recup_infos_from_collec_id(
+                id)
+            print(f"{i+1} : '{infos_collec[0]['titre_collec']}' "
+                  f"avec la description "
+                  f"'{infos_collec[0]['description']}' et contient les mangas "
+                  f"suivants : ")
+            for u in range(0, len(infos_collec)) :
+                print(f" {infos_collec[u]['titre_manga']}")
+
+
+def afficher_collections_autre_utilisateur():
+
+    pseudo = input("De quel pseudo souhaitez-vous voir les avis de collections"
+                   " cohérentes ? ")
+    id_autre_utilisateur = UtilisateurDao().read_profil(pseudo)
+    id_recherche = int(id_autre_utilisateur['id_utilisateur'])
+
+    collection = CollectionCoherenteDAO().recup_collec_coherente_from_id(
+                                            id_recherche)
+    if collection:
+        print(f"Voici les différentes collections cohérentes de {pseudo}:")
+        for i in range(0, len(collection)):
+            id = collection[i]['id_collection']
+            infos_collec = CollectionCoherenteDAO().recup_infos_from_collec_id(
+                id)
+            print(f"{i+1} : '{infos_collec[0]['titre_collec']}' "
+                  f"avec la description "
+                  f"'{infos_collec[0]['description']}' et contient les mangas "
+                  f"suivants : ")
+            for u in range(0, len(infos_collec)) :
+                print(f" {infos_collec[u]['titre_manga']}")

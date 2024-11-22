@@ -1,67 +1,57 @@
-# TODO Rajouter une fonction permettant la connexion
-
 import logging
-
 from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
-
 from src.dao.db_connection import DBConnection
 from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 from src.business_object.utilisateur import Utilisateur
 from src.dao.collection_physique_dao import CollectionPhysiqueDAO
-
 from src.utils.mdp_utils import hasher_mot_de_passe
 from src.utils.mdp_utils import verifier_mot_de_passe
 
 
-
-
-
-
 class UtilisateurDao(metaclass=Singleton):
+
     """Classe DAO pour ............... dans la base de données"""
 
-#    @log
     @log
     def add_utilisateur(self, utilisateur: Utilisateur):
-
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     mot_de_passe_hashe, sel = hasher_mot_de_passe(utilisateur.mdp)
+                    print(mot_de_passe_hashe, sel)
                     cursor.execute(
-                    "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp, sel)"
-                    "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s, %(sel)s)"
-                    "RETURNING id_utilisateur;",
-                    {
-                        "nom": utilisateur.nom,
-                        "prenom": utilisateur.prenom,
-                        "pseudo": utilisateur.pseudo,
-                        "email": utilisateur.email,
-                        "mdp": mot_de_passe_hashe,
-                        "sel": sel.hex(),  # Stockez le sel en hexadécimal pour compatibilité SQL
-                    },
+                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp, sel)"
+                        "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s, %(sel)s)"
+                        "RETURNING id_utilisateur;",
+                        {
+                            "nom": utilisateur.nom,
+                            "prenom": utilisateur.prenom,
+                            "pseudo": utilisateur.pseudo,
+                            "email": utilisateur.email,
+                            "mdp": mot_de_passe_hashe,
+                            "sel": sel.hex(),  # Stockez le sel en hexadécimal pour compatibilité SQL
+                        },
                 )
                     res = cursor.fetchone()
         except Exception as e:
             logging.info(e)
             raise
-
         created = False
+
         if res:
             utilisateur.id_utilisateur = res["id_utilisateur"]
             created = True
-
         return created
 
-    def read_profil(self, id: int) -> dict:
+    def read_profil(self, pseudo: str):
         """
-        Lire le profil d'un utilisateur à partir de la base de données.
+        Permet d'obtenir l'id d'un utilisateur à partir de son pseudo.
 
         Paramètres :
         ------------
-        id : int
-            Identifiant de l'utilisateur.
+        pseudo : str
+            pseudo de l'utilisateur dont on souhaite obtenir l'id.
 
         Retourne :
         ----------
@@ -73,31 +63,24 @@ class UtilisateurDao(metaclass=Singleton):
                 with connection.cursor() as cursor:
                     cursor.execute(
                         """
-                        SELECT id, nom, mdp
-                        FROM utilisateurs
-                        WHERE id = %s;
+                        SELECT tp.utilisateur.id_utilisateur
+                        FROM tp.utilisateur
+                        WHERE pseudo = %(pseudo)s;
                         """,
-                        (id,)
-                        )
-                    res = cursor.fetchone()  # Récupérer la première ligne de la requête
+                        {
+                            "pseudo": pseudo
+                        }
+                    )
+                    res = cursor.fetchone()
 
             if res:
 
-                # Retourne un dictionnaire représentant le profil de
-                # utilisateur
-
                 return {
-                    "id": res["id"],
-                    "nom": res["nom"],
-                    "mdp": res["mdp"]
+                    "id_utilisateur": res["id_utilisateur"]
                 }
             else:
-                print(f"Utilisateur avec l'ID {id} introuvable.")
+                print(f"Utilisateur avec le pseudo {pseudo} introuvable.")
                 return None
-
-        except Exception as e:
-            print(f"Erreur lors de la lecture du profil : {e}")
-            return None
 
         except Exception as e:
             print(f"Erreur lors de la lecture du profil : {e}")
@@ -158,17 +141,14 @@ class UtilisateurDao(metaclass=Singleton):
 
         return deleted
 
-    @log
-    def connexion(self, pseudo: str, mdp: str) -> Utilisateur:
+    def se_connecter(self, pseudo: str, mdp: str) -> Utilisateur:
         """Se connecter grâce à son pseudo et son mot de passe.
-
         Parameters
         ----------
         pseudo : str
             Pseudo de l'utilisateur.
         mdp : str
             Mot de passe de l'utilisateur.
-
         Returns
         -------
         Utilisateur : L'utilisateur connecté ou None si échec.
@@ -184,10 +164,10 @@ class UtilisateurDao(metaclass=Singleton):
         except Exception as e:
             logging.info(f"Erreur lors de la connexion : {e}")
             return None
-
         if res:
-            mdp_hashe = res["mdp"]
-            sel = bytes.fromhex(res["sel"])  # Convertir le sel hexadécimal en bytes
+            mdp_hashe1 = res["mdp"]
+            sel1 = bytes.fromhex(res["sel"])  # Convertir le sel hexadécimal en bytes
+            mdp_hashe, sel = hasher_mot_de_passe(mdp)
             if verifier_mot_de_passe(mdp, mdp_hashe, sel):
                 return Utilisateur(
                     id_utilisateur=res["id_utilisateur"],
@@ -195,10 +175,9 @@ class UtilisateurDao(metaclass=Singleton):
                     prenom=res["prenom"],
                     pseudo=res["pseudo"],
                     email=res["email"],
-                    mdp=mdp_hashe,
-                    sel=sel
+                    mdp=mdp_hashe1,
+                    sel=sel1
                 )
-
         return None
 
 

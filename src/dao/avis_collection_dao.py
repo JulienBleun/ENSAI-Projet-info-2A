@@ -31,19 +31,26 @@ class AvisCollectionDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    # Vérifier si le titre existe déjà
+                    # Vérifier si l'utilisateur a déjà un avis sur cette collection
                     cursor.execute(
-                        "SELECT 1 FROM tp.avis_collection WHERE id_utilisateur = %(id_utilisateur)s;",
-                        " AND id_collection = %(id_collection)s",
-                        {"id_avis": avis.id_avis,
-                         "id_utilisateur": avis.id_utilisateur},
+                        """
+                        SELECT 1
+                        FROM tp.avis_collection
+                        WHERE id_utilisateur = %(id_utilisateur)s
+                        AND id_collection = %(id_collection)s;
+                        """,
+                        {"id_utilisateur": avis.id_utilisateur, "id_collection": avis.id_collection},
                     )
 
-                    result = cursor.fetchone()  # On récupère une ligne de résultat
+                    result = cursor.fetchone()
                     if result:
-                        logging.error("Vous avez déjà avec un avis sur cette"
-                                      " collection. Réessayez avec un autre titre.")
-                        created = False  # Empêche la création
+                        logging.error(
+                            "Vous avez déjà un avis sur cette collection. "
+                            "Réessayez avec un autre titre."
+                        )
+                        return False  # Pas besoin de continuer si un avis existe déjà
+
+                    # Insérer un nouvel avis et récupérer son ID
 
                     cursor.execute(
                         "INSERT INTO tp.avis_collection(id_utilisateur, "
@@ -186,6 +193,23 @@ class AvisCollectionDao(metaclass=Singleton):
                         " JOIN tp.collection_coherente ON tp.collection_coherente.id_collection=tp.avis_collection.id_collection"
                         " WHERE id_utilisateur='%(id_utilisateur)s'",
                         {"id_utilisateur": id_utilisateur},
+                    )
+                    res = cursor.fetchall()
+        except Exception as e:
+            logging.info(e)
+            raise
+        return res
+
+    def recup_avis_collec_from_id_collec(self, id_collection):
+
+        try:
+            with DBConnection().connection as connection:
+                with connection.cursor() as cursor:
+                    cursor.execute(
+                        "SELECT tp.utilisateur.pseudo, tp.avis_collection.commentaire, tp.avis_collection.note FROM tp.avis_collection"
+                        " JOIN tp.utilisateur ON tp.utilisateur.id_utilisateur=tp.avis_collection.id_utilisateur "
+                        " WHERE id_collection='%(id_collection)s'",
+                        {"id_collection": id_collection},
                     )
                     res = cursor.fetchall()
         except Exception as e:

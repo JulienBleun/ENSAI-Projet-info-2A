@@ -1,4 +1,4 @@
-import getpass
+import maskpass
 
 from src.service.utilisateur_service import UtilisateurService
 
@@ -6,7 +6,7 @@ from src.service.utilisateur_service import UtilisateurService
 def connexion_view():
     """Fonction pour gérer la connexion d'un utilisateur."""
     pseudo = input("Entrez votre pseudo : ")
-    mdp = getpass.getpass("Entrez votre mot de passe : ")
+    mdp = maskpass.askpass(prompt="Entrez votre mot de passe : ")
 
     try:
         u = UtilisateurService()

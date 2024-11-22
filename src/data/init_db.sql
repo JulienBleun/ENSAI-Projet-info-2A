@@ -12,8 +12,8 @@ CREATE TABLE tp.utilisateur (
     prenom VARCHAR(100),
     pseudo VARCHAR(1000) UNIQUE,
     email VARCHAR(400),
-    mdp VARCHAR(100), -- Mot de passe haché
-    sel VARCHAR(64)   -- Sel en format hexadécimal
+    mdp VARCHAR(100),
+    sel VARCHAR(100)
 );
 
 

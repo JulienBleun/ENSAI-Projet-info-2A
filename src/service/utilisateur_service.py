@@ -8,12 +8,10 @@ from src.dao.utilisateur_dao import UtilisateurDao
 
 class UtilisateurService(metaclass=Singleton):
     """Classe contenant les méthodes de service de l'utilisateur."""
-
     @log
     def inscription(self, nom, prenom, pseudo, email, mdp):
         """
         Inscrit un nouvel utilisateur en vérifiant les conditions d'inscription.
-
         Retourne :
         ----------
         Utilisateur : l'utilisateur créé si l'inscription réussit, sinon None.
@@ -22,13 +20,10 @@ class UtilisateurService(metaclass=Singleton):
         valide, message = self.verifier_conditions_inscription(nom, prenom, pseudo, email, mdp)
         if not valide:
             raise ValueError(f"Inscription échouée : {message}")
-
          # Hachage du mot de passe et génération du sel
         mot_de_passe_hashe, sel = hasher_mot_de_passe(mdp)
-
         # Conversion du sel en hexadécimal pour stockage dans la base de données
         sel_hex = sel.hex()
-
         # Création de l'utilisateur
         nouveau_utilisateur = Utilisateur(
             nom=nom,
@@ -38,7 +33,6 @@ class UtilisateurService(metaclass=Singleton):
             mdp=mot_de_passe_hashe,  # Mot de passe haché
             sel=sel_hex  # Sel en format hexadécimal
         )
-
         # Ajout de l'utilisateur dans la base de données
         if UtilisateurDao().add_utilisateur(nouveau_utilisateur):
             return nouveau_utilisateur
