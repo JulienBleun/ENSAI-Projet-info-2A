@@ -168,7 +168,6 @@ class UtilisateurDao(metaclass=Singleton):
             mdp_hashe1 = res["mdp"]
             sel1 = bytes.fromhex(res["sel"])  # Convertir le sel hexadécimal en bytes
             mdp_hashe, sel = hasher_mot_de_passe(mdp)
-            print(mdp_hashe, sel)
             if verifier_mot_de_passe(mdp, mdp_hashe, sel):
                 return Utilisateur(
                     id_utilisateur=res["id_utilisateur"],
