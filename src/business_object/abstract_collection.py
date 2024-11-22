@@ -18,14 +18,5 @@ class AbstractCollection(ABC):
 
     def __init__(self, id_collection, id_utilisateur: int):
 
-        if not isinstance(id_utilisateur, int):
-            raise TypeError(
-                "L'identifiant de l'utilisateur doit être un entier"
-            )
-
-        if not isinstance(id_collection, int):
-            raise TypeError(
-                "L'identifiant de la collection doit être un entier"
-            )
         self.id_collection = id_collection
         self.id_utilisateur = id_utilisateur
