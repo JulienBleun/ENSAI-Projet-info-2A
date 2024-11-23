@@ -99,7 +99,8 @@ This application provides a basic interface, using the terminal to navigate betw
 Steps to launch the program :
 
    1. In Git Bash, run the file `run_api.py` to update the database :
-   In git Bash : ``` python src/run_api.py ```
+     ``` python src/run_api.py ```
 
-   2. Then, still in Git Bash, launch the main application with the command : ```python src/__main__.py```
+   2. Then, still in Git Bash, launch the main application with the command : 
+     ```python src/__main__.py```
     
