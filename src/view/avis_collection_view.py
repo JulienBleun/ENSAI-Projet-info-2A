@@ -127,7 +127,7 @@ class AvisCollectionView(metaclass=Singleton):
         id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
 
-        avis = CollectionCoherenteService().recup_avis_collec_from_id(id_recherche)
+        avis = AvisCollectionService().recup_avis_collec_from_id(id_recherche)
         if avis:
             print(f"\n Voici les différents avis de collections cohérentes de "
                 f"{pseudo} ")

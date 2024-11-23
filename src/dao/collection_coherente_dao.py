@@ -42,10 +42,12 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                         return False  # Empêche la création
 
                     cursor.execute(
-                        "INSERT INTO tp.collection (id_utilisateur) VALUES "
-                        "(%(id_utilisateur)s) RETURNING id_collection;",
+                        "INSERT INTO tp.collection_coherente (id_utilisateur, titre, description) VALUES "
+                        "(%(id_utilisateur)s ,%(titre)s, %(description)s) RETURNING id_collection;",
                         {
                             "id_utilisateur": collection.id_utilisateur,
+                            "titre": collection.titre,
+                            "description": collection.description,
                         },
                     )
                     res = cursor.fetchone()  # Récupération de l'ID de la collection nouvellement créée
@@ -54,15 +56,6 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                         collection.id_collection = res["id_collection"]
                         created = True  # Si tout s'est bien passé
 
-                    cursor.execute(
-                        "INSERT INTO tp.collection_coherente (id_collection, titre, description) VALUES "
-                        "(%(id_collection)s ,%(titre)s, %(description)s);",
-                        {
-                            "id_collection": collection.id_collection,
-                            "titre": collection.titre,
-                            "description": collection.description,
-                        },
-                    )
                     for manga in collection.contenu:
                         cursor.execute(
 
@@ -196,14 +189,7 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                         """,
                         {"id_collection": id_collection},
                     )
-                    # 3. Supprimer la collection associée
-                    cursor.execute(
-                        """
-                        DELETE FROM tp.collection
-                        WHERE id_collection = %(id_collection)s;
-                        """,
-                        {"id_collection": id_collection},
-                    )
+
                     deleted = cursor.rowcount > 0
                     # Vérifier si la suppression de la collection a bien eu lieu
               # rowcount > 0 indique si une ligne a été supprimée
@@ -240,15 +226,6 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                     )
                     res1 = cursor.fetchone()
 
-                    # 2. Récupérer l'id de l'utilisateur
-                    cursor.execute(
-                        "SELECT * FROM tp.collection"
-                        " JOIN tp.collection_coherente ON tp.collection.id_collection=tp.collection_coherente.id_collection"
-                        " WHERE tp.collection_coherente.titre = %(titre)s;",
-                        {"titre": titre},
-                    )
-                    res2 = cursor.fetchone()
-
                     # 3. Récupérer les mangas associés via la table d'association
                     cursor.execute(
                         """
@@ -276,7 +253,7 @@ class CollectionCoherenteDAO(metaclass=Singleton):
 
                         collection = CollectionCoherente(
                             id_collection=res1["id_collection"],
-                            id_utilisateur=res2["id_utilisateur"],
+                            id_utilisateur=res1["id_utilisateur"],
                             titre=res1["titre"],
                             description=res1["description"],
                             contenu=contenu  # Liste d'objets Manga associés à la collection
@@ -307,8 +284,7 @@ class CollectionCoherenteDAO(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT titre, description, tp.collection.id_collection FROM tp.collection"
-                        " JOIN tp.collection_coherente ON tp.collection.id_collection=tp.collection_coherente.id_collection"
+                        "SELECT titre, description, id_collection FROM tp.collection_coherente"
                         " WHERE id_utilisateur='%(id_utilisateur)s'",
                         {"id_utilisateur": id_utilisateur},
                     )
@@ -374,9 +350,8 @@ class CollectionCoherenteDAO(metaclass=Singleton):
                     # 1. Récupérer les informations de la collection cohérente
                     cursor.execute(
                         """
-                        SELECT tp.manga.titre AS titre_manga, tp.utilisateur.pseudo, tp.collection_coherente.titre AS titre_collec, tp.collection_coherente.description FROM tp.collection
-                        JOIN tp.collection_coherente ON tp.collection.id_collection=tp.collection_coherente.id_collection
-                        JOIN tp.utilisateur ON tp.collection.id_utilisateur=tp.utilisateur.id_utilisateur
+                        SELECT tp.manga.titre AS titre_manga, tp.utilisateur.pseudo, tp.collection_coherente.titre AS titre_collec, tp.collection_coherente.description FROM tp.collection_coherente
+                        JOIN tp.utilisateur ON tp.collection_coherente.id_utilisateur=tp.utilisateur.id_utilisateur
                         JOIN tp.association_manga_collection_coherente ON tp.collection_coherente.id_collection=tp.association_manga_collection_coherente.id_collection
                         JOIN tp.manga ON tp.association_manga_collection_coherente.id_manga=tp.manga.id_manga
                         WHERE tp.collection_coherente.id_collection = %(id_collection)s;

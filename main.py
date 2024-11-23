@@ -2,7 +2,6 @@ from src.view.main_menu_view import afficher_menu_principal
 from src.view.menu_utilisateur_view import afficher_menu_utilisateur
 
 
-
 def run_app():
     """Lance l'application et gère le flux entre le menu principal et le menu utilisateur."""
     utilisateur_connecte = None  # Aucun utilisateur connecté au début

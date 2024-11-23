@@ -206,9 +206,9 @@ class AvisCollectionDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     cursor.execute(
-                        "SELECT id_avis, id_utilisateur, tp.avis_collection.id_collection, tp.collection_coherente.titre, commentaire, note FROM tp.avis_collection"
+                        "SELECT id_avis, tp.avis_collection.id_utilisateur, tp.avis_collection.id_collection, tp.collection_coherente.titre, commentaire, note FROM tp.avis_collection"
                         " JOIN tp.collection_coherente ON tp.collection_coherente.id_collection=tp.avis_collection.id_collection"
-                        " WHERE id_utilisateur='%(id_utilisateur)s'",
+                        " WHERE tp.avis_collection.id_utilisateur='%(id_utilisateur)s'",
                         {"id_utilisateur": id_utilisateur},
                     )
                     res = cursor.fetchall()

@@ -131,7 +131,7 @@ class MangaPhysiqueView(metaclass=Singleton):
 
     def afficher_collection_physique_autre_utilisateur(self):
 
-        pseudo = input("De quel pseudo souhaitez-vous voir les avis de manga ? ")
+        pseudo = input("De quel pseudo souhaitez-vous voir la collection physique ? ")
         id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
         manga = MangaPhysiqueService().recup_manga_physique_from_id(id_recherche)
