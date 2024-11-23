@@ -5,7 +5,7 @@ from src.business_object.utilisateur import Utilisateur
 import pytest
 
 
-# Exemple d'utilisateur pour les tests
+
 utilisateur_existant = Utilisateur(
     nom="Dupont",
     prenom="Jean",
