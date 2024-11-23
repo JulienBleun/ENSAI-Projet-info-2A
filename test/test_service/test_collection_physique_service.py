@@ -1,169 +1,156 @@
 from unittest.mock import MagicMock
+from src.service.utilisateur_service import UtilisateurService
+from src.dao.utilisateur_dao import UtilisateurDao
+from src.business_object.utilisateur import Utilisateur
+import pytest
 
-from src.service.collection_physique_service import CollectionPhysiqueService
-from src.dao.collection_physique_dao import CollectionPhysiqueDAO
-from src.business_object.collection_physique import CollectionPhysique
-from src.business_object.manga_physique import MangaPhysique
 
+# Exemple d'utilisateur pour les tests
+utilisateur_existant = Utilisateur(
+    nom="Dupont",
+    prenom="Jean",
+    pseudo="jdupont",
+    email="jean.dupont@example.com",
+    mdp="securepassword123",
+    id_utilisateur=1
+)
 
-def test_creer_physique_ok():
-    """Création de CollectionPhysique réussie avec MangaPhysique"""
-
+def test_inscription_succes():
+    """Test de l'inscription réussie d'un utilisateur."""
     # GIVEN
-    id_utilisateur, id_collection = 1, 101
-    titre, description = "Ma collection", "Description de ma collection"
-    contenu = [
-        MangaPhysique(id_manga_physique=1, id_manga=100, id_collection_physique=101,
-                      dernier_tome_acquis=12, tomes_manquant=[1, 3], statut="En cours"),
-        MangaPhysique(id_manga_physique=2, id_manga=101, id_collection_physique=101,
-                      dernier_tome_acquis=20, tomes_manquant=[], statut="Complétée")
-    ]
-    CollectionPhysiqueDAO().CreatePhysique = MagicMock(return_value=True)
+    nom, prenom, pseudo, email, mdp = "Dupont", "Jean", "jdupont", "jean.dupont@example.com", "securepassword123"
+    UtilisateurDao().add_utilisateur = MagicMock(return_value=True)
 
     # WHEN
-    service = CollectionPhysiqueService()
-    collection = service.creer_physique(id_utilisateur, id_collection, titre, description, contenu)
+    utilisateur = UtilisateurService().inscription(nom, prenom, pseudo, email, mdp)
 
     # THEN
-    assert collection is not None
-    assert collection.id_collection == id_collection
-    assert collection.titre == titre
-    assert len(collection.contenu) == 2
-    assert collection.contenu[0].dernier_tome_acquis == 12
+    assert utilisateur is not None
+    assert utilisateur.nom == nom
+    assert utilisateur.email == email
 
 
-def test_creer_physique_echec():
-    """Création de CollectionPhysique échouée"""
-
+def test_inscription_echec_conditions():
+    """Test de l'échec de l'inscription à cause de conditions invalides."""
     # GIVEN
-    id_utilisateur, id_collection = 1, 102
-    titre, description = "Collection échouée", "Une description échouée"
-    contenu = [
-        MangaPhysique(id_manga_physique=3, id_manga=102, id_collection_physique=102,
-                      dernier_tome_acquis=5, tomes_manquant=[2, 4], statut="En attente")
-    ]
-    CollectionPhysiqueDAO().CreatePhysique = MagicMock(return_value=False)
-
-    # WHEN
-    service = CollectionPhysiqueService()
-    collection = service.creer_physique(id_utilisateur, id_collection, titre, description, contenu)
-
-    # THEN
-    assert collection is None
-
-
-def test_mettre_a_jour_physique_ok():
-    """Mise à jour d'une CollectionPhysique réussie"""
-
-    # GIVEN
-    collection_modifiée = CollectionPhysique(
-        id_utilisateur=2, id_collection=103, titre="Collection mise à jour",
-        description="Nouvelle description", contenu=[
-            MangaPhysique(id_manga_physique=4, id_manga=103, id_collection_physique=103,
-                          dernier_tome_acquis=10, tomes_manquant=[6, 7], statut="Abandonnée")
-        ]
-    )
-    CollectionPhysiqueDAO().UpdatePhysique = MagicMock(return_value=True)
-
-    # WHEN
-    service = CollectionPhysiqueService()
-    result = service.mettre_a_jour_physique(collection_modifiée)
-
-    # THEN
-    assert result is not None
-    assert result.titre == "Collection mise à jour"
-    assert result.contenu[0].statut == "Abandonnée"
-
-def test_mettre_a_jour_physique_echec():
-    """Test de l'échec de la mise à jour d'une CollectionPhysique."""
-
-    # GIVEN
-    collection_modifiee = CollectionPhysique(
-        1, 100, "Titre mis à jour", "Description mise à jour", contenu=[
-            MangaPhysique(id_manga_physique=4, id_manga=103, id_collection_physique=103,
-                          dernier_tome_acquis=10, tomes_manquant=[6, 7], statut="Abandonnée")
-        ]
-    )
-    CollectionPhysiqueDAO().UpdatePhysique = MagicMock(return_value=False)
-
-    # WHEN
-    service = CollectionPhysiqueService()
-    resultat = service.mettre_a_jour_physique(collection_modifiee)
-
-    # THEN
-    assert resultat is None
+    nom, prenom, pseudo, email, mdp = "D", "J", "jd", "email_non_valide", "short"
     
-def test_supprimer_physique_ok():
-    """Suppression d'une CollectionPhysique réussie"""
+    # WHEN / THEN
+    with pytest.raises(ValueError, match="Inscription échouée : Le nom doit comporter au moins 2 caractères."):
+        UtilisateurService().inscription(nom, prenom, pseudo, email, mdp)
 
+
+def test_inscription_echec_bdd():
+    """Test de l'échec de l'inscription à cause de la base de données."""
     # GIVEN
-    collection = CollectionPhysique(
-        id_utilisateur=3, id_collection=104, titre="Collection à supprimer",
-        description="Description à supprimer", contenu=[]
-    )
-    CollectionPhysiqueDAO().DeletePhysique = MagicMock(return_value=True)
+    nom, prenom, pseudo, email, mdp = "Dupont", "Jean", "jdupont", "jean.dupont@example.com", "securepassword123"
+    UtilisateurDao().add_utilisateur = MagicMock(return_value=False)
 
     # WHEN
-    service = CollectionPhysiqueService()
-    result = service.supprimer_physique(collection)
+    utilisateur = UtilisateurService().inscription(nom, prenom, pseudo, email, mdp)
 
     # THEN
-    assert result is True
+    assert utilisateur is None
 
-def test_supprimer_physique_echec():
-    """Test de l'échec de la suppression d'une CollectionPhysique."""
 
+def test_suppression_succes():
+    """Test de la suppression réussie d'un utilisateur."""
     # GIVEN
-    collection_a_supprimer = CollectionPhysique(
-        1, 100, "Collection à supprimer", "Description à supprimer", contenu=[]
-    )
-    CollectionPhysiqueDAO().DeletePhysique = MagicMock(return_value=False)
+    UtilisateurDao().delete_utilisateur = MagicMock(return_value=True)
 
     # WHEN
-    service = CollectionPhysiqueService()
-    resultat = service.supprimer_physique(collection_a_supprimer)
+    resultat = UtilisateurService().suppression(utilisateur_existant.id_utilisateur)
 
     # THEN
-    assert resultat is False
-    
-def test_consulter_physique_ok():
-    """Consultation d'une CollectionPhysique réussie"""
+    assert resultat
 
+
+def test_suppression_echec():
+    """Test de l'échec de la suppression d'un utilisateur."""
     # GIVEN
-    id_collection = 105
-    collection_attendue = CollectionPhysique(
-        id_utilisateur=4, id_collection=id_collection, titre="Consultation réussie",
-        description="Une consultation", contenu=[
-            MangaPhysique(id_manga_physique=5, id_manga=104, id_collection_physique=105,
-                          dernier_tome_acquis=15, tomes_manquant=[2, 8], statut="Active")
-        ]
-    )
-    CollectionPhysiqueDAO().ReadPhysique = MagicMock(return_value=collection_attendue)
+    UtilisateurDao().delete_utilisateur = MagicMock(return_value=False)
 
     # WHEN
-    service = CollectionPhysiqueService()
-    result = service.consulter_physique(id_collection)
-  
+    resultat = UtilisateurService().suppression(utilisateur_existant.id_utilisateur)
+
     # THEN
-    assert result is not None
-    assert result.id_collection == id_collection
-    assert result.contenu[0].dernier_tome_acquis == 15
+    assert not resultat
 
-def test_consulter_physique_echec():
-    """Test de l'échec de la consultation d'une CollectionPhysique."""
 
+def test_se_connecter_succes():
+    """Test de connexion réussie d'un utilisateur."""
     # GIVEN
-    id_collection = 100
-    CollectionPhysiqueDAO().ReadPhysique = MagicMock(return_value=None)
+    UtilisateurDao().se_connecter = MagicMock(return_value=utilisateur_existant)
 
     # WHEN
-    service = CollectionPhysiqueService()
-    resultat = service.consulter_physique(id_collection)
+    utilisateur = UtilisateurService().se_connecter(utilisateur_existant.pseudo, utilisateur_existant.mdp)
 
     # THEN
-    assert resultat is None
+    assert utilisateur is not None
+    assert utilisateur.pseudo == utilisateur_existant.pseudo
+
+
+def test_se_connecter_echec():
+    """Test de l'échec de connexion d'un utilisateur."""
+    # GIVEN
+    UtilisateurDao().se_connecter = MagicMock(return_value=None)
+
+    # WHEN
+    utilisateur = UtilisateurService().se_connecter("pseudo_invalide", "mdp_invalide")
+
+    # THEN
+    assert utilisateur is None
+
+
+def test_mettre_a_jour_utilisateur_succes():
+    """Test de la mise à jour réussie d'un utilisateur."""
+    # GIVEN
+    UtilisateurDao().update_utilisateur = MagicMock(return_value=True)
+
+    # WHEN
+    resultat = UtilisateurService().mettre_a_jour_utilisateur(utilisateur_existant.id_utilisateur, "nouveau_pseudo", "nouveau_mdp")
+
+    # THEN
+    assert resultat
+
+
+def test_mettre_a_jour_utilisateur_echec():
+    """Test de l'échec de la mise à jour d'un utilisateur."""
+    # GIVEN
+    UtilisateurDao().update_utilisateur = MagicMock(return_value=False)
+
+    # WHEN
+    resultat = UtilisateurService().mettre_a_jour_utilisateur(utilisateur_existant.id_utilisateur, "nouveau_pseudo", "nouveau_mdp")
+
+    # THEN
+    assert not resultat
+
+
+def test_consulter_profil_existant():
+    """Test de la consultation réussie d'un profil utilisateur existant."""
+    # GIVEN
+    UtilisateurDao().read_profil = MagicMock(return_value=utilisateur_existant)
+
+    # WHEN
+    utilisateur = UtilisateurService().consulter_profil(utilisateur_existant.pseudo)
+
+    # THEN
+    assert utilisateur is not None
+    assert utilisateur.pseudo == utilisateur_existant.pseudo
+
+
+def test_consulter_profil_inexistant():
+    """Test de la consultation d'un profil utilisateur inexistant."""
+    # GIVEN
+    UtilisateurDao().read_profil = MagicMock(return_value=None)
+
+    # WHEN
+    utilisateur = UtilisateurService().consulter_profil("pseudo_inexistant")
+
+    # THEN
+    assert utilisateur is None
+
 
 if __name__ == "__main__":
     import pytest
     pytest.main([__file__])
-

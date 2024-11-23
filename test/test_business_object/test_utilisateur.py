@@ -12,7 +12,7 @@ class TestUtilisateur(unittest.TestCase):
         expected_pseudo = "john_doe"
         expected_email = "john.doe@example.com"
         expected_mdp = "password123"
-        expected_sel = "random_salt"
+        
         # WHEN
         user = Utilisateur(
             id_utilisateur=expected_id_utilisateur,
@@ -21,7 +21,7 @@ class TestUtilisateur(unittest.TestCase):
             pseudo=expected_pseudo,
             email=expected_email,
             mdp=expected_mdp,
-            sel=expected_sel
+            
         )
 
         # THEN
@@ -31,6 +31,6 @@ class TestUtilisateur(unittest.TestCase):
         self.assertEqual(user.pseudo, expected_pseudo)
         self.assertEqual(user.email, expected_email)
         self.assertEqual(user.mdp, expected_mdp)
-        self.assertEqual(user.sel, expected_sel)
+        
 if __name__ == '__main__':
     unittest.main()
