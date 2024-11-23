@@ -6,11 +6,13 @@ Exemple d'utilsation :
 
 1 Créer une collection cohérente : L'utilisateur peut créer une collection en lui donnant un titre et une description personnalisée et regroupant tous les titres de mangas souhaités.
 
-2 Créer une collection physique : L'utilisateur peut créer une collection de mangas qu'il possède physiquement, en précisant le titre de chaque série, son statut actuel (notamment s'il lit toujours la série), ainsi que les tomes qu'il possède.
+2 Créer une collection physique : L'utilisateur peut créer une collection de mangas qu'il possède physiquement, en ajoutant les mangas quu'il détient physiquement, il peut préciserson statut actuel (notamment s'il lit toujours la série), ainsi que les tomes qu'il possède.
 
 3 Recherche de mangas : Il est possible d'obtenir des informations détaillées sur un manga comme par exemple l'auteur, sa description ou ses avis donnés par les utilisateurs de l'application.
 
 4 Gestion des avis : L'application permet aux utilisateurs de publier, mettre à jour, supprimer et consulter les avis sur des mangas ou des collections, y compris ceux partagés par d'autres utilisateurs.
+
+Cette application permet donc d'avoir une organisation des mangas que l'on possède, que l'on soit collectionneur ou lecteur occasionnel. L'échange d'avis sur les mangas ou collections facilite les recommendations et la découverte de nouvelles lectures.
 
 ▶️ Logiciels requis
 
@@ -96,5 +98,11 @@ Pour exécuter les tests unitaires, utilisez la commande suivante dans Git Bash 
 ▶️ Lancer le programme
 
 Cette application propose une interface basique à l'aide du terminal pour naviguer entre différents menus.
+Étapes pour lancer le programme :
 
-- Dans Git Bash : ```python src/__main__.py```
+1. **Initialisation de la base de données** :  
+   Dans Git Bash, exécutez le fichier `run_api.py` pour mettre à jour la base de données :
+   Dans git Bash : ``` python src/run_api.py ```
+
+   Puis toujours dans Git Bash, lancez l'application principale avec la commande : ```python src/__main__.py```
+    
