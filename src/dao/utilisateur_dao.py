@@ -5,7 +5,6 @@ from src.dao.db_connection import DBConnection
 from src.dao.collection_coherente_dao import CollectionCoherenteDAO
 from src.business_object.utilisateur import Utilisateur
 from src.utils.mdp_utils import hasher_mot_de_passe
-from src.utils.mdp_utils import generer_sel
 
 
 class UtilisateurDao(metaclass=Singleton):
@@ -31,10 +30,9 @@ class UtilisateurDao(metaclass=Singleton):
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
                     mot_de_passe_hashe = hasher_mot_de_passe(utilisateur.mdp)
-                    sel = generer_sel()
                     cursor.execute(
-                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp, sel)"
-                        "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s, %(sel)s)"
+                        "INSERT INTO tp.utilisateur (nom, prenom, pseudo, email, mdp)"
+                        "VALUES (%(nom)s, %(prenom)s, %(pseudo)s, %(email)s, %(mdp)s)"
                         "RETURNING id_utilisateur;",
                         {
                             "nom": utilisateur.nom,
@@ -42,7 +40,6 @@ class UtilisateurDao(metaclass=Singleton):
                             "pseudo": utilisateur.pseudo,
                             "email": utilisateur.email,
                             "mdp": mot_de_passe_hashe,
-                            "sel": sel.hex(),  # Stockez le sel en hexadécimal pour compatibilité SQL
                         },
                 )
                     res = cursor.fetchone()
@@ -159,11 +156,7 @@ class UtilisateurDao(metaclass=Singleton):
 
         if res:
             mdp_stocke = res["mdp"]  # Mot de passe haché stocké dans la BDD
-            print("Mot de passe stocké :", mdp_stocke)
-            sel = generer_sel()
             mdp_hashe = hasher_mot_de_passe(mdp)  # Hachage du mot de passe fourni
-            print("Mot de passe fourni haché :", mdp_hashe)
-            print("sel :", sel)
 
             if mdp_stocke == mdp_hashe:
                 return Utilisateur(
@@ -172,8 +165,7 @@ class UtilisateurDao(metaclass=Singleton):
                     prenom=res["prenom"],
                     pseudo=res["pseudo"],
                     email=res["email"],
-                    mdp=mdp_hashe,
-                    sel=sel
+                    mdp=mdp_hashe
                 )
         return None
 

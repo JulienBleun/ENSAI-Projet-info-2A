@@ -54,7 +54,9 @@ class ResetDatabase(metaclass=Singleton):
                         if response.status_code == 200:
                             mangas = response.json()["data"]
                             for manga in mangas:
-                                cursor.execute("SELECT * from tp.manga wHERE id_manga = %s", (manga['mal_id'],))
+                                cursor.execute("""SELECT * FROM tp.manga
+                                                 WHERE id_manga = %s OR titre = %s
+                                                """, (manga['mal_id'], manga['title']))
                                 if cursor.fetchone() is None:
                                     auteur = manga['authors'][0]['name'] if manga['authors'] else None
                                     cursor.execute(

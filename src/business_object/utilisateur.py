@@ -18,14 +18,11 @@ class Utilisateur:
         L'email de l'utilisateur.
     mdp : str
         Le mot de passe de l'utilisateur.
-    sel : str
-        Le sel utilisé pour le hachage du mot de passe lors de l'inscription.
     """
-    def __init__(self, nom: str, prenom: str, pseudo: str, email: str, mdp: str, sel: str, id_utilisateur=None):
+    def __init__(self, nom: str, prenom: str, pseudo: str, email: str, mdp: str, id_utilisateur=None):
         self.id_utilisateur = id_utilisateur
         self.nom = nom
         self.prenom = prenom
         self.pseudo = pseudo
         self.email = email
         self.mdp = mdp
-        self.sel = sel

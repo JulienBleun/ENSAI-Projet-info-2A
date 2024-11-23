@@ -1,7 +1,6 @@
 import re
 from src.utils.log_decorator import log
 from src.utils.singleton import Singleton
-from src.utils.mdp_utils import generer_sel  # Assurez-vous que cette fonction génère aussi le sel
 from src.business_object.utilisateur import Utilisateur
 from src.dao.utilisateur_dao import UtilisateurDao
 
@@ -39,18 +38,13 @@ class UtilisateurService(metaclass=Singleton):
         valide, message = self.verifier_conditions_inscription(nom, prenom, pseudo, email, mdp)
         if not valide:
             raise ValueError(f"Inscription échouée : {message}")
-         # Hachage du mot de passe et génération du sel
-        sel = generer_sel()
-        # Conversion du sel en hexadécimal pour stockage dans la base de données
-        sel_hex = sel.hex()
         # Création de l'utilisateur
         nouveau_utilisateur = Utilisateur(
             nom=nom,
             prenom=prenom,
             pseudo=pseudo,
             email=email,
-            mdp=mdp,  # Mot de passe haché
-            sel=sel_hex  # Sel en format hexadécimal
+            mdp=mdp,
         )
         # Ajout de l'utilisateur dans la base de données
         if UtilisateurDao().add_utilisateur(nouveau_utilisateur):
