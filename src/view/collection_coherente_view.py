@@ -137,8 +137,8 @@ class CollectionCoherenteView(metaclass=Singleton):
 
     def afficher_collections_autre_utilisateur(self):
 
-        pseudo = input("De quel pseudo souhaitez-vous voir les avis de collections"
-                    " cohérentes ? ")
+        pseudo = input("De quel pseudo souhaitez-vous voir les collections"
+                       " cohérentes ? ")
         id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
 

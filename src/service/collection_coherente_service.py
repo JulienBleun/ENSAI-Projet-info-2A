@@ -62,3 +62,4 @@ class CollectionCoherenteService:
     @log
     def recup_id_collec_from_manga_titre(self, titre):
         return CollectionCoherenteDAO().recup_id_collec_from_manga_titre(titre)
+
