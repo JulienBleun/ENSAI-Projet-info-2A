@@ -133,6 +133,10 @@ class MangaPhysiqueView(metaclass=Singleton):
 
         pseudo = input("De quel pseudo souhaitez-vous voir la collection physique ? ")
         id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
+        if not id_autre_utilisateur:
+            print(f"\n\n{pseudo} n'est pas dans notre base de données."
+                  " Vérifiez qu'il s'agit du bon pseudo")
+            return
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
         manga = MangaPhysiqueService().recup_manga_physique_from_id(id_recherche)
         # On récupère tous les mangas physiques de l'utilisateur cherché

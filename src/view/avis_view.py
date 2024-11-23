@@ -132,6 +132,10 @@ class AvisView(metaclass=Singleton):
 
         pseudo = input("De quel pseudo souhaitez-vous voir les avis de manga ? ")
         id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
+        if not id_autre_utilisateur:
+            print(f"\n\n{pseudo} n'est pas dans notre base de données."
+                  " Vérifiez qu'il s'agit du bon pseudo")
+            return
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
 
         avis = AvisMangaService().recup_avis_from_id(id_recherche)
@@ -141,6 +145,6 @@ class AvisView(metaclass=Singleton):
             for i in range(0, len(avis)):
                 print(f"{i+1} : {avis[i]['titre']} : {pseudo} a mis la note de"
                     f" {avis[i]['note']} sur 10 avec le commentaire "
-                    f"{avis[i]['commentaire']}")
+                    f"'{avis[i]['commentaire']}'")
         else:
             print("\n\nAucun avis de manga ne correspond à ces informations")

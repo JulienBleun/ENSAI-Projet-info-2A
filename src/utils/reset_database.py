@@ -75,7 +75,3 @@ class ResetDatabase(metaclass=Singleton):
         except Exception as e:
             print(f"Erreur lors de la récupération des données de mangas : {e}")
             raise
-
-
-if __name__ == "__main__":
-    ResetDatabase().lancer()

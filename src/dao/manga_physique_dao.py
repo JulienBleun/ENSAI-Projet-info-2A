@@ -42,6 +42,19 @@ class MangaPhysiqueDAO(metaclass=Singleton):
 
                         return False
                     cursor.execute(
+                        "SELECT 1 "
+                        "FROM tp.manga_physique "
+                        "WHERE tp.manga_physique.titre_manga = %(titre_manga)s "
+                        "AND tp.manga_physique.id_utilisateur = %(id_utilisateur)s;",
+                        {"titre_manga": manga.titre_manga,
+                         "id_utilisateur": manga.id_utilisateur},
+                    )
+                    manga_exists = cursor.fetchone()
+                    if manga_exists:
+                        logging.info("Vous avez déjà ce manga physique.")
+
+                        return False
+                    cursor.execute(
                         "INSERT INTO tp.manga_physique(titre_manga, tomes_acquis,"
                         " statut, id_utilisateur) VALUES                 "
                         "(%(titre_manga)s, %(tomes_acquis)s, %(statut)s, "
