@@ -62,7 +62,7 @@ CREATE TABLE tp.collection_coherente (
 DROP TABLE IF EXISTS tp.avis_collection CASCADE;
 CREATE TABLE tp.avis_collection (
     id_avis SERIAL PRIMARY KEY,
-    id_collection INT REFERENCES tp.collection(id_collection) ON DELETE CASCADE,
+    id_collection INT REFERENCES tp.collection_coherente(id_collection) ON DELETE CASCADE,
     id_utilisateur INT REFERENCES tp.utilisateur(id_utilisateur) ON DELETE CASCADE,
     commentaire TEXT,
     note NUMERIC CHECK (note >= 0 AND note <= 10)
