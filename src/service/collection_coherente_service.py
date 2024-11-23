@@ -21,9 +21,10 @@ class CollectionCoherenteService:
             description=description,
             contenu=contenu
         )
-
-        return nouvelle_collection if CollectionCoherenteDAO(
-               ).create_coherente(nouvelle_collection) else None
+        if CollectionCoherenteDAO().create_coherente(nouvelle_collection):
+            return True
+        else:
+            return False
 
     @log
     def mettre_a_jour_coherent(self, collection_modifiee: CollectionCoherente
@@ -45,3 +46,19 @@ class CollectionCoherenteService:
     def consulter_coherent(self, titre_collection) -> CollectionCoherente:
 
         return CollectionCoherenteDAO().read_coherente(titre_collection)
+
+    @log
+    def recup_infos_from_collec_id(self, id_collection: int):
+        return CollectionCoherenteDAO().recup_infos_from_collec_id(id_collection)
+
+    @log
+    def recup_id_collec_from_titre(self, titre: str):
+        return CollectionCoherenteDAO().recup_id_collec_from_titre(titre)
+
+    @log
+    def recup_collec_coherente_from_id(self, id_utilisateur):
+        return CollectionCoherenteDAO().recup_collec_coherente_from_id(id_utilisateur)
+
+    @log
+    def recup_id_collec_from_manga_titre(self, titre):
+        return CollectionCoherenteDAO().recup_id_collec_from_manga_titre(titre)

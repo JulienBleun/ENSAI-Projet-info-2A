@@ -1,9 +1,7 @@
 from src.service.collection_coherente_service import CollectionCoherenteService
 from src.service.avis_collection_service import AvisCollectionService
-from src.dao.avis_collection_dao import AvisCollectionDao
-from src.dao.collection_coherente_dao import CollectionCoherenteDAO
-from src.dao.utilisateur_dao import UtilisateurDao
 from src.utils.singleton import Singleton
+from src.service.utilisateur_service import UtilisateurService
 
 
 class AvisCollectionView(metaclass=Singleton):
@@ -41,7 +39,7 @@ class AvisCollectionView(metaclass=Singleton):
 
     def modifier_avis_collection(self, utilisateur_id):
 
-        avis = AvisCollectionDao().recup_avis_collec_from_id(utilisateur_id)
+        avis = AvisCollectionService().recup_avis_collec_from_id(utilisateur_id)
 
         if avis:
             print('0 : Retour au menu principal')
@@ -67,7 +65,7 @@ class AvisCollectionView(metaclass=Singleton):
 
     def supprimer_avis_collection(self, utilisateur_id):
 
-        avis = AvisCollectionDao().recup_avis_collec_from_id(utilisateur_id)
+        avis = AvisCollectionService().recup_avis_collec_from_id(utilisateur_id)
 
         if avis:
             print('0 : Retour au menu principal')
@@ -88,11 +86,11 @@ class AvisCollectionView(metaclass=Singleton):
     def afficher_tous_les_avis_par_titre_collec(self):
 
         titre = input("De quelle collection cohérente voulez-vous voir les avis ?")
-        id_collection = CollectionCoherenteDAO().recup_id_collec_from_titre(
+        id_collection = CollectionCoherenteService().recup_id_collec_from_titre(
                         titre)
         if id_collection is not None:
             id = id_collection['id_collection']
-            avis_collection = AvisCollectionDao().recup_avis_collec_from_id_collec(id)
+            avis_collection = AvisCollectionService().recup_avis_collec_from_id_collec(id)
             if avis_collection:
                 somme = 0
                 print(f"La collection {titre} possède les avis suivants :")
@@ -111,7 +109,7 @@ class AvisCollectionView(metaclass=Singleton):
 
     def afficher_tous_mes_avis_collec(self, utilisateur_id):
 
-        avis = AvisCollectionDao().recup_avis_collec_from_id(utilisateur_id)
+        avis = AvisCollectionService().recup_avis_collec_from_id(utilisateur_id)
 
         if avis:
             print('Voici tous vos différents avis de collections cohérentes :')
@@ -126,10 +124,10 @@ class AvisCollectionView(metaclass=Singleton):
 
         pseudo = input("De quel pseudo souhaitez-vous voir les avis de collections"
                     " cohérentes ? ")
-        id_autre_utilisateur = UtilisateurDao().read_profil(pseudo)
+        id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
 
-        avis = AvisCollectionDao().recup_avis_collec_from_id(id_recherche)
+        avis = CollectionCoherenteService().recup_avis_collec_from_id(id_recherche)
         if avis:
             print(f"\n Voici les différents avis de collections cohérentes de "
                 f"{pseudo} ")

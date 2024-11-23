@@ -1,8 +1,6 @@
-from src.business_object.manga_physique import MangaPhysique
 from src.service.manga_physique_service import MangaPhysiqueService
-from src.dao.manga_physique_dao import MangaPhysiqueDAO
-from src.dao.utilisateur_dao import UtilisateurDao
 from src.utils.singleton import Singleton
+from src.service.utilisateur_service import UtilisateurService
 
 
 class MangaPhysiqueView(metaclass=Singleton):
@@ -33,7 +31,7 @@ class MangaPhysiqueView(metaclass=Singleton):
 
     def modifier_manga_physique_view(self, utilisateur_id):
 
-        manga = MangaPhysiqueDAO().recup_manga_physique_from_id(utilisateur_id)
+        manga = MangaPhysiqueService().recup_manga_physique_from_id(utilisateur_id)
         # On récupère tous les mangas physiques de l'utilisateur connecté
         if manga:
             print("Voici vos mangas physiques : ")
@@ -85,7 +83,7 @@ class MangaPhysiqueView(metaclass=Singleton):
 
     def afficher_collection_physique_view(self, utilisateur_id):
 
-        manga = MangaPhysiqueDAO().recup_manga_physique_from_id(utilisateur_id)
+        manga = MangaPhysiqueService().recup_manga_physique_from_id(utilisateur_id)
         # On récupère tous les mangas physiques de l'utilisateur connecté
         if manga:
             print('0 : Retour au menu principal')
@@ -111,7 +109,7 @@ class MangaPhysiqueView(metaclass=Singleton):
 
     def supprimer_manga_physique_view(self, utilisateur_id):
 
-        manga = MangaPhysiqueDAO().recup_manga_physique_from_id(utilisateur_id)
+        manga = MangaPhysiqueService().recup_manga_physique_from_id(utilisateur_id)
         # On récupère tous les mangas physiques de l'utilisateur connecté
         if manga:
             print("Voici vos mangas physiques : ")
@@ -124,7 +122,7 @@ class MangaPhysiqueView(metaclass=Singleton):
             else:
                 manga_choisi = manga[numero_manga-1]
                 id_supprime = int(manga_choisi['id_manga_physique'])
-                manga_supprime = MangaPhysiqueDAO().delete_manga_physique(id_supprime)
+                manga_supprime = MangaPhysiqueService().supprimer_manga_physique(id_supprime)
 
                 if manga_supprime:
                     print('Votre manga physique bien été supprimé.')
@@ -134,9 +132,9 @@ class MangaPhysiqueView(metaclass=Singleton):
     def afficher_collection_physique_autre_utilisateur(self):
 
         pseudo = input("De quel pseudo souhaitez-vous voir les avis de manga ? ")
-        id_autre_utilisateur = UtilisateurDao().read_profil(pseudo)
+        id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
-        manga = MangaPhysiqueDAO().recup_manga_physique_from_id(id_recherche)
+        manga = MangaPhysiqueService().recup_manga_physique_from_id(id_recherche)
         # On récupère tous les mangas physiques de l'utilisateur cherché
         if manga:
             print(f"Voici la collection de mangas physiques de {pseudo}: ")

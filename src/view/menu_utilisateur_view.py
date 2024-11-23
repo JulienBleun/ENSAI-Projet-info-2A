@@ -109,7 +109,7 @@ def afficher_menu_utilisateur(utilisateur_id):
                 ).afficher_collection_coherente_par_titre_view()
             elif choix3 == '6':
                 CollectionCoherenteView(
-                ).afficher_toutes_les_collections_coherentes(utilisateur_id)
+                ).afficher_toutes_mes_collections_coherentes(utilisateur_id)
             elif choix3 == '7':
                 MangaPhysiqueView().afficher_collection_physique_view(
                     utilisateur_id)

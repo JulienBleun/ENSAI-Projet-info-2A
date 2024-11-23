@@ -50,3 +50,11 @@ class AvisCollectionService:
     @log
     def consulter_avis(self, id_avis) -> AvisCollection:
         return AvisCollectionDao().read_avis(id_avis)
+
+    @log
+    def recup_avis_collec_from_id(self, id_utilisateur):
+        return AvisCollectionDao().recup_avis_collec_from_id(id_utilisateur)
+
+    @log
+    def recup_avis_collec_from_id_collec(self, id_collection):
+        return AvisCollectionDao().recup_avis_collec_from_id_collec(id_collection)

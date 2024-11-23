@@ -6,9 +6,6 @@ from src.utils.log_decorator import log
 from src.dao.db_connection import DBConnection
 
 from src.business_object.avis_manga import AvisManga
-from src.business_object.abstract_avis import AbstractAvis
-
-
 
 
 class AvisMangaDao(metaclass=Singleton):
@@ -33,7 +30,8 @@ class AvisMangaDao(metaclass=Singleton):
         try:
             with DBConnection().connection as connection:
                 with connection.cursor() as cursor:
-                    # On vérifie si l'utilisateur a déjà un avis sur cette collection
+                    # On vérifie si l'utilisateur a déjà un avis sur cette
+                    # collection
                     cursor.execute(
                         """
                         SELECT 1

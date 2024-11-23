@@ -1,8 +1,7 @@
-from src.dao.avis_manga_dao import AvisMangaDao
 from src.service.avis_manga_service import AvisMangaService
 from src.business_object.avis_manga import AvisManga
 from src.service.manga_service import MangaService
-from src.dao.utilisateur_dao import UtilisateurDao
+from src.service.utilisateur_service import UtilisateurService
 from src.utils.singleton import Singleton
 
 
@@ -11,7 +10,7 @@ class AvisView(metaclass=Singleton):
     def creer_avis_manga(self, utilisateur_id):
 
         titre = input("Entrez le titre du manga dont vous souhaitez écrire un"
-                    " avis : ")
+                      " avis : ")
 
         try:
             manga = MangaService().consulter_manga_par_titre(titre)
@@ -29,20 +28,21 @@ class AvisView(metaclass=Singleton):
                         if avis:
                             print("Votre avis a été ajouté avec succès !")
                         else:
-                            print("Erreur lors de l'ajout de votre avis : Vous avez "
-                                  "déjà écrit un avis sur ce manga.")
+                            print("Erreur lors de l'ajout de votre avis : Vous"
+                                  " avez déjà écrit un avis sur ce manga.")
                     except ValueError:
-                        print("Veuillez entrer une note valide (un nombre entier entre 0 et 10).")
+                        print("Veuillez entrer une note valide (un nombre"
+                              "entier entre 0 et 10).")
             else:
                 print("\n\nCe manga n'est malheureusement pas dans notre base "
-                    "de données. Réessayez.")
+                      "de données. Réessayez.")
 
         except Exception as e:
             print(f"Une erreur est survenue lors de la recherche : {e}")
 
     def modifier_avis_manga(self, utilisateur_id):
 
-        avis = AvisMangaDao().recup_avis_from_id(utilisateur_id)
+        avis = AvisMangaService().recup_avis_from_id(utilisateur_id)
 
         if avis:
             print('0 : Retour au menu principal')
@@ -69,7 +69,7 @@ class AvisView(metaclass=Singleton):
 
     def supprimer_avis_manga(self, utilisateur_id):
 
-        avis = AvisMangaDao().recup_avis_from_id(utilisateur_id)
+        avis = AvisMangaService().recup_avis_from_id(utilisateur_id)
 
         if avis:
             print('0 : Retour au menu principal')
@@ -97,7 +97,7 @@ class AvisView(metaclass=Singleton):
 
         titre = input('\n\nDe quel manga souhaitez-vous voir les avis ? ')
 
-        avis = AvisMangaDao().recup_avis_from_titre(titre)
+        avis = AvisMangaService().recup_avis_from_titre(titre)
 
         if avis:
             somme = 0
@@ -117,7 +117,7 @@ class AvisView(metaclass=Singleton):
 
     def afficher_avis_manga_utilisateur(self, utilisateur_id):
 
-        avis = AvisMangaDao().recup_avis_from_id(utilisateur_id)
+        avis = AvisMangaService().recup_avis_from_id(utilisateur_id)
 
         if avis:
             print('Voici vos différents avis de mangas : ')
@@ -131,10 +131,10 @@ class AvisView(metaclass=Singleton):
     def afficher_avis_manga_autre_utilisateur(self):
 
         pseudo = input("De quel pseudo souhaitez-vous voir les avis de manga ? ")
-        id_autre_utilisateur = UtilisateurDao().read_profil(pseudo)
+        id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
 
-        avis = AvisMangaDao().recup_avis_from_id(id_recherche)
+        avis = AvisMangaService().recup_avis_from_id(id_recherche)
 
         if avis:
             print(f"Voici les différents avis de mangas de {pseudo} ")

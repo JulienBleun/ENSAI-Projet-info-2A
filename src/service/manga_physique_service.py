@@ -1,7 +1,4 @@
-#TODO Nothing normally
-
 from src.utils.log_decorator import log
-
 from src.business_object.manga_physique import MangaPhysique
 from src.dao.manga_physique_dao import MangaPhysiqueDAO
 
@@ -43,3 +40,18 @@ class MangaPhysiqueService:
     @log
     def consulter_manga_physique(self, titre) -> MangaPhysique:
         return MangaPhysiqueDAO().recup_manga_physique_from_titre(titre)
+
+    @log
+    def supprimer_manga_physique(self, id_supprime: int) -> bool:
+        if MangaPhysiqueDAO().delete_manga_physique(id_supprime):
+            return True
+        else:
+            return False
+
+    @log
+    def recup_manga_physique_from_id(self, id_utilisateur):
+        return MangaPhysiqueDAO().recup_manga_physique_from_id(id_utilisateur)
+
+    @log
+    def recup_manga_physique_from_titre(self, titre_manga):
+        return MangaPhysiqueDAO().recup_manga_physique_from_titre(titre_manga)

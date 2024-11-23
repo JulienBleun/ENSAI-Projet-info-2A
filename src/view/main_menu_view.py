@@ -5,6 +5,7 @@ import sys
 from src.view.inscription_view import inscription_view
 from src.view.connexion_view import connexion_view
 
+
 def afficher_menu_principal():
     while True:
         print("\n--- Menu Principal ---")

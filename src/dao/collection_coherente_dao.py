@@ -9,7 +9,6 @@ from src.business_object.collection_coherente import CollectionCoherente
 from src.business_object.manga import Manga
 
 
-
 class CollectionCoherenteDAO(metaclass=Singleton):
     """Classe DAO pour gérer les collections cohérentes dans la base de données"""
 
@@ -321,7 +320,7 @@ class CollectionCoherenteDAO(metaclass=Singleton):
 
     def recup_id_collec_from_manga_titre(self, titre):
         """
-        Renvoie les id de collections parmi lesquels le titre d'un manga
+        Renvoie les id des collections parmi lesquelles le titre d'un manga
         passé en paramètre est contenu.
 
         Parameters

@@ -1,6 +1,3 @@
-#TODO Nothing normally
-
-from tabulate import tabulate
 from src.utils.singleton import Singleton
 from src.utils.log_decorator import log
 from src.business_object.avis_manga import AvisManga
@@ -42,3 +39,11 @@ class AvisMangaService(metaclass=Singleton):
     def consulter(self, id_avis) -> AvisManga:
 
         return AvisMangaDao().read_avis_manga(id_avis)
+
+    @log
+    def recup_avis_from_id(self, id_utilisateur):
+        return AvisMangaDao().recup_avis_from_id(id_utilisateur)
+
+    @log
+    def recup_avis_from_titre(self, titre):
+        return AvisMangaDao().recup_avis_from_titre(titre)

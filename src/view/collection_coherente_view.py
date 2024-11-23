@@ -1,9 +1,8 @@
-from src.dao.collection_coherente_dao import CollectionCoherenteDAO
-from src.dao.utilisateur_dao import UtilisateurDao
 from src.business_object.collection_coherente import CollectionCoherente
 from src.service.collection_coherente_service import CollectionCoherenteService
 from src.service.manga_service import MangaService
 from src.utils.singleton import Singleton
+from src.service.utilisateur_service import UtilisateurService
 
 
 class CollectionCoherenteView(metaclass=Singleton):
@@ -19,14 +18,14 @@ class CollectionCoherenteView(metaclass=Singleton):
             manga = MangaService().consulter_manga_par_titre(nom)
             contenu.append(manga)
         collection = CollectionCoherente(id_collection=None, id_utilisateur=utilisateur_id, titre=titre, description=description, contenu=contenu)
-        if CollectionCoherenteDAO().create_coherente(collection):
+        if CollectionCoherenteService().creer_coherent(collection):
             print("Collection cohérente créée avec succès.")
         else:
             print("Erreur lors de la création de la collection.")
 
     def modifier_collection_coherente_view(self, utilisateur_id):
 
-        collection = CollectionCoherenteDAO().recup_collec_coherente_from_id(utilisateur_id)
+        collection = CollectionCoherenteService().recup_collec_coherente_from_id(utilisateur_id)
         if collection:
             print('0 : Retour au menu principal')
             for i in range(0, len(collection)):
@@ -59,7 +58,7 @@ class CollectionCoherenteView(metaclass=Singleton):
 
     def supprimer_collection_coherente_view(self, utilisateur_id):
 
-        collection = CollectionCoherenteDAO().recup_collec_coherente_from_id(utilisateur_id)
+        collection = CollectionCoherenteService().recup_collec_coherente_from_id(utilisateur_id)
 
         if collection:
             print('0 : Retour au menu principal')
@@ -83,14 +82,14 @@ class CollectionCoherenteView(metaclass=Singleton):
 
         titre = input("À partir de quel manga souhaitez-vous cherchez des collections ? ")
 
-        id_collections = CollectionCoherenteDAO().recup_id_collec_from_manga_titre(titre)
+        id_collections = CollectionCoherenteService().recup_id_collec_from_manga_titre(titre)
 
         if id_collections:
             print(f"Le manga {titre} est contenu dans les collections cohérentes suivantes :")
 
             for i in range(0, len(id_collections)):
                 id = id_collections[i]['id_collection']
-                infos_collec = CollectionCoherenteDAO().recup_infos_from_collec_id(
+                infos_collec = CollectionCoherenteService().recup_infos_from_collec_id(
                     id)
 
                 print(f"{i+1} : '{infos_collec[0]['titre_collec']}' créée par "
@@ -120,15 +119,15 @@ class CollectionCoherenteView(metaclass=Singleton):
         else:
             print(f"Aucune collection trouvée pour le titre '{titre}'.")
 
-    def afficher_toutes_les_collections_coherentes(self, utilisateur_id):
+    def afficher_toutes_mes_collections_coherentes(self, utilisateur_id):
 
-        collection = CollectionCoherenteDAO().recup_collec_coherente_from_id(utilisateur_id)
+        collection = CollectionCoherenteService().recup_collec_coherente_from_id(utilisateur_id)
 
         if collection:
             print("Voici vos différentes collections cohérentes :")
             for i in range(0, len(collection)):
                 id = collection[i]['id_collection']
-                infos_collec = CollectionCoherenteDAO().recup_infos_from_collec_id(
+                infos_collec = CollectionCoherenteService().recup_infos_from_collec_id(
                     id)
                 print(f"{i+1} : '{infos_collec[0]['titre_collec']}' "
                       f"avec la description "
@@ -141,16 +140,16 @@ class CollectionCoherenteView(metaclass=Singleton):
 
         pseudo = input("De quel pseudo souhaitez-vous voir les avis de collections"
                     " cohérentes ? ")
-        id_autre_utilisateur = UtilisateurDao().read_profil(pseudo)
+        id_autre_utilisateur = UtilisateurService().consulter_profil(pseudo)
         id_recherche = int(id_autre_utilisateur['id_utilisateur'])
 
-        collection = CollectionCoherenteDAO().recup_collec_coherente_from_id(
+        collection = CollectionCoherenteService().recup_collec_coherente_from_id(
                                                 id_recherche)
         if collection:
             print(f"Voici les différentes collections cohérentes de {pseudo}:")
             for i in range(0, len(collection)):
                 id = collection[i]['id_collection']
-                infos_collec = CollectionCoherenteDAO().recup_infos_from_collec_id(
+                infos_collec = CollectionCoherenteService().recup_infos_from_collec_id(
                     id)
                 print(f"{i+1} : '{infos_collec[0]['titre_collec']}' "
                       f"avec la description "

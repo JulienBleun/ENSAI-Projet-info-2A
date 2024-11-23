@@ -1,6 +1,3 @@
-from src.dao.manga_dao import MangaDao
-from src.dao.avis_manga_dao import AvisMangaDao  # Assure-toi d'utiliser la classe DAO appropriée
-from src.business_object.avis_manga import AvisManga  # Assure-toi d'utiliser le bon modèle
 from src.service.manga_service import MangaService
 from src.service.avis_manga_service import AvisMangaService
 from src.utils.singleton import Singleton
