@@ -141,6 +141,6 @@ class AvisView(metaclass=Singleton):
             for i in range(0, len(avis)):
                 print(f"{i+1} : {avis[i]['titre']} : {pseudo} a mis la note de"
                     f" {avis[i]['note']} sur 10 avec le commentaire "
-                    f"{avis[i]['commentaire']}")
+                    f"'{avis[i]['commentaire']}'")
         else:
             print("\n\nAucun avis de manga ne correspond à ces informations")
