@@ -25,8 +25,8 @@ This application allows you to organise the manga you own, whether you're a coll
 
 ▶️ Clone the repository
 - Open Git Bash
-- Create a folder P:/Cours2A/UE3-Projet-info and position yourself in it
-- ```mkdir -p /p/Cours2A/UE3-Projet-info && cd $_ ```
+- Create a folder P:/Cours2A/UE3-Projet-info and position yourself in it :
+  ```mkdir -p /p/Cours2A/UE3-Projet-info && cd $_ ```
 - Clone this repository
 git clone https://github.com/JulienBleun/ENSAI-Projet-info-2A.git
 
