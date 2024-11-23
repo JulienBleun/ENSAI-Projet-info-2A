@@ -17,8 +17,7 @@ class CollectionCoherenteView(metaclass=Singleton):
             nom = input(f"Quel est le nom du {i+1}ème manga que vous souhaitez inclure à la collection ? ")
             manga = MangaService().consulter_manga_par_titre(nom)
             contenu.append(manga)
-        collection = CollectionCoherente(id_collection=None, id_utilisateur=utilisateur_id, titre=titre, description=description, contenu=contenu)
-        if CollectionCoherenteService().creer_coherent(collection):
+        if CollectionCoherenteService().creer_coherent(id_collection=None, id_utilisateur=utilisateur_id, titre=titre, description=description, contenu=contenu):
             print("Collection cohérente créée avec succès.")
         else:
             print("Erreur lors de la création de la collection.")

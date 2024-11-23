@@ -1,17 +1,18 @@
-from src.business_object.abstract_collection import AbstractCollection
-from src.business_object.abstract_collection import AbstractCollection
 from src.business_object.manga import Manga
-from src.business_object.abstract_collection import AbstractCollection
 
 
-class CollectionCoherente(AbstractCollection):
+class CollectionCoherente():
     """
-    Classe pour modéliser une collection cohérente. Cette classe hérite de
-    'AbstractCollection' et récupère donc ses attributs. Elle possède également
-    des attributs supplémentaires.
+    Classe pour modéliser une collection cohérente.
 
-    Attributs suplémentaires :
-    ---------------------------
+    Parameters :
+    ------------
+
+    id_collection : int
+        identifiant de la collection cohérente
+
+    id_utilisateur : int
+        identifiant de l'utilisateur à qui appartient la collection cohérente
 
     titre : str
         Titre de la collection.
@@ -49,9 +50,8 @@ class CollectionCoherente(AbstractCollection):
         if not all(isinstance(m, Manga) for m in contenu):
             raise TypeError("Tous les éléments de contenu doivent être des "
                             "instances de la classe Manga")
-
-        super().__init__(id_collection, id_utilisateur)
-
+        self.id_collection = id_collection
+        self.id_utilisateur = id_utilisateur
         self.titre = titre
         self.description = description
         self.contenu = contenu

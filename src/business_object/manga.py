@@ -2,8 +2,8 @@ class Manga():
     """
     Classe pour modéliser un manga.
 
-    Parameters
-    ----------
+    Parameters :
+    ------------
 
     id_manga : int
         Identifiant unique associé au manga.
